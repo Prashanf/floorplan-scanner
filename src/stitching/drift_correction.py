@@ -14,6 +14,7 @@ log = logging.getLogger("floorplan.stitch")
 PARALLEL_ANGLE = np.deg2rad(10.0)
 PROXIMITY = 0.3  # metres: how close midpoints must be to count as "shared"
 LENGTH_RATIO = 0.20  # lengths must agree within this fraction
+WALL_THICKNESS_TOL = 0.15  # metres: two scans of one wall sit a wall thickness apart, not drift
 
 
 def _wall_midpoint(seg) -> np.ndarray:
@@ -30,10 +31,7 @@ def _find_shared_walls(room_a: RoomIR, room_b: RoomIR) -> list[tuple]:
     pairs = []
     for sa in room_a.wall_segments:
         for sb in room_b.wall_segments:
-            angle_diff = abs((_wall_angle(sa) - _wall_angle(sb) + np.pi) % np.pi - np.pi / 2)
-            if angle_diff > np.pi / 2 - PARALLEL_ANGLE:
-                continue
-            real_diff = abs((_wall_angle(sa) - _wall_angle(sb) + np.pi) % np.pi)
+            real_diff = abs((_wall_angle(sa) - _wall_angle(sb)) % np.pi)
             if real_diff > PARALLEL_ANGLE and abs(real_diff - np.pi) > PARALLEL_ANGLE:
                 continue
             dist = float(np.linalg.norm(_wall_midpoint(sa) - _wall_midpoint(sb)))
@@ -55,7 +53,8 @@ def correct_drift(
     """Return corrected room_id -> (dx, dy, 0.0) transforms.
 
     Finds shared wall pairs between adjacent rooms and minimises squared
-    midpoint discrepancies over per-room XY translations.  The first room
+    midpoint discrepancies (a wall-thickness gap across the wall is free)
+    over per-room XY translations.  The first room
     stays fixed at the origin; rotation is always 0.
     """
     if len(rooms) <= 1:
@@ -97,7 +96,12 @@ def correct_drift(
             for sa, sb in pairs:
                 ma = _wall_midpoint(sa) + da
                 mb = _wall_midpoint(sb) + db
-                total += float(np.sum((ma - mb) ** 2))
+                gap = ma - mb
+                tangent = np.array([np.cos(sa.direction), np.sin(sa.direction)])
+                along = float(gap @ tangent)
+                across = abs(float(gap @ np.array([-tangent[1], tangent[0]])))
+                # Along the wall any offset is drift; across it, up to a wall thickness is real.
+                total += along ** 2 + max(0.0, across - WALL_THICKNESS_TOL) ** 2
                 total += (sa.length - sb.length) ** 2
         return total
 
