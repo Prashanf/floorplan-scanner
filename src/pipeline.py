@@ -10,6 +10,7 @@ from pathlib import Path
 import numpy as np
 
 from src import __version__
+from src.calibration.confidence import calibrate_measurements
 from src.damage.concealed_rules import check_concealed_damage
 from src.damage.detection import detect_damage
 from src.damage.scope import area_measurement, generate_scope
@@ -216,6 +217,7 @@ def run_pipeline(
         processing_time_seconds=0.0,
         pipeline_version=__version__,
     )
+    report = calibrate_measurements(report, tier)
     timed("calibrate + build report", t)
 
     # 10. outputs. Processing time is final before the JSON is written.
