@@ -8,17 +8,18 @@ from typing import Optional
 
 import cv2
 import numpy as np
+from src import config as cfg
 
 log = logging.getLogger("floorplan.damage")
 
 WORK_SIZE = 1280  # long image side used for detection; thresholds below are at this scale
 MAX_AREA_FRACTION = 0.4  # a "stain" covering most of the frame is a wall or floor color, not damage
 
-CRACK_MIN_LENGTH = 50
+CRACK_MIN_LENGTH = cfg.CRACK_EDGE_MIN_LENGTH
 CRACK_MIN_ASPECT = 4.0
 CRACK_MIN_CONTRAST = 15.0  # gray levels darker than the surrounding wall
-STAIN_MIN_AREA = 500
-MOLD_MIN_AREA = 300
+STAIN_MIN_AREA = cfg.STAIN_MIN_AREA
+MOLD_MIN_AREA = cfg.MOLD_MIN_AREA
 PEEL_MIN_AREA = 800
 PEEL_STD_THRESHOLD = 12.0
 HOLE_MIN_AREA = 150
@@ -69,11 +70,11 @@ def _color_blobs(hsv: np.ndarray, lo: tuple, hi: tuple, min_area: int, damage_cl
 
 
 def _detect_stains(hsv: np.ndarray):
-    return _color_blobs(hsv, (15, 30, 100), (35, 150, 220), STAIN_MIN_AREA, "water_stain")
+    return _color_blobs(hsv, cfg.WATER_STAIN_HSV["lo"], cfg.WATER_STAIN_HSV["hi"], STAIN_MIN_AREA, "water_stain")
 
 
 def _detect_mold(hsv: np.ndarray):
-    return _color_blobs(hsv, (35, 20, 0), (85, 100, 100), MOLD_MIN_AREA, "mold")
+    return _color_blobs(hsv, cfg.MOLD_HSV["lo"], cfg.MOLD_HSV["hi"], MOLD_MIN_AREA, "mold")
 
 
 def _detect_cracks(gray: np.ndarray):

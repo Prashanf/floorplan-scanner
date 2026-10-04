@@ -11,7 +11,7 @@ from pathlib import Path
 
 from src.room_ir import PropertyIR, RoomIR
 from src.tiers.colmap_utils import ColmapError, make_metric_point_cloud, run_colmap_reconstruction
-from src.tiers.preprocessing import HEIC_EXTS, list_room_images, stage_upright_copy
+from src.tiers.preprocessing import CONVERT_IMAGE_EXTS, list_room_images, stage_upright_copy
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +21,8 @@ def _natural_key(path: Path) -> list:
 
 
 def _usable_images(room_dir: Path) -> list[str]:
-    """JPEG/PNG images of a room (HEIC files were converted to JPEG during preprocessing)."""
-    return [p for p in list_room_images(str(room_dir)) if Path(p).suffix.lower() not in HEIC_EXTS]
+    """JPEG/PNG images of a room (other formats were converted to JPEG during preprocessing)."""
+    return [p for p in list_room_images(str(room_dir)) if Path(p).suffix.lower() not in CONVERT_IMAGE_EXTS]
 
 
 def _reconstruct_room(room_dir: Path, workspace: Path) -> RoomIR:

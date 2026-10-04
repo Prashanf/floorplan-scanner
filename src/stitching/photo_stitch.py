@@ -9,6 +9,7 @@ import numpy as np
 from shapely.geometry import Polygon as ShapelyPolygon
 
 from src.room_ir import RoomIR
+from src.stitching.opening_ids import opening_id
 
 log = logging.getLogger("floorplan.stitch")
 
@@ -47,7 +48,8 @@ def _room_polygon(room: RoomIR, transform: tuple[float, float, float]) -> Shapel
     pts = [(c * x - s * y + dx, s * x + c * y + dy) for x, y in room.floor_polygon]
     if len(pts) < 3:
         return ShapelyPolygon()
-    return ShapelyPolygon(pts)
+    poly = ShapelyPolygon(pts)
+    return poly if poly.is_valid else poly.buffer(0)
 
 
 def _match_doors(doors_a, doors_b) -> tuple | None:
@@ -154,7 +156,7 @@ def stitch_photos(rooms: list[RoomIR]) -> tuple[dict[str, tuple[float, float, fl
             adjacencies.append({
                 "room_a_id": prev.room_id,
                 "room_b_id": curr.room_id,
-                "shared_opening_id": f"{prev.room_id}/door-{dp.wall_index}",
+                "shared_opening_id": opening_id(prev, dp),
             })
         else:
             log.warning("no matching door between %s and %s; placing side by side",

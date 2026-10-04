@@ -20,18 +20,25 @@
           "type": "string"
         },
         "shared_opening_id": {
-          "description": "Id of the opening that connects the two rooms.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Id of the opening that connects the two rooms; null when the rooms share a boundary but no opening was detected on it (partial scans miss doorways).",
           "examples": [
             "room-1/door-0"
           ],
-          "title": "Shared Opening Id",
-          "type": "string"
+          "title": "Shared Opening Id"
         }
       },
       "required": [
         "room_a_id",
-        "room_b_id",
-        "shared_opening_id"
+        "room_b_id"
       ],
       "title": "Adjacency",
       "type": "object"
@@ -375,6 +382,15 @@
         "ceiling_height": {
           "$ref": "#/$defs/Measurement",
           "description": "Floor-to-ceiling height."
+        },
+        "ceiling_observed": {
+          "default": true,
+          "description": "False when the scan never saw the ceiling: ceiling_height is then the highest observed point (a lower bound) and its interval extends upward.",
+          "examples": [
+            true
+          ],
+          "title": "Ceiling Observed",
+          "type": "boolean"
         },
         "floor_area": {
           "$ref": "#/$defs/Measurement",

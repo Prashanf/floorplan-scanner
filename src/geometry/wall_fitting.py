@@ -8,19 +8,20 @@ import numpy as np
 
 from src.geometry.ceiling import find_floor_and_ceiling
 from src.room_ir import PointCloud
+from src import config as cfg
 
-WALL_BAND = (0.8, 1.5)  # meters above floor; clear of floor clutter and ceiling edge
-INLIER_THRESHOLD = 0.03  # meters
-MIN_INLIERS = 20
-RANSAC_ITERATIONS = 400
+WALL_BAND = cfg.WALL_HEIGHT_BAND
+INLIER_THRESHOLD = cfg.RANSAC_INLIER_THRESHOLD
+MIN_INLIERS = cfg.RANSAC_MIN_INLIERS
+RANSAC_ITERATIONS = cfg.RANSAC_ITERATIONS
 RANSAC_SAMPLE = 5000  # hypotheses are scored on at most this many points
-MAX_LINES = 16
-SNAP_TOLERANCE = np.deg2rad(15.0)  # lines further than this from the dominant grid stay unsnapped
-MERGE_OFFSET = 0.05  # snapped parallel lines closer than this are one wall
-MIN_WALL_LENGTH = 0.3
+MAX_LINES = cfg.MAX_WALL_LINES
+SNAP_TOLERANCE = np.deg2rad(cfg.SNAP_ANGLE_TOLERANCE_DEG)  # lines further than this from the grid stay unsnapped
+MERGE_OFFSET = cfg.WALL_MERGE_OFFSET
+MIN_WALL_LENGTH = cfg.MIN_WALL_LENGTH
 COVERAGE_BIN = 0.1  # meters along a line
 MIN_BIN_POINTS = 1
-MIN_COVERAGE = 0.4  # share of bins along a wall's extent that must hold points; rejects sparse strays
+MIN_COVERAGE = cfg.MIN_WALL_COVERAGE
 SEED = 0  # fixed: same room in, same plan out
 
 
@@ -129,9 +130,14 @@ def _angle_residual(angle: float, reference: float) -> float:
     return float((angle - reference + np.pi / 4) % (np.pi / 2) - np.pi / 4)
 
 
-def _snap_and_merge(lines: list[_Line], merge_offset: float = MERGE_OFFSET) -> list[_Line]:
-    """Snap lines to the dominant direction's 90 degree grid; merge duplicates of one wall."""
-    dominant = max(lines, key=lambda ln: len(ln.points)).angle
+def _snap_and_merge(lines: list[_Line], merge_offset: float = MERGE_OFFSET,
+                    reference_angle: float | None = None) -> list[_Line]:
+    """Snap lines to a 90 degree grid; merge duplicates of one wall.
+
+    The grid follows the longest-supported line unless reference_angle (radians) is given,
+    e.g. 0 for a cloud that was already rotated onto the axes.
+    """
+    dominant = max(lines, key=lambda ln: len(ln.points)).angle if reference_angle is None else reference_angle
     snapped: list[_Line] = []
     for ln in lines:
         residual = _angle_residual(ln.angle, dominant)
@@ -173,10 +179,64 @@ def _corner(a: _Line, b: _Line) -> np.ndarray:
     return (pa + pb) / 2
 
 
+MAX_LINE_WALLS = cfg.MAX_LINE_WALLS
+MAX_AREA_DISAGREEMENT = cfg.MAX_AREA_DISAGREEMENT
+
+
 def fit_walls(
-    point_cloud: PointCloud, *, inlier_threshold: float = INLIER_THRESHOLD
+    point_cloud: PointCloud, *, inlier_threshold: float = INLIER_THRESHOLD, method: str = "auto",
+    reference_angle: float | None = None,
 ) -> tuple[list[WallSegment], list[tuple[float, float]]]:
     """Fit wall segments and a closed counterclockwise floor polygon.
+
+    method="lines" fits RANSAC lines (precise, but needs every wall seen as one long line),
+    "outline" traces the scanned floor area (robust on real rooms, see room_outline.py), and
+    "auto" (default) uses the line fit when it gives a clean box that agrees with the outline
+    and the outline otherwise. Raises ValueError when neither works.
+    reference_angle (radians) fixes the wall grid, e.g. 0.0 when the cloud is already
+    axis-aligned; by default the grid follows the best-supported wall.
+    """
+    from shapely.geometry import Polygon
+
+    from src.geometry.room_outline import fit_outline
+
+    if method == "lines":
+        return _fit_walls_lines(point_cloud, inlier_threshold=inlier_threshold, reference_angle=reference_angle)
+    floor_z = find_floor_and_ceiling(point_cloud.points[:, 2]).floor_z
+    try:
+        lines = _fit_walls_lines(point_cloud, inlier_threshold=inlier_threshold, reference_angle=reference_angle)
+    except ValueError:
+        lines = None
+    if reference_angle is not None:
+        angle = reference_angle
+    else:
+        angle = max(lines[0], key=lambda seg: seg.inlier_count).direction if lines else 0.0
+    try:
+        outline = fit_outline(point_cloud.points, floor_z, angle)
+    except ValueError:
+        outline = None
+    if method == "outline":
+        if outline is None:
+            raise ValueError("no room outline found")
+        return outline
+    if lines is None:
+        if outline is None:
+            raise ValueError("neither wall lines nor a room outline found")
+        return outline
+    if outline is None:
+        return lines
+    line_poly = Polygon(lines[1])
+    outline_area = Polygon(outline[1]).area
+    clean = (len(lines[0]) <= MAX_LINE_WALLS and line_poly.is_valid and outline_area > 0
+             and abs(line_poly.area - outline_area) / outline_area <= MAX_AREA_DISAGREEMENT)
+    return lines if clean else outline
+
+
+def _fit_walls_lines(
+    point_cloud: PointCloud, *, inlier_threshold: float = INLIER_THRESHOLD,
+    reference_angle: float | None = None,
+) -> tuple[list[WallSegment], list[tuple[float, float]]]:
+    """Fit wall segments and a closed counterclockwise floor polygon from RANSAC lines.
 
     Finds floor and ceiling, slices points 0.8-1.5 m above the floor, projects
     to 2D, fits lines with iterative RANSAC (0.03 m threshold, min 20 inliers),
@@ -192,7 +252,8 @@ def fit_walls(
         raise ValueError(f"only {len(xy)} points in the {WALL_BAND[0]}-{WALL_BAND[1]} m wall band")
 
     # noisier clouds (larger inlier threshold) also see one wall as parallel lines further apart
-    lines = _snap_and_merge(_fit_lines(xy, inlier_threshold), max(MERGE_OFFSET, 1.5 * inlier_threshold))
+    lines = _snap_and_merge(_fit_lines(xy, inlier_threshold), max(MERGE_OFFSET, 1.5 * inlier_threshold),
+                            reference_angle)
     if len(lines) < 3:
         raise ValueError(f"found {len(lines)} wall line(s); need at least 3 to close a room")
 

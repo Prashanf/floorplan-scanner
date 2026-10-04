@@ -2,9 +2,16 @@ __pycache__/
 *.pyc
 .DS_Store
 .pytest_cache/
-/output/
+/output/*
+!/output/sample_*/
 *.egg-info/
 .venv/
 test_data/*.ply
 test_photos/
 test_video/
+# raw sample captures are large and linked from outside the repo; photos cut from them are kept
+sample_data_run/lidar/
+sample_data_run/video/
+sample_data_run/photos/
+output/*_log.txt
+output/_run_*.txt

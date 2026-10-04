@@ -7,7 +7,7 @@ JSON Schema (``schema/output_schema.json``).
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Literal
+from typing import Optional, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -89,6 +89,9 @@ class Room(BaseModel):
     walls: list[Wall] = Field(..., description="Walls ordered counterclockwise around the room.")
     openings: list[Opening] = Field(..., description="Doors and windows in the room's walls.")
     ceiling_height: Measurement = Field(..., description="Floor-to-ceiling height.")
+    ceiling_observed: bool = Field(
+        True, description="False when the scan never saw the ceiling: ceiling_height is then the "
+        "highest observed point (a lower bound) and its interval extends upward.", examples=[True])
     floor_area: Measurement = Field(..., description="Floor area, unit 'm2'.")
     floor_polygon: list[tuple[float, float]] = Field(
         ..., description="Closed floor outline, counterclockwise (x, y) in meters, global frame.",
@@ -101,8 +104,10 @@ class Adjacency(BaseModel):
 
     room_a_id: str = Field(..., description="Id of the first room.", examples=["room-1"])
     room_b_id: str = Field(..., description="Id of the second room.", examples=["room-2"])
-    shared_opening_id: str = Field(
-        ..., description="Id of the opening that connects the two rooms.", examples=["room-1/door-0"]
+    shared_opening_id: Optional[str] = Field(
+        None, description="Id of the opening that connects the two rooms; null when the rooms share a "
+        "boundary but no opening was detected on it (partial scans miss doorways).",
+        examples=["room-1/door-0"],
     )
 
 

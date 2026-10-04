@@ -61,3 +61,24 @@ Every measurement is `{value, confidence_low, confidence_high, unit}`. Empty lis
 
 ## Status
 Working end to end: all three tiers (LiDAR, video, photo), geometry, JSON report, rendered plan. Photo and video clouds are sparse, so they are scaled from a floor-to-ceiling prior and refined with a 0.86 m door when one is found (`RoomIR.metadata` records which). Stubs: stitching and drift correction (photo rooms each keep their own frame and overlap in the plan until Session 5), damage detection, concealed-damage rules, scope.
+
+## Sample data (the three provided captures)
+
+The provided zips (`single_room`, `single_scan_floor_only`, `single_scan_with_ceiling`) are raw iPhone LiDAR logs: `depth/*.png` (256 x 192, mm), `confidence/*.png`, `odometry.csv` (ARKit pose and intrinsics per frame), `camera_matrix.csv`, `imu.csv` and `rgb.mp4`. They are not in the repository (about 900 MB). To rerun:
+
+```bash
+mkdir -p data_raw && unzip single_room.zip -d data_raw/single_room        # likewise for the other two
+# one folder per capture and tier under sample_data_run/ (raw data is linked, not copied):
+#   sample_data_run/lidar/<name>/capture/   depth/ confidence/ odometry.csv camera_matrix.csv ... (links)
+#   sample_data_run/video/<name>/           rgb.mp4 camera_matrix.csv (links)
+#   sample_data_run/photos/<name>/room-N/   stills cut from the video, see below (committed)
+python tools/make_photo_sets.py sample_data_run/lidar/<name>/capture sample_data_run/photos/<name>
+PYTHON=python tools/run_sample_data.sh              # lidar, photo (with drift ablation), video
+python tools/validate_sample_output.py              # schema and field check of output/sample_*/
+```
+
+- **LiDAR tier** reads the raw depth log directly (`src/tiers/depth_stream.py`): every depth pixel is back-projected with the logged intrinsics and pose, so no PLY export is needed.
+- **Photo tier** has no photos in the provided data, so `tools/make_photo_sets.py` cuts stills from `rgb.mp4`: rooms come from the LiDAR run, and each room gets up to 8 sharp frames from one continuous stay, rotated upright. The photo tier itself sees only the JPEGs (no depth, no poses).
+- **Video tier** runs on `rgb.mp4` with the intrinsics from `camera_matrix.csv` as the COLMAP starting point.
+- Results and known problems on this data are in `report.md`. The data has no tape-measure ground truth, so no accuracy number is claimed from it.
+- Plans are drawn in a wall-aligned frame (the cloud is rotated about Z so walls are axis-aligned), not north-up.

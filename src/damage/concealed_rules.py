@@ -99,7 +99,7 @@ def _rule_mold_01(damages: list[ProjectedDamage], wall_counts: dict[str, int]) -
 def _rule_ceiling_01(room: RoomIR) -> list[tuple]:
     """Ceiling height sampled on a 0.5 m grid (densest Z bin per cell); fires when the worst cell
     differs from the median cell by more than 0.02 m."""
-    if room.point_cloud is None or len(room.point_cloud) == 0:
+    if room.point_cloud is None or len(room.point_cloud) == 0 or not room.ceiling_observed:
         return []
     points = room.point_cloud.points
     try:

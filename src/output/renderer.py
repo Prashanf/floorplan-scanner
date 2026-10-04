@@ -181,6 +181,6 @@ def render_floor_plan(report: PropertyReport, output_dir: str) -> str:
 
     path = Path(output_dir) / "floor_plan.png"
     path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(path, dpi=150, facecolor="white")
+    fig.savefig(path, dpi=150, facecolor="white", bbox_inches="tight")
     plt.close(fig)
     return str(path)
