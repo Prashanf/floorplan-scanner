@@ -269,7 +269,8 @@ def log_facts(path):
         "geometry_failed": len(re.findall(r"(?m)^warning: geometry failed", text)),
         "no_ceiling": len(re.findall(r"no ceiling scanned", text)),
         "colmap_retry": len(re.findall(r"retrying with settings", text)),
-        "skipped_rooms": len(re.findall(r"(?m)^warning: skipping", text)),
+        "skipped_rooms": len(re.findall(r"(?m)^warning: reconstruction failed for", text)),
+        "fallback_rooms": len(re.findall(r"Fallback: single-image room estimate", text)) // 2 or len(re.findall(r"(?m)^warning: Fallback: single-image", text)),
         "overlaps": len(re.findall(r"overlap by", text)),
         "last_error": next((l.strip() for l in reversed(text.splitlines()) if l.startswith(("Error", "RuntimeError", "ValueError", "src.tiers"))), ""),
     }
@@ -283,17 +284,20 @@ for folder in sorted(p for p in OUT.glob("sample_*") if p.is_dir()):
     if not rep_path.exists():
         rows.append({"tier": tier, "capture": capture, "status": "no report", **facts}); continue
     rep = json.loads(rep_path.read_text())
-    rows.append({"tier": tier, "capture": capture, "status": "ok", "rooms": rep["room_count"],
+    rows.append({"tier": tier, "capture": capture,
+                 "status": "ok" if rep["room_count"] else "ok, NO ROOMS (graceful failure)", "rooms": rep["room_count"],
                  "area_m2": round(rep["total_floor_area"]["value"], 1),
                  "area_interval": f'[{rep["total_floor_area"]["confidence_low"]:.1f}, {rep["total_floor_area"]["confidence_high"]:.1f}]',
                  "adjacencies": len(rep["adjacencies"]), "damage": len(rep["damage_regions"]),
                  "flags": len(rep["concealed_damage_flags"]), "scope": len(rep["scope_line_items"]),
+                 "warnings": len(rep.get("warnings", [])),
                  "seconds": rep["processing_time_seconds"], **facts})
     for room in rep["rooms"]:
         room_rows.append({"tier": tier, "capture": capture, "room": room["id"],
                           "area_m2": round(room["floor_area"]["value"], 2), "walls": len(room["walls"]),
                           "ceiling_m": round(room["ceiling_height"]["value"], 2),
                           "ceiling_seen": room.get("ceiling_observed", True),
+                          "rough_estimate": room.get("rough_estimate", False),
                           "doors": sum(o["type"] == "door" for o in room["openings"]),
                           "windows": sum(o["type"] == "window" for o in room["openings"])})
 # failed runs leave only a log
@@ -320,6 +324,14 @@ for name in ("pytest_log", "validate_log"):
     p = OUT / f"{name}.txt"
     if p.exists():
         say(f"--- {name} (tail) ---"); say("\\n".join(p.read_text().strip().splitlines()[-12:])); say()
+
+# warnings written into the reports
+for folder in sorted(p for p in OUT.glob("sample_*") if p.is_dir() and (p / "report.json").exists()):
+    rep = json.loads((folder / "report.json").read_text())
+    for w in rep.get("warnings", [])[:6]:
+        say(f"[{folder.name}] {w}")
+if any((p / "report.json").exists() for p in OUT.glob("sample_*")):
+    say()
 
 # failure details
 for log in sorted(OUT.glob("sample_*_log.txt")):

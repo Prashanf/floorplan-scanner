@@ -1,7 +1,7 @@
 {
-  "capture_id": "single_scan_floor_only-20261004T131914Z",
+  "capture_id": "single_scan_floor_only-20261004T160217Z",
   "capture_tier": "lidar",
-  "capture_timestamp": "2026-10-04T13:19:14.806160Z",
+  "capture_timestamp": "2026-10-04T16:02:17.610869Z",
   "device": "unknown",
   "rooms": [
     {
@@ -113,6 +113,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 5.834962358928803,
         "confidence_low": 5.684962358928803,
@@ -247,6 +248,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 2.4522271970437637,
         "confidence_low": 2.3022271970437638,
@@ -381,6 +383,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 2.6663290508677777,
         "confidence_low": 2.516329050867778,
@@ -515,6 +518,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 2.1142413106182945,
         "confidence_low": 1.9642413106182945,
@@ -674,6 +678,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 4.282585983240368,
         "confidence_low": 4.132585983240368,
@@ -808,6 +813,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 4.796527275945948,
         "confidence_low": 4.646527275945948,
@@ -1015,6 +1021,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 4.462080508428359,
         "confidence_low": 4.312080508428359,
@@ -1157,6 +1164,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 3.1113910096510207,
         "confidence_low": 2.9613910096510208,
@@ -1291,6 +1299,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 2.74184590686792,
         "confidence_low": 2.59184590686792,
@@ -1344,6 +1353,18 @@
     "unit": "m2"
   },
   "room_count": 9,
-  "processing_time_seconds": 9.225,
-  "pipeline_version": "0.1.0"
+  "processing_time_seconds": 9.293,
+  "pipeline_version": "0.1.0",
+  "warnings": [
+    "room-1: the ceiling was not scanned; ceiling_height is the highest observed point (2.03 m), a lower bound.",
+    "room-2: the ceiling was not scanned; ceiling_height is the highest observed point (1.69 m), a lower bound.",
+    "room-3: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.",
+    "room-4: the ceiling was not scanned; ceiling_height is the highest observed point (1.95 m), a lower bound.",
+    "room-5: the ceiling was not scanned; ceiling_height is the highest observed point (1.94 m), a lower bound.",
+    "room-6: the ceiling was not scanned; ceiling_height is the highest observed point (2.20 m), a lower bound.",
+    "room-7: the ceiling was not scanned; ceiling_height is the highest observed point (1.82 m), a lower bound.",
+    "room-8: the ceiling was not scanned; ceiling_height is the highest observed point (2.19 m), a lower bound.",
+    "room-9: the ceiling was not scanned; ceiling_height is the highest observed point (1.39 m), a lower bound.",
+    "room-10: the ceiling was not scanned; ceiling_height is the highest observed point (1.61 m), a lower bound."
+  ]
 }

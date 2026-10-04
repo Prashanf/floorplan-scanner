@@ -392,6 +392,15 @@
           "title": "Ceiling Observed",
           "type": "boolean"
         },
+        "rough_estimate": {
+          "default": false,
+          "description": "True when the room could not be reconstructed and its geometry is a rough prior-based estimate from a single image; all its intervals are then about +/-50%.",
+          "examples": [
+            false
+          ],
+          "title": "Rough Estimate",
+          "type": "boolean"
+        },
         "floor_area": {
           "$ref": "#/$defs/Measurement",
           "description": "Floor area, unit 'm2'."
@@ -704,6 +713,19 @@
       ],
       "title": "Pipeline Version",
       "type": "string"
+    },
+    "warnings": {
+      "description": "What went wrong or was degraded while processing: rooms that could not be reconstructed, fallbacks used, a missing ceiling. Empty when everything worked.",
+      "examples": [
+        [
+          "COLMAP reconstruction failed: insufficient feature matches between images."
+        ]
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
     }
   },
   "required": [

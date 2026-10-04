@@ -24,6 +24,7 @@ BASE_UNCERTAINTY = cfg.BASE_UNCERTAINTY
 TIER_MULTIPLIER = cfg.CONFIDENCE_MULTIPLIER
 
 UNOBSERVED_CEILING_EXTRA = cfg.UNOBSERVED_CEILING_EXTRA
+ROUGH_RELATIVE_ERROR = cfg.ROUGH_ESTIMATE_RELATIVE_ERROR
 
 CALIBRATION_FILE = Path(__file__).resolve().parents[2] / "calibration_data.json"
 
@@ -78,6 +79,19 @@ def calibrate_measurements(report: PropertyReport, tier: str) -> PropertyReport:
 
     new_rooms: list[Room] = []
     for room in report.rooms:
+        if room.rough_estimate:  # prior-based single-image estimate: +/-50 % on every length
+            def rough(m: Measurement, relative: float = ROUGH_RELATIVE_ERROR) -> Measurement:
+                return m.model_copy(update={"confidence_low": m.value * (1 - relative),
+                                            "confidence_high": m.value * (1 + relative)})
+
+            area = room.floor_area.model_copy(update={
+                "confidence_low": room.floor_area.value * (1 - ROUGH_RELATIVE_ERROR) ** 2,
+                "confidence_high": room.floor_area.value * (1 + ROUGH_RELATIVE_ERROR) ** 2})
+            new_rooms.append(room.model_copy(update={
+                "walls": [w.model_copy(update={"length": rough(w.length), "height": rough(w.height)})
+                          for w in room.walls],
+                "openings": [], "ceiling_height": rough(room.ceiling_height), "floor_area": area}))
+            continue
         new_walls = [
             w.model_copy(update={
                 "length": cal(w.length, "wall_length"),
@@ -127,5 +141,9 @@ def calibrate_measurements(report: PropertyReport, tier: str) -> PropertyReport:
         "rooms": new_rooms,
         "damage_regions": new_damage,
         "scope_line_items": new_scope,
-        "total_floor_area": cal(report.total_floor_area, "floor_area"),
+        "total_floor_area": (
+            report.total_floor_area.model_copy(update={
+                "confidence_low": sum(r.floor_area.confidence_low for r in new_rooms),
+                "confidence_high": sum(r.floor_area.confidence_high for r in new_rooms)})
+            if any(r.rough_estimate for r in new_rooms) else cal(report.total_floor_area, "floor_area")),
     })

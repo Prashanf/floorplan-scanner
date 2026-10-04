@@ -51,6 +51,10 @@ def main(capture_dir: Path, tier: str, output_dir: Path, no_drift_correction: bo
     for room in report.rooms:
         click.echo(f"  {room.id}: {room.floor_area.value:.2f} m², ceiling {room.ceiling_height.value:.2f} m, "
                    f"{len(room.walls)} walls, {len(room.openings)} opening(s)")
+    if report.room_count == 0:
+        click.echo("no rooms could be reconstructed from this capture (see warnings in the report)")
+    for line in report.warnings:
+        click.echo(f"  warning: {line}")
     click.echo(f"report: {output_dir / 'report.json'}")
     if render:
         click.echo(f"plan:   {output_dir / 'floor_plan.png'}")

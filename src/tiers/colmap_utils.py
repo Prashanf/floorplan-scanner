@@ -92,30 +92,52 @@ def _run(cmd: list[str]) -> None:
         raise ColmapError(f"`{' '.join(cmd[:2])}` failed (exit {proc.returncode}): {' | '.join(tail)}")
 
 
-def _camera_param_string(prior: tuple[float, float, float]) -> str:
-    """COLMAP SIMPLE_RADIAL parameters 'f,cx,cy,k' for a focal length and principal point prior."""
-    return f"{prior[0]:.3f},{prior[1]:.3f},{prior[2]:.3f},0"
+def _camera_param_string(prior: tuple[float, float, float], model: str = "SIMPLE_RADIAL") -> str:
+    """COLMAP camera parameters for a focal length and principal point prior: 'f,cx,cy,k' or 'f,cx,cy'."""
+    base = f"{prior[0]:.3f},{prior[1]:.3f},{prior[2]:.3f}"
+    return base if model == "SIMPLE_PINHOLE" else base + ",0"
+
+
+# Retry ladder. Each level is tried only when the one before gave no usable model.
+LEVEL_DEFAULT, LEVEL_RELAXED, LEVEL_PINHOLE, LEVEL_INITIAL_PAIR = 0, 1, 2, 3
+LEVEL_NAMES = {
+    LEVEL_DEFAULT: "default settings",
+    LEVEL_RELAXED: "low-texture settings (more and softer features, guided matching, laxer thresholds)",
+    LEVEL_PINHOLE: "low-texture settings, SIMPLE_PINHOLE camera and one camera per image",
+    LEVEL_INITIAL_PAIR: "forcing the best-matched image pair as the starting pair",
+}
+COLMAP_MAX_NUM_IMAGES = 2147483647  # constant COLMAP uses to encode an image pair as one id
+MAX_FEATURES = 8192  # SiftExtraction.max_num_features for the default level
+MAX_IMAGE_SIZE = 3200  # SiftExtraction.max_image_size: larger images are not downscaled below this
+RELAXED_MAX_FEATURES = 16384
+MIN_MATCHES_RELAXED = 5  # two-view geometry and mapper min_num_matches for the relaxed levels
+SEQUENTIAL_ABOVE = 15  # more images than this: sequential matching (neighbours overlap), not exhaustive
 
 
 def _reconstruct_cli(image_dir: Path, db: Path, sparse: Path, matcher: str,
-                     camera_prior: tuple[float, float, float] | None = None, relaxed: bool = False) -> None:
+                     camera_prior: tuple[float, float, float] | None = None, level: int = LEVEL_DEFAULT) -> None:
+    pinhole = level >= LEVEL_PINHOLE
     extract = ["colmap", "feature_extractor", "--database_path", str(db), "--image_path", str(image_dir),
-               "--ImageReader.single_camera", "1"]
-    if relaxed:
-        extract += ["--SiftExtraction.peak_threshold", "0.002", "--SiftExtraction.max_num_features", "16384",
-                    "--SiftExtraction.estimate_affine_shape", "1", "--SiftExtraction.domain_size_pooling", "1"]
-    if camera_prior is not None:
-        extract += ["--ImageReader.camera_model", "SIMPLE_RADIAL",
-                    "--ImageReader.camera_params", _camera_param_string(camera_prior)]
+               "--ImageReader.single_camera", "0" if pinhole else "1",
+               "--SiftExtraction.max_num_features", str(RELAXED_MAX_FEATURES if level else MAX_FEATURES),
+               "--SiftExtraction.max_image_size", str(MAX_IMAGE_SIZE)]
+    if level >= LEVEL_RELAXED:
+        extract += ["--SiftExtraction.peak_threshold", "0.002", "--SiftExtraction.estimate_affine_shape", "1",
+                    "--SiftExtraction.domain_size_pooling", "1"]
+    model = "SIMPLE_PINHOLE" if pinhole else "SIMPLE_RADIAL"
+    if camera_prior is not None or pinhole:
+        extract += ["--ImageReader.camera_model", model]
+        if camera_prior is not None:
+            extract += ["--ImageReader.camera_params", _camera_param_string(camera_prior, model)]
     _run(extract)
     match = ["colmap", f"{matcher}_matcher", "--database_path", str(db)]
     mapper = ["colmap", "mapper", "--database_path", str(db), "--image_path", str(image_dir),
               "--output_path", str(sparse)]
-    if relaxed:
+    if level >= LEVEL_RELAXED:
         match += ["--SiftMatching.guided_matching", "1", "--TwoViewGeometry.min_num_inliers", "8"]
         mapper += ["--Mapper.init_min_num_inliers", "10", "--Mapper.abs_pose_min_num_inliers", "8",
                    "--Mapper.abs_pose_min_inlier_ratio", "0.15", "--Mapper.init_min_tri_angle", "3",
-                   "--Mapper.min_num_matches", "8", "--Mapper.min_model_size", "3"]
+                   "--Mapper.min_num_matches", str(MIN_MATCHES_RELAXED), "--Mapper.min_model_size", "3"]
     _run(match)
     _run(mapper)
 
@@ -141,28 +163,60 @@ def _device_and_threads(pycolmap) -> tuple[object, int, bool]:
     return device, threads, gpu
 
 
+def _best_pair(db: Path) -> tuple[int, int] | None:
+    """The image pair with the most verified inlier matches in a COLMAP database (None if there is none)."""
+    import pycolmap
+
+    try:
+        database = pycolmap.Database.open(str(db))
+        try:
+            pair_ids, counts = database.read_two_view_geometry_num_inliers()
+            keypoints = {img.image_id: database.num_keypoints_for_image(img.image_id)
+                         for img in database.read_all_images()}
+        finally:
+            database.close()
+        if len(counts):
+            best = max(range(len(counts)), key=lambda i: counts[i])
+            if counts[best] > 0:
+                id1, id2 = divmod(int(pair_ids[best]), COLMAP_MAX_NUM_IMAGES)  # pair_id = max * id1 + id2
+                return id1, id2
+        if len(keypoints) >= 2:  # nothing verified: fall back to the two images with the most features
+            id1, id2 = sorted(keypoints, key=keypoints.get, reverse=True)[:2]
+            return int(id1), int(id2)
+    except Exception as exc:  # API differences between pycolmap versions
+        logger.warning("could not choose an initial image pair: %s", exc)
+    return None
+
+
 def _reconstruct_pycolmap(image_dir: Path, db: Path, sparse: Path, matcher: str,
-                          camera_prior: tuple[float, float, float] | None = None, relaxed: bool = False) -> None:
+                          camera_prior: tuple[float, float, float] | None = None,
+                          level: int = LEVEL_DEFAULT) -> None:
     """pycolmap with fixed seeds and a single mapper thread, so the same images give the same model."""
     import pycolmap
 
     pycolmap.set_random_seed(SEED)
+    relaxed = level >= LEVEL_RELAXED
+    pinhole = level >= LEVEL_PINHOLE
     device, threads, gpu = _device_and_threads(pycolmap)
     logger.info("COLMAP device: %s (%d feature/matching thread(s))", "GPU" if gpu else "CPU", threads)
     extraction = pycolmap.FeatureExtractionOptions()
     extraction.num_threads = threads
+    extraction.max_image_size = MAX_IMAGE_SIZE
+    extraction.sift.max_num_features = RELAXED_MAX_FEATURES if relaxed else MAX_FEATURES
     if relaxed:  # low-texture rooms: more, softer features and laxer verification
         extraction.sift.peak_threshold = 0.002
-        extraction.sift.max_num_features = 16384
         if not gpu:  # affine shape and domain-size pooling are CPU-only: they would silently force the CPU path
             extraction.sift.estimate_affine_shape = True
             extraction.sift.domain_size_pooling = True
     reader = pycolmap.ImageReaderOptions()
-    if camera_prior is not None:  # a known focal length makes registration far more reliable
-        reader.camera_model = "SIMPLE_RADIAL"
-        reader.camera_params = _camera_param_string(camera_prior)
-    pycolmap.extract_features(str(db), str(image_dir), camera_mode=pycolmap.CameraMode.SINGLE,
-                              reader_options=reader, extraction_options=extraction, device=device)
+    model = "SIMPLE_PINHOLE" if pinhole else "SIMPLE_RADIAL"
+    if camera_prior is not None or pinhole:  # a known focal length makes registration far more reliable
+        reader.camera_model = model
+        if camera_prior is not None:
+            reader.camera_params = _camera_param_string(camera_prior, model)
+    mode = pycolmap.CameraMode.PER_IMAGE if pinhole else pycolmap.CameraMode.SINGLE
+    pycolmap.extract_features(str(db), str(image_dir), camera_mode=mode, reader_options=reader,
+                              extraction_options=extraction, device=device)
     verification = pycolmap.TwoViewGeometryOptions()
     verification.ransac.random_seed = SEED
     matching = pycolmap.FeatureMatchingOptions()
@@ -180,12 +234,20 @@ def _reconstruct_pycolmap(image_dir: Path, db: Path, sparse: Path, matcher: str,
     options.random_seed = SEED
     options.num_threads = 1
     if relaxed:
-        options.min_num_matches = 8
+        options.min_num_matches = MIN_MATCHES_RELAXED
         options.min_model_size = 3
         options.mapper.init_min_num_inliers = 10
         options.mapper.abs_pose_min_num_inliers = 8
         options.mapper.abs_pose_min_inlier_ratio = 0.15
         options.mapper.init_min_tri_angle = 3
+    if level >= LEVEL_INITIAL_PAIR:
+        pair = _best_pair(db)
+        if pair is not None:
+            options.init_image_id1, options.init_image_id2 = pair
+            options.mapper.init_min_tri_angle = 1  # accept a short baseline: the pair is the best we have
+            options.mapper.init_min_num_inliers = 8
+            options.mapper.init_max_forward_motion = 0.99
+            logger.info("starting from image pair %s", pair)
     pycolmap.incremental_mapping(str(db), str(image_dir), str(sparse), options=options)
 
 
@@ -239,31 +301,38 @@ def run_colmap_reconstruction(
     sparse.mkdir()
 
     backend = colmap_backend()
-    logger.info("COLMAP backend: %s, %d images", backend, len(list(image_dir.iterdir())))
+    n_images = len(list(image_dir.iterdir()))
+    if matcher == "exhaustive" and n_images > SEQUENTIAL_ABOVE:
+        matcher = "sequential"  # exhaustive matching is quadratic; long captures overlap with neighbours
+    logger.info("COLMAP backend: %s, %d images, %s matching", backend, n_images, matcher)
     best = None
-    for relaxed in (False, True):
-        if relaxed:
-            logger.warning("default COLMAP settings gave no usable model; retrying with settings for "
-                           "low-texture scenes (more features, laxer matching)")
+    last_error = ""
+    for level in (LEVEL_DEFAULT, LEVEL_RELAXED, LEVEL_PINHOLE, LEVEL_INITIAL_PAIR):
+        if level > LEVEL_DEFAULT:
+            logger.warning("no usable model yet; retrying with %s", LEVEL_NAMES[level])
             if db.exists():
                 db.unlink()
             shutil.rmtree(sparse, ignore_errors=True)
             sparse.mkdir()
+        if level == LEVEL_INITIAL_PAIR and backend == "cli":
+            break  # the starting pair is chosen through the pycolmap database API
         try:
             (_reconstruct_cli if backend == "cli" else _reconstruct_pycolmap)(
-                image_dir, db, sparse, matcher, camera_prior, relaxed)
+                image_dir, db, sparse, matcher, camera_prior, level)
         except ColmapError:
             raise
         except Exception as exc:  # pycolmap raises RuntimeError and friends
-            if relaxed:
-                raise ColmapError(f"COLMAP reconstruction failed: {exc}") from exc
-            logger.warning("COLMAP failed: %s", exc)
+            last_error = str(exc)
+            logger.warning("COLMAP failed at level %d: %s", level, exc)
             continue
         best = _best_model(sparse, backend)
         if best is not None:
+            if level > LEVEL_DEFAULT:
+                logger.info("model found with %s", LEVEL_NAMES[level])
             break
     if best is None:
-        raise ColmapError("COLMAP produced no usable model (too few matching features between images)")
+        raise ColmapError("COLMAP produced no usable model (too few matching features between images)"
+                          + (f": {last_error}" if last_error else ""))
     points, poses = best
     logger.info("reconstructed %d images, %d points", len(poses), len(points))
     return points, poses

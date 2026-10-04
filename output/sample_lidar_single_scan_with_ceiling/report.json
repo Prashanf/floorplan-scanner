@@ -1,7 +1,7 @@
 {
-  "capture_id": "single_scan_with_ceiling-20261004T131932Z",
+  "capture_id": "single_scan_with_ceiling-20261004T160235Z",
   "capture_tier": "lidar",
-  "capture_timestamp": "2026-10-04T13:19:32.038025Z",
+  "capture_timestamp": "2026-10-04T16:02:35.001526Z",
   "device": "unknown",
   "rooms": [
     {
@@ -138,6 +138,7 @@
         "unit": "m"
       },
       "ceiling_observed": true,
+      "rough_estimate": false,
       "floor_area": {
         "value": 7.355838951836239,
         "confidence_low": 7.205838951836238,
@@ -272,6 +273,7 @@
         "unit": "m"
       },
       "ceiling_observed": true,
+      "rough_estimate": false,
       "floor_area": {
         "value": 3.9090379437769665,
         "confidence_low": 3.7590379437769665,
@@ -455,6 +457,7 @@
         "unit": "m"
       },
       "ceiling_observed": true,
+      "rough_estimate": false,
       "floor_area": {
         "value": 1.5870896649197488,
         "confidence_low": 1.4370896649197489,
@@ -589,6 +592,7 @@
         "unit": "m"
       },
       "ceiling_observed": true,
+      "rough_estimate": false,
       "floor_area": {
         "value": 1.8553770158095373,
         "confidence_low": 1.7053770158095372,
@@ -819,6 +823,7 @@
         "unit": "m"
       },
       "ceiling_observed": false,
+      "rough_estimate": false,
       "floor_area": {
         "value": 12.254754988927917,
         "confidence_low": 12.104754988927917,
@@ -1162,6 +1167,7 @@
         "unit": "m"
       },
       "ceiling_observed": true,
+      "rough_estimate": false,
       "floor_area": {
         "value": 11.015933182513134,
         "confidence_low": 10.865933182513134,
@@ -1409,6 +1415,7 @@
         "unit": "m"
       },
       "ceiling_observed": true,
+      "rough_estimate": false,
       "floor_area": {
         "value": 2.4604306306527826,
         "confidence_low": 2.3104306306527826,
@@ -1551,6 +1558,7 @@
         "unit": "m"
       },
       "ceiling_observed": true,
+      "rough_estimate": false,
       "floor_area": {
         "value": 1.5882497439622418,
         "confidence_low": 1.438249743962242,
@@ -1758,6 +1766,7 @@
         "unit": "m"
       },
       "ceiling_observed": true,
+      "rough_estimate": false,
       "floor_area": {
         "value": 10.406892598857498,
         "confidence_low": 10.256892598857497,
@@ -1949,6 +1958,7 @@
         "unit": "m"
       },
       "ceiling_observed": true,
+      "rough_estimate": false,
       "floor_area": {
         "value": 3.820506891428991,
         "confidence_low": 3.670506891428991,
@@ -2200,6 +2210,10 @@
     "unit": "m2"
   },
   "room_count": 10,
-  "processing_time_seconds": 14.408,
-  "pipeline_version": "0.1.0"
+  "processing_time_seconds": 14.557,
+  "pipeline_version": "0.1.0",
+  "warnings": [
+    "room-3: no room geometry could be fitted (degenerate fit (3 walls, 0.00 m2)); the room is not in the plan.",
+    "room-6: the ceiling was not scanned; ceiling_height is the highest observed point (3.40 m), a lower bound."
+  ]
 }

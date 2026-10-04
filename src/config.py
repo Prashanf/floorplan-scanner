@@ -60,9 +60,14 @@ DEPTH_MIN_CONFIDENCE = 1  # 0 low, 1 medium, 2 high
 DEPTH_TARGET_FRAMES = 500  # frames used per capture
 
 # --- Video keyframes (src/tiers/video.py) -----------------------------------------------------
-KEYFRAME_SECONDS = 0.5  # one keyframe per this many seconds
+KEYFRAME_SECONDS = 0.5  # windowed mode: one keyframe per this many seconds
 KEYFRAME_MAX_COUNT = 400
-KEYFRAME_MAX_LONG_EDGE = 1600  # pixels
+KEYFRAME_MAX_LONG_EDGE = 1920  # pixels; keyframes are downscaled to this before COLMAP
+KEYFRAME_MIN_GAP = 10  # motion mode: at least every 10th frame at most
+KEYFRAME_MAX_GAP = 60  # ... and at least one keyframe in this many frames even without motion
+KEYFRAME_MOTION_FRACTION = 0.05  # median feature displacement (share of frame width) that starts a new keyframe
+VIDEO_RETRY_MAX_FRAMES = 600  # retry after a failed reconstruction: denser sampling, capped at this many frames
+VIDEO_RETRY_STEP = 5  # ... every 5th frame, or sparser if the video is long enough to exceed the cap
 
 # --- Confidence calibration (src/calibration/confidence.py) -----------------------------------
 CONFIDENCE_MULTIPLIER = {"lidar": 1.5, "video": 3.0, "photo": 6.0}
@@ -73,6 +78,7 @@ BASE_UNCERTAINTY = {
     "floor_area": 0.1,  # m2
     "damage_extent": 0.05,
 }
+ROUGH_ESTIMATE_RELATIVE_ERROR = 0.5  # single-image fallback rooms: +/-50 % on every length
 UNOBSERVED_CEILING_EXTRA = 1.0  # no ceiling scanned: the true height lies up to this far above the highest point
 
 # --- Damage detection (src/damage/detection.py) -----------------------------------------------

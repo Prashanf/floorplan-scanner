@@ -92,7 +92,8 @@ def _build_room(room: RoomIR, tier: str, transform: tuple[float, float, float]) 
     area_half = BASE_ERROR["wall"] * TIER_MULTIPLIER[tier] * perimeter / 2
     return Room(
         id=room.room_id, name=room.room_id.replace("-", " ").title(), walls=walls, openings=openings,
-        ceiling_height=height, ceiling_observed=room.ceiling_observed, floor_area=_measurement(area, 0.0, tier, unit="m2", half_width=area_half),
+        ceiling_height=height, ceiling_observed=room.ceiling_observed,
+        rough_estimate=bool(room.metadata.get("rough_estimate")), floor_area=_measurement(area, 0.0, tier, unit="m2", half_width=area_half),
         floor_polygon=polygon)
 
 
@@ -140,13 +141,21 @@ def run_pipeline(
         _say(f"warning: could not process {bad}")
     timed("preprocess", t)
 
-    # 2. tier front-end
+    # 2. tier front-end. A capture that cannot be reconstructed is a result ("I could not reconstruct
+    # this"), not a crash: the report then has no rooms and says why in `warnings`.
     t = time.perf_counter()
+    warnings: list[str] = []
     try:
         property_ir: PropertyIR = FRONT_ENDS[tier](capture_dir)
     except NotImplementedError:
         raise NotImplementedError(f"Step {tier} front-end not yet implemented") from None
+    except Exception as exc:  # reconstruction failures (COLMAP, empty cloud, unreadable data)
+        log.warning("%s front-end failed: %s", tier, exc, exc_info=log.isEnabledFor(logging.DEBUG))
+        timed(f"{tier} front-end", t)
+        return _finish(_failure_report(capture_dir, tier, [_failure_message(tier, str(exc))], t_start),
+                       output_dir, render, timings, t_start)
     timed(f"{tier} front-end", t)
+    warnings += list(property_ir.warnings)
     _say(f"{len(property_ir.rooms)} room(s) found")
 
     # 3. geometry: walls, ceiling, openings, floor polygon per room
@@ -164,6 +173,8 @@ def run_pipeline(
                 room.ceiling_height = observed_top_height(room.point_cloud)
                 log.warning("%s: no ceiling scanned; reporting the highest observed point (%.2f m) as a "
                             "lower bound", room.room_id, room.ceiling_height)
+                warnings.append(f"{room.room_id}: the ceiling was not scanned; ceiling_height is the highest "
+                                f"observed point ({room.ceiling_height:.2f} m), a lower bound.")
             room.openings = detect_openings(room.point_cloud, room.wall_segments)
             area = compute_floor_area(room.floor_polygon)
             if len(room.wall_segments) < 4 or area < MIN_ROOM_AREA:
@@ -172,8 +183,12 @@ def run_pipeline(
         except ValueError as exc:
             log.warning("geometry failed for %s, room dropped: %s", room.room_id, exc)
             _say(f"warning: geometry failed for {room.room_id}: {exc}")
+            warnings.append(f"{room.room_id}: no room geometry could be fitted ({exc}); the room is not in the plan.")
     if not solved:
-        raise RuntimeError("geometry failed for every room; check the capture")
+        timed("geometry", t)
+        return _finish(_failure_report(capture_dir, tier,
+                                       [_failure_message(tier, "no room geometry could be fitted")] + warnings,
+                                       t_start), output_dir, render, timings, t_start)
     property_ir.rooms = solved
     timed("geometry", t)
 
@@ -188,14 +203,19 @@ def run_pipeline(
     # 5-7. damage detection, concealed-damage rules, scope. Rooms are still in their own
     # frames here, so surface ids and (u, v) positions match the walls written to the report.
     t = time.perf_counter()
-    images = list(dict.fromkeys(img for r in property_ir.rooms for img in r.images))
+    # Rough single-image rooms have invented walls, so damage cannot be placed on them.
+    damage_rooms = [r for r in property_ir.rooms if not r.metadata.get("rough_estimate")]
+    if len(damage_rooms) < len(property_ir.rooms):
+        warnings.append("Damage analysis was skipped for rooms that are rough single-image estimates: their "
+                        "walls are not measured, so damage cannot be placed on them.")
+    images = list(dict.fromkeys(img for r in damage_rooms for img in r.images))
     extent_error = BASE_ERROR["damage"] * TIER_MULTIPLIER[tier]
     if images:
         detections = detect_damage(images)
-        projected = project_damage_to_surfaces(detections, property_ir.rooms)
+        projected = project_damage_to_surfaces(detections, damage_rooms)
     else:
         detections, projected = [], []
-    flags = check_concealed_damage(property_ir.rooms, projected)
+    flags = check_concealed_damage(damage_rooms, projected)
     scope_items = generate_scope(projected, flags, extent_error=extent_error)
     damage_regions = [_build_damage_region(d, tier) for d in projected]
     _say(f"Damage: {len(detections)} detection(s), {len(projected)} placed on walls, "
@@ -224,23 +244,51 @@ def run_pipeline(
         room_count=len(rooms),
         processing_time_seconds=0.0,
         pipeline_version=__version__,
+        warnings=warnings,
     )
     report = calibrate_measurements(report, tier)
     timed("calibrate + build report", t)
 
-    # 10. outputs. Processing time is final before the JSON is written.
+    # 10-11. outputs and timing summary
+    return _finish(report, output_dir, render, timings, t_start)
+
+
+def _failure_message(tier: str, detail: str) -> str:
+    """The warning written into a report that has no rooms."""
+    if tier in ("photo", "video"):
+        return ("COLMAP reconstruction failed: insufficient feature matches between images. "
+                f"Capture may have too little visual overlap. ({detail})")
+    return f"No usable room could be found in the {tier} capture: {detail}"
+
+
+def _failure_report(capture_dir: str, tier: str, warnings: list[str], t_start: float) -> PropertyReport:
+    """A valid report with no rooms for a capture that could not be processed."""
+    zero_area = Measurement(value=0.0, confidence_low=0.0, confidence_high=0.0, unit="m2")
+    now = datetime.now(timezone.utc)
+    return PropertyReport(
+        capture_id=f"{Path(capture_dir).resolve().name}-{now:%Y%m%dT%H%M%SZ}", capture_tier=tier,
+        capture_timestamp=now, device="unknown", rooms=[], adjacencies=[], damage_regions=[],
+        concealed_damage_flags=[], scope_line_items=[], total_floor_area=zero_area, room_count=0,
+        processing_time_seconds=round(time.perf_counter() - t_start, 3), pipeline_version=__version__,
+        warnings=warnings)
+
+
+def _finish(report: PropertyReport, output_dir: str, render: bool, timings: dict, t_start: float) -> PropertyReport:
+    """Write report.json and floor_plan.png, print the timing summary, and return the report."""
+    for line in report.warnings:
+        _say(f"warning: {line}")
+    # Processing time is final before the JSON is written.
     report.processing_time_seconds = round(time.perf_counter() - t_start, 3)
     t = time.perf_counter()
     json_path = write_output(report, output_dir)
-    timed("write JSON", t)
+    timings["write JSON"] = time.perf_counter() - t
     _say(f"Wrote {json_path}")
     if render:
         t = time.perf_counter()
         plan_path = render_floor_plan(report, output_dir)
-        timed("render", t)
+        timings["render"] = time.perf_counter() - t
         _say(f"Wrote {plan_path}")
 
-    # 11. timing summary
     total = time.perf_counter() - t_start
     _say("Timing: " + ", ".join(f"{name} {secs:.2f}s" for name, secs in timings.items())
          + f" | total {total:.2f}s")

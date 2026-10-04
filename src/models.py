@@ -92,6 +92,9 @@ class Room(BaseModel):
     ceiling_observed: bool = Field(
         True, description="False when the scan never saw the ceiling: ceiling_height is then the "
         "highest observed point (a lower bound) and its interval extends upward.", examples=[True])
+    rough_estimate: bool = Field(
+        False, description="True when the room could not be reconstructed and its geometry is a rough "
+        "prior-based estimate from a single image; all its intervals are then about +/-50%.", examples=[False])
     floor_area: Measurement = Field(..., description="Floor area, unit 'm2'.")
     floor_polygon: list[tuple[float, float]] = Field(
         ..., description="Closed floor outline, counterclockwise (x, y) in meters, global frame.",
@@ -201,6 +204,11 @@ class PropertyReport(BaseModel):
     pipeline_version: str = Field(
         __version__, description="Version of the pipeline that produced the report.", examples=["0.1.0"]
     )
+    warnings: list[str] = Field(
+        default_factory=list,
+        description="What went wrong or was degraded while processing: rooms that could not be "
+        "reconstructed, fallbacks used, a missing ceiling. Empty when everything worked.",
+        examples=[["COLMAP reconstruction failed: insufficient feature matches between images."]])
 
     @classmethod
     def generate_json_schema(cls) -> dict[str, Any]:

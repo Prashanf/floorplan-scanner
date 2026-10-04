@@ -65,6 +65,12 @@ def validate_output(output_dir: Path) -> list[str]:
 
     if not (output_dir / "floor_plan.png").exists():
         issues.append("WARN: no floor_plan.png")
+    if report.get("room_count") == 0:
+        issues.append("WARN: no rooms reconstructed: " + "; ".join(report.get("warnings", ["no warning given"]))[:200])
+    elif report.get("warnings"):
+        issues.append(f"NOTE: {len(report['warnings'])} warning(s) in the report")
+    if any(room.get("rough_estimate") for room in report.get("rooms", [])):
+        issues.append("NOTE: some rooms are rough single-image estimates (about +/-50%)")
     if not any(i.startswith("FAIL") for i in issues):
         issues.append(
             f"PASS: {report['room_count']} rooms, {report['total_floor_area']['value']:.1f} m2, "
