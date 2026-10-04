@@ -130,7 +130,8 @@ def main(capture_dir: Path, tier: str, output_dir: Path, no_drift_correction: bo
 
     front_end = {"lidar": process_lidar, "photo": process_photos, "video": process_video}[tier]
     property_ir = steps.run(f"{tier} front-end", front_end, str(capture_dir))
-    if property_ir is None:
+    have_data = property_ir is not None
+    if not have_data:
         property_ir = _placeholder_ir(tier, str(capture_dir))
 
     # 4. geometry (per room)
@@ -139,15 +140,21 @@ def main(capture_dir: Path, tier: str, output_dir: Path, no_drift_correction: bo
     from src.geometry.openings import detect_openings
     from src.geometry.wall_fitting import fit_walls
 
-    for room in property_ir.rooms:
-        def _geometry(room: RoomIR = room) -> None:
-            room.wall_segments, room.floor_polygon = fit_walls(room.point_cloud)
-            room.ceiling_height, _ = detect_ceiling_height(room.point_cloud)
-            room.openings = detect_openings(room.point_cloud, room.wall_segments)
-            compute_floor_area(room.floor_polygon)
+    def _geometry(room: RoomIR) -> None:
+        room.wall_segments, room.floor_polygon = fit_walls(room.point_cloud)
+        room.ceiling_height, _ = detect_ceiling_height(room.point_cloud)
+        room.openings = detect_openings(room.point_cloud, room.wall_segments)
+        compute_floor_area(room.floor_polygon)
 
-        if steps.run("geometry", _geometry) is None and steps.status["geometry"] == PENDING:
-            break
+    if have_data:
+        for room in property_ir.rooms:
+            try:
+                steps.run("geometry", _geometry, room)
+            except ValueError as exc:  # e.g. too few wall points in this room
+                click.echo(f"warning: geometry failed for {room.room_id}: {exc}", err=True)
+    else:
+        click.echo("Step geometry skipped (no point cloud: front-end not yet implemented)")
+        steps.status["geometry"] = PENDING
 
     # 5. stitch
     from src.stitching.multi_room import stitch_rooms
