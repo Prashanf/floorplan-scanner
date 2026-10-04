@@ -42,7 +42,8 @@ def _largest_vertical_gap(v: np.ndarray, top: float) -> tuple[float, float]:
 
 
 def _detect_on_wall(
-    wall_index: int, wall: WallSegment, points: np.ndarray, floor_z: float, height: float
+    wall_index: int, wall: WallSegment, points: np.ndarray, floor_z: float, height: float,
+    min_gap_height: float,
 ) -> list[OpeningDetection]:
     start = np.array(wall.start)
     tangent = (np.array(wall.end) - start) / wall.length
@@ -69,7 +70,7 @@ def _detect_on_wall(
     for b in range(n_bins):
         heights = np.sort(v[bounds[b]:bounds[b + 1]])
         gap_start[b], gap_end[b] = _largest_vertical_gap(heights, height)
-    is_open = (gap_end - gap_start) >= MIN_OPENING_HEIGHT
+    is_open = (gap_end - gap_start) >= min_gap_height
 
     closed = ndimage.binary_closing(is_open, structure=np.ones(3, dtype=bool))  # bridge 1-2 bin holes
     labels, n_runs = ndimage.label(closed)
@@ -106,7 +107,9 @@ def _detect_on_wall(
     return detections
 
 
-def detect_openings(point_cloud: PointCloud, wall_segments: list[WallSegment]) -> list[OpeningDetection]:
+def detect_openings(
+    point_cloud: PointCloud, wall_segments: list[WallSegment], *, min_gap_height: float = MIN_OPENING_HEIGHT
+) -> list[OpeningDetection]:
     """Detect doors and windows on each wall.
 
     Per wall: take points within 0.15 m of the wall plane, project to (u along
@@ -115,10 +118,12 @@ def detect_openings(point_cloud: PointCloud, wall_segments: list[WallSegment]) -
     strip points and the lintel above a door, which a plain point-count test
     would count as wall). Runs of open columns wider than 0.4 m are openings:
     a gap starting within 0.2 m of the floor is a door, otherwise a window
-    (starts between 0.2 and 0.7 m get reduced confidence).
+    (starts between 0.2 and 0.7 m get reduced confidence). Sparse clouds (SfM) leave
+    random empty stretches, so callers raise min_gap_height (e.g. 1.5 m, door-sized only).
     """
     levels = find_floor_and_ceiling(point_cloud.points[:, 2])
     detections: list[OpeningDetection] = []
     for index, wall in enumerate(wall_segments):
-        detections.extend(_detect_on_wall(index, wall, point_cloud.points, levels.floor_z, levels.height))
+        detections.extend(_detect_on_wall(
+            index, wall, point_cloud.points, levels.floor_z, levels.height, min_gap_height))
     return detections

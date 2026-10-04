@@ -51,6 +51,24 @@ def convert_heic_to_jpeg(input_path: str, output_path: str, quality: int = 95) -
     return output_path
 
 
+def stage_upright_copy(src: str, dst: str) -> None:
+    """Write `dst` as src with EXIF orientation baked into the pixels, or symlink if already upright.
+
+    COLMAP ignores EXIF orientation, so a portrait iPhone JPEG would be reconstructed
+    sideways, which breaks gravity alignment. The original file is never modified.
+    """
+    import os
+
+    from PIL import Image, ImageOps
+
+    with Image.open(src) as img:
+        if img.getexif().get(274, 1) == 1:
+            os.symlink(Path(src).resolve(), dst)
+            return
+        fixed = ImageOps.exif_transpose(img)
+        fixed.save(dst, "JPEG", quality=95, exif=fixed.getexif().tobytes())
+
+
 def _files_with_ext(root: Path, exts: set[str]) -> list[Path]:
     """Files under root (recursive) whose extension is in exts, sorted, ignoring dotfiles."""
     return sorted(

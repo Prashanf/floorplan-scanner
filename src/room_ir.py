@@ -44,6 +44,7 @@ class RoomIR:
     ceiling_height: Optional[float] = None
     floor_polygon: Optional[list] = None
     point_density: Optional[float] = None
+    metadata: dict = field(default_factory=dict)  # e.g. scale method and factor from SfM tiers
 
 
 @dataclass
