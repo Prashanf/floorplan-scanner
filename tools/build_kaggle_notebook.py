@@ -368,6 +368,98 @@ print(f"\\nwrote {bundle} ({bundle.stat().st_size / 1e6:.1f} MB): download it, o
 """
 
 
+CUSTOM_VIDEO = r"""
+# ===== Test the video tier on your own video (floor tour) =====
+# Needs the setup cells above to have run (install, unpack, find data). Set VIDEO_PATH to your file, or leave
+# it empty to use the first video found in /kaggle/input (the sample captures' rgb.mp4 files are skipped).
+VIDEO_PATH = ""            # e.g. "/kaggle/input/my-tour/tour.mp4"
+CUSTOM_NAME = "my_tour"
+
+import glob, json, pathlib, re, shutil
+import matplotlib.pyplot as plt, matplotlib.image as mpimg
+import pandas as pd
+from IPython.display import display, Markdown
+
+if "run_cmd" not in globals():
+    raise SystemExit("Run the setup cells first (install, unpack, find the sample data): they define run_cmd.")
+
+VIDEO_EXTS = (".mp4", ".mov", ".mkv", ".avi", ".MP4", ".MOV", ".MKV", ".AVI")
+if VIDEO_PATH:
+    candidates = [VIDEO_PATH]
+else:
+    candidates = [f for e in VIDEO_EXTS for f in glob.glob(f"/kaggle/input/**/*{e}", recursive=True)
+                  if pathlib.Path(f).name.lower() != "rgb.mp4"]
+if not candidates or not pathlib.Path(candidates[0]).is_file():
+    raise SystemExit("No video found. Add your video as a Kaggle dataset, or set VIDEO_PATH above.")
+video = pathlib.Path(sorted(candidates)[0] if not VIDEO_PATH else VIDEO_PATH)
+if len(candidates) > 1 and not VIDEO_PATH:
+    print("several videos found, using the first; set VIDEO_PATH to choose:", *map(str, sorted(candidates)), sep="\n  ")
+
+# the pipeline takes a folder: put a link to the video in a folder of its own (nothing else in it)
+folder = pathlib.Path(REPO) / "sample_data_run" / "custom_video" / CUSTOM_NAME
+folder.mkdir(parents=True, exist_ok=True)
+for old in folder.iterdir():
+    old.unlink()
+(folder / video.name).symlink_to(video)
+
+import cv2
+cap = cv2.VideoCapture(str(video))
+opened = cap.isOpened()
+frames, fps = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)), cap.get(cv2.CAP_PROP_FPS)
+w, h = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+cap.release()
+print(f"video: {video.name} | {w}x{h} | {frames} frames | {fps:.1f} fps | {frames / fps if fps else 0:.0f} s | "
+      f"{'opens in OpenCV' if opened else 'OpenCV cannot open it (ffmpeg conversion will be tried)'}")
+
+out_name = f"custom_video_{CUSTOM_NAME}"
+ok, secs = run_cmd([sys.executable, "run.py", f"sample_data_run/custom_video/{CUSTOM_NAME}", "--tier", "video",
+                    "--output-dir", f"output/{out_name}", "--verbose"], f"{out_name}_log")
+log = (OUT / f"{out_name}_log.txt").read_text()
+print(f"video tier finished in {secs:.0f} s, exit status {'0' if ok else 'non-zero'}")
+
+# ---- results ----
+display(Markdown("## Video tier test results"))
+rep_path = OUT / out_name / "report.json"
+if not rep_path.exists():
+    print("no report.json was written; last lines of the log:")
+    print("\n".join([l for l in log.splitlines() if not re.match(r"^[IWE]\d{8}", l)][-15:]))
+else:
+    rep = json.loads(rep_path.read_text())
+    summary = {
+        "rooms": rep["room_count"], "total_area_m2": round(rep["total_floor_area"]["value"], 1),
+        "area_interval": f'[{rep["total_floor_area"]["confidence_low"]:.1f}, {rep["total_floor_area"]["confidence_high"]:.1f}]',
+        "adjacencies": len(rep["adjacencies"]), "damage_regions": len(rep["damage_regions"]),
+        "warnings": len(rep.get("warnings", [])), "processing_s": rep["processing_time_seconds"]}
+    display(pd.DataFrame([summary]))
+    if rep["rooms"]:
+        display(pd.DataFrame([{
+            "room": r["id"], "area_m2": round(r["floor_area"]["value"], 2), "walls": len(r["walls"]),
+            "ceiling_m": round(r["ceiling_height"]["value"], 2), "ceiling_seen": r.get("ceiling_observed", True),
+            "doors": sum(o["type"] == "door" for o in r["openings"]),
+            "windows": sum(o["type"] == "window" for o in r["openings"]),
+            "wall_lengths_m": ", ".join(f'{x["length"]["value"]:.2f}' for x in r["walls"])} for r in rep["rooms"]]))
+    else:
+        print("NO ROOMS were reconstructed from this video.")
+    for w_ in rep.get("warnings", []):
+        print("warning:", w_)
+
+    # what COLMAP did, from the log
+    keep = re.compile(r"motion keyframes|keyframes \(|Preprocessed|COLMAP device|COLMAP attempt|COLMAP succeeded|"
+                      r"failed, trying next|reconstructed \d+ images|scale:|using the intrinsics|segmented|"
+                      r"geometry failed|no ceiling|room\(s\) found", re.I)
+    lines = [l.strip() for l in log.splitlines() if keep.search(l) and not re.match(r"^[IWE]\d{8}", l)]
+    print("\n--- pipeline log (key lines) ---")
+    print("\n".join(dict.fromkeys(lines))[:4000])
+
+    plan = OUT / out_name / "floor_plan.png"
+    if plan.exists():
+        plt.figure(figsize=(10, 7)); plt.imshow(mpimg.imread(plan)); plt.axis("off"); plt.title("floor plan from the video")
+        plt.show()
+shutil.make_archive(str(pathlib.Path(WORK) / f"{out_name}_results"), "zip", OUT / out_name) if (OUT / out_name).exists() else None
+print(f"\nresults folder zipped to {WORK}/{out_name}_results.zip" if (OUT / out_name).exists() else "")
+"""
+
+
 def main() -> None:
     blob = repo_zip_b64()
     cells = [
@@ -391,6 +483,10 @@ def main() -> None:
         code(VALIDATE),
         md("### Report"),
         code(REPORT),
+        md("### Test the video tier on your own video\n\nRun this cell after the setup cells (install, unpack, find data). "
+           "Add your floor-tour video as a Kaggle dataset and set `VIDEO_PATH` (or leave it empty to use the first video "
+           "found). It runs only the video tier on that one file and shows the rooms, warnings, COLMAP details and plan."),
+        code(CUSTOM_VIDEO),
     ]
     notebook = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python",
                                                             "name": "python3"},
