@@ -11,6 +11,7 @@ import logging
 import shutil
 import subprocess
 from pathlib import Path
+from dataclasses import dataclass
 from typing import Optional
 
 logger = logging.getLogger(__name__)
@@ -51,6 +52,92 @@ def convert_heic_to_jpeg(input_path: str, output_path: str, quality: int = 95) -
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         img.save(output_path, "JPEG", quality=quality, exif=exif)
     return output_path
+
+
+@dataclass
+class PreparedImage:
+    """One image as COLMAP sees it, and how it differs from the user's file."""
+
+    source: str  # the user's original file
+    name: str  # staged file name: 000.jpg, 001.jpg, ... (COLMAP sorts lexicographically)
+    rotated: bool  # a portrait image was turned 90 degrees counterclockwise into landscape
+    resize_scale: float  # staged size / original size (1.0 = not resized)
+    original_size: tuple[int, int]  # (width, height) after EXIF orientation, before rotation and resizing
+
+
+MAX_COLMAP_SIDE = 3200  # pixels; COLMAP is slower, not more accurate, on larger images
+
+
+def prepare_images_for_colmap(images: list[str], out_dir: str, max_side: int = MAX_COLMAP_SIDE) -> list[PreparedImage]:
+    """Stage images for COLMAP in out_dir, every time, in this order:
+
+    1. apply the EXIF orientation to the pixels (PIL ImageOps.exif_transpose);
+    2. rotate portrait images (height > width) 90 degrees counterclockwise to landscape;
+    3. downscale images whose longest side exceeds max_side;
+    4. save as 000.jpg, 001.jpg, ... (one list entry per input; unreadable files are skipped).
+
+    Originals are never modified. The returned records let restore_pose map a COLMAP camera pose back to
+    the original image (undoing rotation and scale), so gravity alignment and damage projection still see
+    upright, full-size images. Logs "Preprocessed N images: M rotated, K resized".
+    """
+    from PIL import Image, ImageOps
+
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    prepared: list[PreparedImage] = []
+    for src in images:
+        try:
+            with Image.open(src) as img:
+                img = ImageOps.exif_transpose(img).convert("RGB")
+        except Exception as exc:
+            logger.warning("cannot prepare %s for COLMAP: %s", src, exc)
+            continue
+        original_size = img.size
+        rotated = img.height > img.width
+        if rotated:
+            img = img.transpose(Image.Transpose.ROTATE_90)  # PIL rotates counterclockwise
+        scale = 1.0
+        longest = max(img.size)
+        if longest > max_side:
+            scale = max_side / longest
+            img = img.resize((round(img.width * scale), round(img.height * scale)), Image.Resampling.LANCZOS)
+        name = f"{len(prepared):03d}.jpg"
+        img.save(out / name, "JPEG", quality=95)
+        prepared.append(PreparedImage(str(src), name, rotated, scale, original_size))
+    logger.info("Preprocessed %d images: %d rotated, %d resized", len(prepared),
+                sum(p.rotated for p in prepared), sum(p.resize_scale < 1.0 for p in prepared))
+    return prepared
+
+
+def restore_pose(rotation, translation, intrinsics, item: PreparedImage):
+    """Map a COLMAP camera (world-to-camera R, t and 3 x 3 K of the staged image) back to the original image.
+
+    A 90 degree counterclockwise image rotation maps camera coordinates (X, Y, Z) to (Y, -X, Z), so the
+    original pose is that rotation undone; pixel coordinates map back as u = W - v', v = u'. Resizing only
+    scales the intrinsics. Returns (R, t, K) for the original image's orientation and size.
+    """
+    import numpy as np
+
+    rotation, translation, k = np.array(rotation, float), np.array(translation, float), np.array(intrinsics, float)
+    if item.resize_scale != 1.0:
+        k = k.copy()
+        k[:2, :] = k[:2, :] / item.resize_scale
+    if item.rotated:
+        m_inv = np.array([[0.0, -1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 1.0]])  # inverse of (X,Y)->(Y,-X)
+        rotation, translation = m_inv @ rotation, m_inv @ translation
+        width = item.original_size[0]
+        k = np.array([[k[1, 1], 0.0, width - k[1, 2]], [0.0, k[0, 0], k[0, 2]], [0.0, 0.0, 1.0]])
+    return rotation, translation, k
+
+
+def restore_prior(prior: tuple[float, float, float] | None, item: PreparedImage):
+    """Camera prior (f, cx, cy) given for the original image, expressed for the staged image."""
+    if prior is None:
+        return None
+    f, cx, cy = prior
+    if item.rotated:
+        f, cx, cy = f, cy, item.original_size[0] - cx
+    return (f * item.resize_scale, cx * item.resize_scale, cy * item.resize_scale)
 
 
 def stage_upright_copy(src: str, dst: str) -> None:

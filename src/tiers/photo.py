@@ -11,7 +11,8 @@ from pathlib import Path
 
 from src.room_ir import PropertyIR, RoomIR
 from src.tiers.colmap_utils import ColmapError, make_metric_point_cloud, run_colmap_reconstruction
-from src.tiers.preprocessing import CONVERT_IMAGE_EXTS, list_room_images, stage_upright_copy
+from src.tiers.preprocessing import (CONVERT_IMAGE_EXTS, list_room_images, prepare_images_for_colmap,
+                                     restore_pose)
 from src.tiers.single_image import estimate_room_from_images
 
 logger = logging.getLogger(__name__)
@@ -30,15 +31,21 @@ def _reconstruct_room(room_dir: Path, workspace: Path) -> RoomIR:
     images = _usable_images(room_dir)
     if len(images) < 2:
         raise ColmapError(f"only {len(images)} usable image(s)")
+    # Every time, before COLMAP: EXIF orientation applied, portrait turned to landscape, oversize images
+    # downscaled, files renamed 000.jpg, 001.jpg, ... Originals stay untouched.
     image_dir = workspace / "images"
-    image_dir.mkdir(parents=True)
-    for i, src in enumerate(images):  # staged under unique names; originals stay untouched
-        stage_upright_copy(src, str(image_dir / f"{i:03d}{Path(src).suffix.lower()}"))
+    prepared = prepare_images_for_colmap(images, str(image_dir))
+    if len(prepared) < 2:
+        raise ColmapError(f"only {len(prepared)} readable image(s)")
+    by_name = {p.name: p for p in prepared}
 
     points, poses = run_colmap_reconstruction(str(image_dir), str(workspace), matcher="exhaustive")
+    for pose in poses:  # back to the user's files: original orientation and size, so "up" is up again
+        item = by_name[Path(pose.image_path).name]
+        pose.rotation, pose.translation, pose.intrinsics = restore_pose(
+            pose.rotation, pose.translation, pose.intrinsics, item)
+        pose.image_path = item.source
     cloud, poses, meta = make_metric_point_cloud(points, poses)
-    for pose in poses:  # point back at the user's files
-        pose.image_path = images[int(Path(pose.image_path).stem)]
     extent = cloud.points.max(axis=0) - cloud.points.min(axis=0)
     room = RoomIR(
         room_id=room_dir.name, point_cloud=cloud, camera_poses=poses, images=images, tier="photo",
@@ -70,7 +77,7 @@ def process_photos(capture_dir: str) -> PropertyIR:
                 rooms.append(_reconstruct_room(room_dir, work_root / room_dir.name))
                 logger.info("%s: %s", room_dir.name, rooms[-1].metadata)
                 continue
-            except (ColmapError, ValueError) as exc:
+            except Exception as exc:  # COLMAP failures, a model too small to align, unreadable images
                 reason = str(exc)
                 logger.warning("reconstruction failed for %s: %s", room_dir.name, reason)
                 print(f"warning: reconstruction failed for {room_dir.name}: {reason}", flush=True)

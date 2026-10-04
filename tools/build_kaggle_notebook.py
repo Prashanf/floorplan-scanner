@@ -268,7 +268,11 @@ def log_facts(path):
     return {
         "geometry_failed": len(re.findall(r"(?m)^warning: geometry failed", text)),
         "no_ceiling": len(re.findall(r"no ceiling scanned", text)),
-        "colmap_retry": len(re.findall(r"retrying with settings", text)),
+        "colmap_retry": len(re.findall(r"failed, trying next", text)),
+        "colmap_configs": ",".join(sorted(set(re.findall(r"COLMAP succeeded with config: (\\w+)", text)))),
+        "keyframe_sets": len(re.findall(r"reconstructing from \\d+ keyframes", text)),
+        "rotated_images": sum(int(m[1]) for m in re.findall(r"Preprocessed (\\d+) images: (\\d+) rotated, (\\d+) resized", text)),
+        "resized_images": sum(int(m[2]) for m in re.findall(r"Preprocessed (\\d+) images: (\\d+) rotated, (\\d+) resized", text)),
         "skipped_rooms": len(re.findall(r"(?m)^warning: reconstruction failed for", text)),
         "fallback_rooms": len(re.findall(r"Fallback: single-image room estimate", text)) // 2 or len(re.findall(r"(?m)^warning: Fallback: single-image", text)),
         "overlaps": len(re.findall(r"overlap by", text)),

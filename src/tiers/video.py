@@ -12,7 +12,8 @@ import numpy as np
 
 from src.room_ir import CameraPose, PointCloud, PropertyIR, RoomIR
 from src.tiers.colmap_utils import ColmapError, make_metric_point_cloud, run_colmap_reconstruction
-from src.tiers.preprocessing import list_videos, video_readable
+from src.tiers.preprocessing import (list_videos, prepare_images_for_colmap, restore_pose, restore_prior,
+                                     video_readable)
 from src.tiers.room_segmentation import segment_rooms
 from src import config as cfg
 
@@ -22,6 +23,14 @@ TARGET_KEYFRAMES = cfg.KEYFRAME_MAX_COUNT
 KEYFRAME_SECONDS = cfg.KEYFRAME_SECONDS
 MAX_LONG_EDGE = cfg.KEYFRAME_MAX_LONG_EDGE
 FALLBACK_STEP = 20  # frames, when the container does not report a frame count
+
+# Keyframe cascade: if COLMAP fails on one keyframe set, denser keyframes are extracted and it is tried again.
+# The first attempt uses motion-based keyframes (a new one whenever the view changed).
+KEYFRAME_CONFIGS = [
+    {"interval": 10, "name": "dense"},  # every 10th frame
+    {"interval": 5, "name": "very_dense"},  # every 5th frame
+    {"interval": 3, "name": "maximum"},  # every 3rd frame
+]
 
 
 def find_videos(capture_dir: str) -> list[Path]:
@@ -237,29 +246,49 @@ def process_video(capture_dir: str) -> PropertyIR:
     try:
         frame_dir = work / "images"
         total_frames = sum(_frame_count(v) for v in videos)
-        retry_step = max(cfg.VIDEO_RETRY_STEP, -(-total_frames // cfg.VIDEO_RETRY_MAX_FRAMES))
-        attempts = [("motion-based keyframes", {"mode": "motion"}),
-                    (f"every {retry_step}th frame (more overlap)", {"mode": "windowed", "step": retry_step})]
+        floor_interval = max(1, -(-total_frames // cfg.VIDEO_RETRY_MAX_FRAMES))  # keep at most N keyframes
+        attempts = [("motion-based keyframes", {"mode": "motion"})]
+        tried = set()
+        for config in KEYFRAME_CONFIGS:
+            interval = max(config["interval"], floor_interval)
+            if interval in tried:  # long videos hit the cap: the denser settings would repeat this attempt
+                continue
+            tried.add(interval)
+            attempts.append((f"{config['name']} keyframes (every {interval}th frame)",
+                             {"mode": "windowed", "step": interval}))
         last_error: Exception | None = None
         for label, options in attempts:
             shutil.rmtree(frame_dir, ignore_errors=True)
             for i, video in enumerate(videos):
                 extract_keyframes(str(video), str(frame_dir), prefix=f"v{i}", **options)
-            frames = {Path(p).name: p for p in map(str, sorted(frame_dir.iterdir()))}
+            keyframes = sorted(str(p) for p in frame_dir.iterdir())
+            frames = {Path(p).name: p for p in keyframes}
             if len(frames) < 3:
                 last_error = ColmapError(f"only {len(frames)} keyframes extracted; is the video empty?")
                 continue
-            prior = _camera_prior(videos[0], next(iter(frames.values()))) if len(videos) == 1 else None
+            # Same preparation as photos: EXIF orientation, portrait to landscape, size cap, 000.jpg names.
+            prepared_dir = work / "prepared"
+            shutil.rmtree(prepared_dir, ignore_errors=True)
+            prepared = prepare_images_for_colmap(keyframes, str(prepared_dir))
+            by_name = {p.name: p for p in prepared}
+            prior = _camera_prior(videos[0], keyframes[0]) if len(videos) == 1 else None
+            prior = restore_prior(prior, prepared[0]) if prepared else None
             if prior:
                 logger.info("using the intrinsics logged beside the video: f=%.0f px", prior[0])
-            logger.info("reconstructing from %d keyframes (%s)", len(frames), label)
+            logger.info("reconstructing from %d keyframes (%s)", len(prepared), label)
             try:
-                points, poses = run_colmap_reconstruction(str(frame_dir), str(work), matcher="sequential",
+                points, poses = run_colmap_reconstruction(str(prepared_dir), str(work), matcher="sequential",
                                                           camera_prior=prior)
-                break
             except ColmapError as exc:
                 last_error = exc
                 logger.warning("reconstruction from %s failed: %s", label, exc)
+                continue
+            for pose in poses:  # back to the keyframe files: original orientation and size
+                item = by_name[Path(pose.image_path).name]
+                pose.rotation, pose.translation, pose.intrinsics = restore_pose(
+                    pose.rotation, pose.translation, pose.intrinsics, item)
+                pose.image_path = item.source
+            break
         else:
             raise last_error or ColmapError("video reconstruction failed")
         cloud, poses, meta = make_metric_point_cloud(points, poses)
