@@ -10,6 +10,7 @@ from pathlib import Path
 import numpy as np
 
 from src import __version__
+from src import config as cfg
 from src.calibration.confidence import calibrate_measurements
 from src.damage.concealed_rules import check_concealed_damage
 from src.damage.detection import detect_damage
@@ -165,7 +166,7 @@ def run_pipeline(
         try:
             room.wall_segments, room.floor_polygon = fit_walls(
                 room.point_cloud, inlier_threshold=WALL_INLIER_THRESHOLD[tier],
-                reference_angle=0.0 if tier == "lidar" else None)  # lidar clouds are wall-aligned
+                reference_angle=0.0 if (tier == "lidar" or room.metadata.get("aligned_to_walls")) else None)  # clouds rotated onto the axes
             room.ceiling_observed = is_ceiling_observed(room.point_cloud)
             if room.ceiling_observed:
                 room.ceiling_height, _ = detect_ceiling_height(room.point_cloud)
@@ -189,6 +190,13 @@ def run_pipeline(
         return _finish(_failure_report(capture_dir, tier,
                                        [_failure_message(tier, "no room geometry could be fitted")] + warnings,
                                        t_start), output_dir, render, timings, t_start)
+    if tier in ("photo", "video"):
+        for room in solved:
+            area = compute_floor_area(room.floor_polygon)
+            if area < cfg.MIN_ROOM_AREA_WARN or area > cfg.MAX_ROOM_AREA_WARN or room.metadata.get("scale_unreliable"):
+                log.warning("%s: scale recovery may be unreliable (room area %.1f m2)", room.room_id, area)
+                warnings.append(f"{room.room_id}: scale recovery may be unreliable (room area {area:.1f} m2, "
+                                f"scale from the {room.metadata.get('scale_method', 'unknown')} step).")
     property_ir.rooms = solved
     timed("geometry", t)
 
@@ -211,10 +219,13 @@ def run_pipeline(
     images = list(dict.fromkeys(img for r in damage_rooms for img in r.images))
     extent_error = BASE_ERROR["damage"] * TIER_MULTIPLIER[tier]
     if images:
-        detections = detect_damage(images)
+        if tier == "video":  # keyframes in time order, so "consecutive frames" means consecutive in time
+            images = sorted(images)
+        detections = detect_damage(images, persistent_frames=cfg.PERSISTENT_FRAME_LIMIT if tier == "video" else 0)
         projected = project_damage_to_surfaces(detections, damage_rooms)
     else:
         detections, projected = [], []
+    projected = _cap_room_detections(projected, warnings)
     flags = check_concealed_damage(damage_rooms, projected)
     scope_items = generate_scope(projected, flags, extent_error=extent_error)
     damage_regions = [_build_damage_region(d, tier) for d in projected]
@@ -251,6 +262,23 @@ def run_pipeline(
 
     # 10-11. outputs and timing summary
     return _finish(report, output_dir, render, timings, t_start)
+
+
+def _cap_room_detections(projected: list, warnings: list[str]) -> list:
+    """More than ROOM_DETECTION_CAP detections in one room is a false-positive pattern: keep the strongest few."""
+    by_room: dict[str, list] = {}
+    for d in projected:
+        by_room.setdefault(d.room_id, []).append(d)
+    kept: list = []
+    for room_id, items in by_room.items():
+        if len(items) > cfg.ROOM_DETECTION_CAP:
+            log.warning("%s: high false positive rate (%d damage detections); keeping the %d strongest",
+                        room_id, len(items), cfg.ROOM_DETECTION_KEEP)
+            warnings.append(f"{room_id}: high false positive rate ({len(items)} damage detections); only the "
+                            f"{cfg.ROOM_DETECTION_KEEP} strongest are reported.")
+            items = sorted(items, key=lambda d: -d.damage_detection.confidence)[:cfg.ROOM_DETECTION_KEEP]
+        kept.extend(items)
+    return [d for d in projected if d in kept]  # keeps the original order
 
 
 def _failure_message(tier: str, detail: str) -> str:

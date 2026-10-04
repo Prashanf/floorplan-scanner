@@ -53,7 +53,7 @@ def test_recover_scale_from_door():
 
 def test_recover_scale_ignores_implausible_door_then_uses_longest_wall():
     est = cu.recover_scale(PointCloud(np.zeros((1, 3))), [door(0.2)], [wall(3.0), wall(5.0)])
-    assert est.method == "longest-wall" and est.factor == pytest.approx(4.0 / 5.0)
+    assert est.method == "longest-wall" and est.factor == pytest.approx(cu.TYPICAL_LONGEST_WALL / 5.0)
 
 
 def test_recover_scale_nothing_usable():

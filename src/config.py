@@ -33,7 +33,11 @@ WINDOW_LINTEL_MIN = 0.1  # a window must end this far below the top of the wall
 OPENING_PLANE_DISTANCE = 0.15  # points this close to the wall plane belong to the wall
 OPENING_BIN_WIDTH = 0.05
 
-# --- Scale recovery for photo and video (src/tiers/colmap_utils.py) ---------------------------
+# --- Scale recovery for photo and video (src/tiers/colmap_utils.py)
+MIN_PLAUSIBLE_AREA = 4.0  # m2: a reconstruction smaller than this is no real room, so the next scale prior is tried
+MIN_ROOM_AREA_WARN = 2.0  # a room outside [MIN_ROOM_AREA_WARN, MAX_ROOM_AREA_WARN] m2 gets a scale warning
+MAX_ROOM_AREA_WARN = 100.0
+TYPICAL_LONGEST_WALL = 3.5  # last-resort prior: the longest wall is about this long (m) ---------------------------
 DEFAULT_DOOR_WIDTH = 0.86  # US interior door. Indian and many other doors are 0.75 to 0.90:
 # the interval widens by tier, but a non-standard door biases the whole room.
 TYPICAL_CEILING = 2.5
@@ -82,8 +86,14 @@ ROUGH_ESTIMATE_RELATIVE_ERROR = 0.5  # single-image fallback rooms: +/-50 % on e
 UNOBSERVED_CEILING_EXTRA = 1.0  # no ceiling scanned: the true height lies up to this far above the highest point
 
 # --- Damage detection (src/damage/detection.py) -----------------------------------------------
-CRACK_EDGE_MIN_LENGTH = 50  # pixels at the 1280 px working size
-STAIN_MIN_AREA = 500
-MOLD_MIN_AREA = 300
+CRACK_EDGE_MIN_LENGTH = 150  # pixels at the 1280 px working size (tile grout and furniture edges are shorter)
+STAIN_MIN_AREA = 2000
+MOLD_MIN_AREA = 1500
+MAX_DETECTION_AREA_FRACTION = 0.2  # a detection covering more of the image than this is a wall or object
+MAX_DETECTIONS_PER_IMAGE = 5  # strongest only
+PERSISTENT_FRAME_LIMIT = 3  # video: a detection at the same image position in more than this many consecutive frames is dropped
+PERSISTENT_IOU = 0.5  # overlap that counts as "the same position"
+ROOM_DETECTION_CAP = 20  # more detections than this in one room: assume false positives ...
+ROOM_DETECTION_KEEP = 10  # ... and keep only the strongest this many
 WATER_STAIN_HSV = {"lo": (15, 30, 100), "hi": (35, 150, 220)}  # H, S, V
 MOLD_HSV = {"lo": (35, 20, 0), "hi": (85, 100, 100)}
