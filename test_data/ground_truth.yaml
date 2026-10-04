@@ -1,0 +1,84 @@
+capture: synthetic apartment (create_test_ply.py)
+wall_thickness_m: 0.12
+rooms:
+- room_id: room-1
+  name: Room 1
+  origin_xy:
+  - 0.0
+  - 0.0
+  walls:
+  - id: wall-south
+    length_m: 4.0
+  - id: wall-east
+    length_m: 3.0
+  - id: wall-north
+    length_m: 4.0
+  - id: wall-west
+    length_m: 3.0
+  ceiling_height_m: 2.5
+  openings:
+  - id: door-1
+    type: door
+    wall: wall-east
+    width_m: 0.86
+    height_m: 2.1
+  floor_area_m2: 12.0
+- room_id: room-2
+  name: Hallway
+  origin_xy:
+  - 4.12
+  - 0.0
+  walls:
+  - id: wall-south
+    length_m: 1.2
+  - id: wall-east
+    length_m: 3.0
+  - id: wall-north
+    length_m: 1.2
+  - id: wall-west
+    length_m: 3.0
+  ceiling_height_m: 2.5
+  openings:
+  - id: door-1
+    type: door
+    wall: wall-west
+    width_m: 0.86
+    height_m: 2.1
+  - id: door-2
+    type: door
+    wall: wall-east
+    width_m: 0.86
+    height_m: 2.1
+  floor_area_m2: 3.6
+- room_id: room-3
+  name: Room 2
+  origin_xy:
+  - 5.44
+  - 0.0
+  walls:
+  - id: wall-south
+    length_m: 3.5
+  - id: wall-east
+    length_m: 3.0
+  - id: wall-north
+    length_m: 3.5
+  - id: wall-west
+    length_m: 3.0
+  ceiling_height_m: 2.5
+  openings:
+  - id: door-1
+    type: door
+    wall: wall-west
+    width_m: 0.86
+    height_m: 2.1
+  floor_area_m2: 10.5
+adjacencies:
+- rooms:
+  - room-1
+  - room-2
+  door_width_m: 0.86
+- rooms:
+  - room-2
+  - room-3
+  door_width_m: 0.86
+total_floor_area_m2: 26.1

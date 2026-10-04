@@ -13,6 +13,7 @@ How to capture: [`capture_protocol.md`](capture_protocol.md). Hardware and accur
 ## Prerequisites
 - Python 3.10+
 - COLMAP (photo and video tiers): `brew install colmap`
+- macOS: `brew install libusb` (Open3D loads it)
 
 ## Install
 ```bash
@@ -28,6 +29,13 @@ python run.py ./captures/video  --tier video
 python run.py ./captures/photos --tier photo
 ```
 Options: `--output-dir ./output/`, `--no-drift-correction` (ablation), `--render/--no-render`, `--verbose`.
+
+### Try it without a phone
+```bash
+python tests/create_test_ply.py          # writes test_data/apartment.ply + ground_truth.yaml
+python run.py ./test_data/ --tier lidar
+```
+On macOS, Open3D also needs `brew install libusb`.
 
 ## Output
 In `--output-dir`:
@@ -47,4 +55,4 @@ Every measurement is `{value, confidence_low, confidence_high, unit}`. Empty lis
 - `fix_loop/` fix declaration, before and after runs
 
 ## Status
-Implemented: schema, CLI, preprocessing, capture protocol, device matrix, geometry (walls, ceiling, openings, floor area; tested on a synthetic room). Tier front-ends, stitching, damage and output steps are stubs; the CLI reports each as "not yet implemented".
+Working end to end: LiDAR tier (PLY/OBJ, room segmentation), geometry, JSON report, rendered plan. Stubs: photo and video front-ends, stitching and drift correction, damage detection, concealed-damage rules and scope. Until stitching exists, rooms keep their capture-frame coordinates and `adjacencies` is empty.
