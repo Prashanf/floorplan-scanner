@@ -1,0 +1,47 @@
+{
+  "rooms": [
+    {
+      "id": "room-1",
+      "walls": [
+        {"id": "wall-south", "length": {"value": 3.98}},
+        {"id": "wall-east", "length": {"value": 3.05}},
+        {"id": "wall-north", "length": {"value": 4.05}},
+        {"id": "wall-west", "length": {"value": 2.97}}
+      ],
+      "openings": [
+        {"id": "door-1", "type": "door", "width": {"value": 0.88}}
+      ],
+      "ceiling_height": {"value": 2.52},
+      "floor_area": {"value": 12.3}
+    },
+    {
+      "id": "room-2",
+      "walls": [
+        {"id": "wall-south", "length": {"value": 1.18}},
+        {"id": "wall-east", "length": {"value": 3.02}},
+        {"id": "wall-north", "length": {"value": 1.22}},
+        {"id": "wall-west", "length": {"value": 2.98}}
+      ],
+      "openings": [
+        {"id": "door-1", "type": "door", "width": {"value": 0.84}},
+        {"id": "door-2", "type": "door", "width": {"value": 0.89}}
+      ],
+      "ceiling_height": {"value": 2.51},
+      "floor_area": {"value": 3.7}
+    },
+    {
+      "id": "room-3",
+      "walls": [
+        {"id": "wall-south", "length": {"value": 3.53}},
+        {"id": "wall-east", "length": {"value": 2.96}},
+        {"id": "wall-north", "length": {"value": 3.48}},
+        {"id": "wall-west", "length": {"value": 3.03}}
+      ],
+      "openings": [
+        {"id": "door-1", "type": "door", "width": {"value": 0.90}}
+      ],
+      "ceiling_height": {"value": 2.48},
+      "floor_area": {"value": 10.6}
+    }
+  ]
+}
