@@ -1,0 +1,10 @@
+
+=== sample_lidar_single_room ===
+  PASS: 3 rooms, 8.6 m2, 0 adjacencies, 0 damage regions, 0 concealed flags, 0 scope items
+
+=== sample_lidar_single_scan_floor_only ===
+  PASS: 9 rooms, 32.4 m2, 3 adjacencies, 0 damage regions, 0 concealed flags, 0 scope items
+
+=== sample_lidar_single_scan_with_ceiling ===
+  PASS: 10 rooms, 56.2 m2, 7 adjacencies, 0 damage regions, 8 concealed flags, 8 scope items
+

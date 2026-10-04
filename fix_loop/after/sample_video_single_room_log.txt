@@ -1,0 +1,1681 @@
+Pipeline 0.1.0 | tier=video | drift_correction=True
+Found 0 images in 0 formats, 1 videos
+1 room(s) found
+warning: geometry failed for room-1: neither wall lines nor a room outline found
+warning: COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+warning: room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+Wrote output/sample_video_single_room/report.json
+Wrote output/sample_video_single_room/floor_plan.png
+Timing: preprocess 0.26s, video front-end 54.68s, geometry 0.00s, write JSON 0.01s, render 0.35s | total 55.30s
+
+--- Summary ---
+tier: video | rooms: 0 | total floor area: 0.00 m² [0.00, 0.00]
+no rooms could be reconstructed from this capture (see warnings in the report)
+  warning: COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+  warning: room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+report: output/sample_video_single_room/report.json
+plan:   output/sample_video_single_room/floor_plan.png
+
+INFO floorplan: drift_correction=True
+INFO src.tiers.video: rgb.mp4: 1714 frames -> 143 motion keyframes
+DEBUG PIL.Image: Importing JpegImagePlugin
+INFO src.tiers.preprocessing: Preprocessed 143 images: 0 rotated, 0 resized
+INFO src.tiers.video: using the intrinsics logged beside the video: f=1600 px
+INFO src.tiers.video: reconstructing from 143 keyframes (motion-based keyframes)
+INFO src.tiers.colmap_utils: COLMAP attempt: strict
+INFO src.tiers.colmap_utils: COLMAP device: GPU (4 feature/matching thread(s))
+I20261004 17:34:31.834341 132378057705152 feature_extraction.cc:498] === Feature extraction ===
+I20261004 17:34:31.834831 132376929752768 sift.cc:758] Creating SIFT GPU feature extractor
+I20261004 17:34:31.834876 132376921360064 sift.cc:758] Creating SIFT GPU feature extractor
+I20261004 17:34:32.321476 132376912967360 feature_extraction.cc:270] Processed file [1/143]
+I20261004 17:34:32.321526 132376912967360 feature_extraction.cc:273]   Name:            000.jpg
+I20261004 17:34:32.321536 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.321542 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.321548 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.321561 132376912967360 feature_extraction.cc:294]   Features:        2806 (SIFT)
+I20261004 17:34:32.362111 132376912967360 feature_extraction.cc:270] Processed file [2/143]
+I20261004 17:34:32.362160 132376912967360 feature_extraction.cc:273]   Name:            001.jpg
+I20261004 17:34:32.362170 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.362177 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.362184 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.362195 132376912967360 feature_extraction.cc:294]   Features:        1340 (SIFT)
+I20261004 17:34:32.387458 132376912967360 feature_extraction.cc:270] Processed file [3/143]
+I20261004 17:34:32.387492 132376912967360 feature_extraction.cc:273]   Name:            002.jpg
+I20261004 17:34:32.387502 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.387509 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.387516 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.387529 132376912967360 feature_extraction.cc:294]   Features:        768 (SIFT)
+I20261004 17:34:32.567063 132376912967360 feature_extraction.cc:270] Processed file [4/143]
+I20261004 17:34:32.567113 132376912967360 feature_extraction.cc:273]   Name:            003.jpg
+I20261004 17:34:32.567121 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.567126 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.567134 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.567150 132376912967360 feature_extraction.cc:294]   Features:        642 (SIFT)
+I20261004 17:34:32.684812 132376912967360 feature_extraction.cc:270] Processed file [5/143]
+I20261004 17:34:32.684852 132376912967360 feature_extraction.cc:273]   Name:            004.jpg
+I20261004 17:34:32.684859 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.684865 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.684872 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.684885 132376912967360 feature_extraction.cc:294]   Features:        697 (SIFT)
+I20261004 17:34:32.778812 132376912967360 feature_extraction.cc:270] Processed file [6/143]
+I20261004 17:34:32.778841 132376912967360 feature_extraction.cc:273]   Name:            005.jpg
+I20261004 17:34:32.778846 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.778850 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.778855 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.778885 132376912967360 feature_extraction.cc:294]   Features:        830 (SIFT)
+I20261004 17:34:32.779479 132376912967360 feature_extraction.cc:270] Processed file [7/143]
+I20261004 17:34:32.779502 132376912967360 feature_extraction.cc:273]   Name:            006.jpg
+I20261004 17:34:32.779508 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.779514 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.779536 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.779545 132376912967360 feature_extraction.cc:294]   Features:        1299 (SIFT)
+I20261004 17:34:32.860805 132376912967360 feature_extraction.cc:270] Processed file [8/143]
+I20261004 17:34:32.860840 132376912967360 feature_extraction.cc:273]   Name:            007.jpg
+I20261004 17:34:32.860847 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.860853 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.860859 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.860870 132376912967360 feature_extraction.cc:294]   Features:        1339 (SIFT)
+I20261004 17:34:32.861790 132376912967360 feature_extraction.cc:270] Processed file [9/143]
+I20261004 17:34:32.861823 132376912967360 feature_extraction.cc:273]   Name:            009.jpg
+I20261004 17:34:32.861829 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.861834 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.861840 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.861849 132376912967360 feature_extraction.cc:294]   Features:        1090 (SIFT)
+I20261004 17:34:32.942973 132376912967360 feature_extraction.cc:270] Processed file [10/143]
+I20261004 17:34:32.943007 132376912967360 feature_extraction.cc:273]   Name:            008.jpg
+I20261004 17:34:32.943013 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.943018 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.943025 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.943035 132376912967360 feature_extraction.cc:294]   Features:        1192 (SIFT)
+I20261004 17:34:32.943910 132376912967360 feature_extraction.cc:270] Processed file [11/143]
+I20261004 17:34:32.943933 132376912967360 feature_extraction.cc:273]   Name:            010.jpg
+I20261004 17:34:32.943939 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:32.943946 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:32.943952 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:32.943962 132376912967360 feature_extraction.cc:294]   Features:        1016 (SIFT)
+I20261004 17:34:33.026149 132376912967360 feature_extraction.cc:270] Processed file [12/143]
+I20261004 17:34:33.026184 132376912967360 feature_extraction.cc:273]   Name:            011.jpg
+I20261004 17:34:33.026190 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.026196 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.026202 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.026214 132376912967360 feature_extraction.cc:294]   Features:        824 (SIFT)
+I20261004 17:34:33.026711 132376912967360 feature_extraction.cc:270] Processed file [13/143]
+I20261004 17:34:33.026730 132376912967360 feature_extraction.cc:273]   Name:            012.jpg
+I20261004 17:34:33.026736 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.026741 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.026747 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.026756 132376912967360 feature_extraction.cc:294]   Features:        688 (SIFT)
+I20261004 17:34:33.101934 132376912967360 feature_extraction.cc:270] Processed file [14/143]
+I20261004 17:34:33.101970 132376912967360 feature_extraction.cc:273]   Name:            013.jpg
+I20261004 17:34:33.101978 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.102011 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.102018 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.102029 132376912967360 feature_extraction.cc:294]   Features:        222 (SIFT)
+I20261004 17:34:33.102304 132376912967360 feature_extraction.cc:270] Processed file [15/143]
+I20261004 17:34:33.102322 132376912967360 feature_extraction.cc:273]   Name:            014.jpg
+I20261004 17:34:33.102327 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.102332 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.102400 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.102413 132376912967360 feature_extraction.cc:294]   Features:        11 (SIFT)
+I20261004 17:34:33.178867 132376912967360 feature_extraction.cc:270] Processed file [16/143]
+I20261004 17:34:33.178902 132376912967360 feature_extraction.cc:273]   Name:            015.jpg
+I20261004 17:34:33.178908 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.178914 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.178920 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.178931 132376912967360 feature_extraction.cc:294]   Features:        14 (SIFT)
+I20261004 17:34:33.179107 132376912967360 feature_extraction.cc:270] Processed file [17/143]
+I20261004 17:34:33.179125 132376912967360 feature_extraction.cc:273]   Name:            016.jpg
+I20261004 17:34:33.179194 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.179203 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.179209 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.179217 132376912967360 feature_extraction.cc:294]   Features:        61 (SIFT)
+I20261004 17:34:33.258764 132376912967360 feature_extraction.cc:270] Processed file [18/143]
+I20261004 17:34:33.258809 132376912967360 feature_extraction.cc:273]   Name:            017.jpg
+I20261004 17:34:33.258817 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.258822 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.258829 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.258842 132376912967360 feature_extraction.cc:294]   Features:        51 (SIFT)
+I20261004 17:34:33.259053 132376912967360 feature_extraction.cc:270] Processed file [19/143]
+I20261004 17:34:33.259071 132376912967360 feature_extraction.cc:273]   Name:            018.jpg
+I20261004 17:34:33.259076 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.259082 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.259105 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.259115 132376912967360 feature_extraction.cc:294]   Features:        134 (SIFT)
+I20261004 17:34:33.338386 132376912967360 feature_extraction.cc:270] Processed file [20/143]
+I20261004 17:34:33.338423 132376912967360 feature_extraction.cc:273]   Name:            019.jpg
+I20261004 17:34:33.338429 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.338435 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.338442 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.338454 132376912967360 feature_extraction.cc:294]   Features:        659 (SIFT)
+I20261004 17:34:33.338902 132376912967360 feature_extraction.cc:270] Processed file [21/143]
+I20261004 17:34:33.338960 132376912967360 feature_extraction.cc:273]   Name:            020.jpg
+I20261004 17:34:33.338967 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.338973 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.338978 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.338987 132376912967360 feature_extraction.cc:294]   Features:        1009 (SIFT)
+I20261004 17:34:33.417595 132376912967360 feature_extraction.cc:270] Processed file [22/143]
+I20261004 17:34:33.417630 132376912967360 feature_extraction.cc:273]   Name:            021.jpg
+I20261004 17:34:33.417637 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.417642 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.417648 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.417660 132376912967360 feature_extraction.cc:294]   Features:        416 (SIFT)
+I20261004 17:34:33.418003 132376912967360 feature_extraction.cc:270] Processed file [23/143]
+I20261004 17:34:33.418023 132376912967360 feature_extraction.cc:273]   Name:            022.jpg
+I20261004 17:34:33.418029 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.418034 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.418130 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.418141 132376912967360 feature_extraction.cc:294]   Features:        404 (SIFT)
+I20261004 17:34:33.497261 132376912967360 feature_extraction.cc:270] Processed file [24/143]
+I20261004 17:34:33.497296 132376912967360 feature_extraction.cc:273]   Name:            023.jpg
+I20261004 17:34:33.497303 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.497308 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.497315 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.497326 132376912967360 feature_extraction.cc:294]   Features:        321 (SIFT)
+I20261004 17:34:33.497613 132376912967360 feature_extraction.cc:270] Processed file [25/143]
+I20261004 17:34:33.497632 132376912967360 feature_extraction.cc:273]   Name:            024.jpg
+I20261004 17:34:33.497637 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.497643 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.497649 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.497657 132376912967360 feature_extraction.cc:294]   Features:        432 (SIFT)
+I20261004 17:34:33.577380 132376912967360 feature_extraction.cc:270] Processed file [26/143]
+I20261004 17:34:33.577412 132376912967360 feature_extraction.cc:273]   Name:            025.jpg
+I20261004 17:34:33.577419 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.577424 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.577430 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.577441 132376912967360 feature_extraction.cc:294]   Features:        663 (SIFT)
+I20261004 17:34:33.584250 132376912967360 feature_extraction.cc:270] Processed file [27/143]
+I20261004 17:34:33.584275 132376912967360 feature_extraction.cc:273]   Name:            026.jpg
+I20261004 17:34:33.584281 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.584287 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.584293 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.584371 132376912967360 feature_extraction.cc:294]   Features:        740 (SIFT)
+I20261004 17:34:33.664911 132376912967360 feature_extraction.cc:270] Processed file [28/143]
+I20261004 17:34:33.664943 132376912967360 feature_extraction.cc:273]   Name:            027.jpg
+I20261004 17:34:33.664950 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.664955 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.664962 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.664973 132376912967360 feature_extraction.cc:294]   Features:        1169 (SIFT)
+I20261004 17:34:33.665546 132376912967360 feature_extraction.cc:270] Processed file [29/143]
+I20261004 17:34:33.665568 132376912967360 feature_extraction.cc:273]   Name:            028.jpg
+I20261004 17:34:33.665574 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.665641 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.665650 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.665659 132376912967360 feature_extraction.cc:294]   Features:        1251 (SIFT)
+I20261004 17:34:33.745568 132376912967360 feature_extraction.cc:270] Processed file [30/143]
+I20261004 17:34:33.745605 132376912967360 feature_extraction.cc:273]   Name:            029.jpg
+I20261004 17:34:33.745612 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.745617 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.745624 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.745636 132376912967360 feature_extraction.cc:294]   Features:        1278 (SIFT)
+I20261004 17:34:33.746242 132376912967360 feature_extraction.cc:270] Processed file [31/143]
+I20261004 17:34:33.746263 132376912967360 feature_extraction.cc:273]   Name:            030.jpg
+I20261004 17:34:33.746269 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.746274 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.746343 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.746352 132376912967360 feature_extraction.cc:294]   Features:        1979 (SIFT)
+I20261004 17:34:33.823844 132376912967360 feature_extraction.cc:270] Processed file [32/143]
+I20261004 17:34:33.823880 132376912967360 feature_extraction.cc:273]   Name:            031.jpg
+I20261004 17:34:33.823887 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.823893 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.823900 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.823913 132376912967360 feature_extraction.cc:294]   Features:        1752 (SIFT)
+I20261004 17:34:33.824657 132376912967360 feature_extraction.cc:270] Processed file [33/143]
+I20261004 17:34:33.824679 132376912967360 feature_extraction.cc:273]   Name:            032.jpg
+I20261004 17:34:33.824686 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.824692 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.824698 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.824707 132376912967360 feature_extraction.cc:294]   Features:        1349 (SIFT)
+I20261004 17:34:33.902330 132376912967360 feature_extraction.cc:270] Processed file [34/143]
+I20261004 17:34:33.902363 132376912967360 feature_extraction.cc:273]   Name:            033.jpg
+I20261004 17:34:33.902371 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.902377 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.902384 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.902417 132376912967360 feature_extraction.cc:294]   Features:        1672 (SIFT)
+I20261004 17:34:33.933386 132376912967360 feature_extraction.cc:270] Processed file [35/143]
+I20261004 17:34:33.933418 132376912967360 feature_extraction.cc:273]   Name:            034.jpg
+I20261004 17:34:33.933424 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.933430 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.933436 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.933448 132376912967360 feature_extraction.cc:294]   Features:        2509 (SIFT)
+I20261004 17:34:33.934411 132376912967360 feature_extraction.cc:270] Processed file [36/143]
+I20261004 17:34:33.934433 132376912967360 feature_extraction.cc:273]   Name:            035.jpg
+I20261004 17:34:33.934438 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:33.934444 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:33.934450 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:33.934459 132376912967360 feature_extraction.cc:294]   Features:        2166 (SIFT)
+I20261004 17:34:34.015086 132376912967360 feature_extraction.cc:270] Processed file [37/143]
+I20261004 17:34:34.015180 132376912967360 feature_extraction.cc:273]   Name:            036.jpg
+I20261004 17:34:34.015189 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.015198 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.015205 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.015216 132376912967360 feature_extraction.cc:294]   Features:        2354 (SIFT)
+I20261004 17:34:34.052509 132376912967360 feature_extraction.cc:270] Processed file [38/143]
+I20261004 17:34:34.052553 132376912967360 feature_extraction.cc:273]   Name:            037.jpg
+I20261004 17:34:34.052562 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.052571 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.052577 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.052590 132376912967360 feature_extraction.cc:294]   Features:        2671 (SIFT)
+I20261004 17:34:34.053417 132376912967360 feature_extraction.cc:270] Processed file [39/143]
+I20261004 17:34:34.053452 132376912967360 feature_extraction.cc:273]   Name:            038.jpg
+I20261004 17:34:34.053461 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.053468 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.053474 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.053482 132376912967360 feature_extraction.cc:294]   Features:        961 (SIFT)
+I20261004 17:34:34.056198 132376912967360 feature_extraction.cc:270] Processed file [40/143]
+I20261004 17:34:34.056222 132376912967360 feature_extraction.cc:273]   Name:            039.jpg
+I20261004 17:34:34.056228 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.056233 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.056240 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.056248 132376912967360 feature_extraction.cc:294]   Features:        387 (SIFT)
+I20261004 17:34:34.151807 132376912967360 feature_extraction.cc:270] Processed file [41/143]
+I20261004 17:34:34.151860 132376912967360 feature_extraction.cc:273]   Name:            040.jpg
+I20261004 17:34:34.151870 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.151876 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.151903 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.151916 132376912967360 feature_extraction.cc:294]   Features:        87 (SIFT)
+I20261004 17:34:34.152118 132376912967360 feature_extraction.cc:270] Processed file [42/143]
+I20261004 17:34:34.152136 132376912967360 feature_extraction.cc:273]   Name:            041.jpg
+I20261004 17:34:34.152142 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.152150 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.152158 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.152167 132376912967360 feature_extraction.cc:294]   Features:        98 (SIFT)
+I20261004 17:34:34.214943 132376912967360 feature_extraction.cc:270] Processed file [43/143]
+I20261004 17:34:34.214992 132376912967360 feature_extraction.cc:273]   Name:            042.jpg
+I20261004 17:34:34.215001 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.215008 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.215013 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.215024 132376912967360 feature_extraction.cc:294]   Features:        72 (SIFT)
+I20261004 17:34:34.220080 132376912967360 feature_extraction.cc:270] Processed file [44/143]
+I20261004 17:34:34.220119 132376912967360 feature_extraction.cc:273]   Name:            043.jpg
+I20261004 17:34:34.220196 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.220209 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.220234 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.220244 132376912967360 feature_extraction.cc:294]   Features:        172 (SIFT)
+I20261004 17:34:34.283533 132376912967360 feature_extraction.cc:270] Processed file [45/143]
+I20261004 17:34:34.283577 132376912967360 feature_extraction.cc:273]   Name:            044.jpg
+I20261004 17:34:34.283586 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.283593 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.283599 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.283611 132376912967360 feature_extraction.cc:294]   Features:        534 (SIFT)
+I20261004 17:34:34.283956 132376912967360 feature_extraction.cc:270] Processed file [46/143]
+I20261004 17:34:34.283977 132376912967360 feature_extraction.cc:273]   Name:            045.jpg
+I20261004 17:34:34.283983 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.283992 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.284000 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.284010 132376912967360 feature_extraction.cc:294]   Features:        832 (SIFT)
+I20261004 17:34:34.345756 132376912967360 feature_extraction.cc:270] Processed file [47/143]
+I20261004 17:34:34.345802 132376912967360 feature_extraction.cc:273]   Name:            046.jpg
+I20261004 17:34:34.345812 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.345819 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.345825 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.345837 132376912967360 feature_extraction.cc:294]   Features:        918 (SIFT)
+I20261004 17:34:34.346271 132376912967360 feature_extraction.cc:270] Processed file [48/143]
+I20261004 17:34:34.346292 132376912967360 feature_extraction.cc:273]   Name:            047.jpg
+I20261004 17:34:34.346298 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.346406 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.346429 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.346451 132376912967360 feature_extraction.cc:294]   Features:        1084 (SIFT)
+I20261004 17:34:34.407537 132376912967360 feature_extraction.cc:270] Processed file [49/143]
+I20261004 17:34:34.407589 132376912967360 feature_extraction.cc:273]   Name:            048.jpg
+I20261004 17:34:34.407599 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.407606 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.407613 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.407624 132376912967360 feature_extraction.cc:294]   Features:        796 (SIFT)
+I20261004 17:34:34.408002 132376912967360 feature_extraction.cc:270] Processed file [50/143]
+I20261004 17:34:34.408023 132376912967360 feature_extraction.cc:273]   Name:            049.jpg
+I20261004 17:34:34.408030 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.408038 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.408127 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.408141 132376912967360 feature_extraction.cc:294]   Features:        613 (SIFT)
+I20261004 17:34:34.467416 132376912967360 feature_extraction.cc:270] Processed file [51/143]
+I20261004 17:34:34.467470 132376912967360 feature_extraction.cc:273]   Name:            050.jpg
+I20261004 17:34:34.467480 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.467488 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.467496 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.467508 132376912967360 feature_extraction.cc:294]   Features:        572 (SIFT)
+I20261004 17:34:34.467825 132376912967360 feature_extraction.cc:270] Processed file [52/143]
+I20261004 17:34:34.467847 132376912967360 feature_extraction.cc:273]   Name:            051.jpg
+I20261004 17:34:34.467855 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.467863 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.467936 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.467948 132376912967360 feature_extraction.cc:294]   Features:        565 (SIFT)
+I20261004 17:34:34.528374 132376912967360 feature_extraction.cc:270] Processed file [53/143]
+I20261004 17:34:34.528419 132376912967360 feature_extraction.cc:273]   Name:            052.jpg
+I20261004 17:34:34.528428 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.528436 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.528443 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.528454 132376912967360 feature_extraction.cc:294]   Features:        469 (SIFT)
+I20261004 17:34:34.528757 132376912967360 feature_extraction.cc:270] Processed file [54/143]
+I20261004 17:34:34.528778 132376912967360 feature_extraction.cc:273]   Name:            054.jpg
+I20261004 17:34:34.528784 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.528792 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.528800 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.528810 132376912967360 feature_extraction.cc:294]   Features:        401 (SIFT)
+I20261004 17:34:34.590390 132376912967360 feature_extraction.cc:270] Processed file [55/143]
+I20261004 17:34:34.590438 132376912967360 feature_extraction.cc:273]   Name:            053.jpg
+I20261004 17:34:34.590472 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.590479 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.590485 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.590497 132376912967360 feature_extraction.cc:294]   Features:        419 (SIFT)
+I20261004 17:34:34.590783 132376912967360 feature_extraction.cc:270] Processed file [56/143]
+I20261004 17:34:34.590803 132376912967360 feature_extraction.cc:273]   Name:            055.jpg
+I20261004 17:34:34.590809 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.590818 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.590827 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.590837 132376912967360 feature_extraction.cc:294]   Features:        519 (SIFT)
+I20261004 17:34:34.653267 132376912967360 feature_extraction.cc:270] Processed file [57/143]
+I20261004 17:34:34.653308 132376912967360 feature_extraction.cc:273]   Name:            056.jpg
+I20261004 17:34:34.653318 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.653326 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.653332 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.653342 132376912967360 feature_extraction.cc:294]   Features:        325 (SIFT)
+I20261004 17:34:34.653582 132376912967360 feature_extraction.cc:270] Processed file [58/143]
+I20261004 17:34:34.653599 132376912967360 feature_extraction.cc:273]   Name:            057.jpg
+I20261004 17:34:34.653605 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.653612 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.653620 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.653691 132376912967360 feature_extraction.cc:294]   Features:        588 (SIFT)
+I20261004 17:34:34.716630 132376912967360 feature_extraction.cc:270] Processed file [59/143]
+I20261004 17:34:34.716682 132376912967360 feature_extraction.cc:273]   Name:            058.jpg
+I20261004 17:34:34.716692 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.716699 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.716712 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.716724 132376912967360 feature_extraction.cc:294]   Features:        526 (SIFT)
+I20261004 17:34:34.717038 132376912967360 feature_extraction.cc:270] Processed file [60/143]
+I20261004 17:34:34.717058 132376912967360 feature_extraction.cc:273]   Name:            060.jpg
+I20261004 17:34:34.717067 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.717075 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.717157 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.717188 132376912967360 feature_extraction.cc:294]   Features:        230 (SIFT)
+I20261004 17:34:34.780540 132376912967360 feature_extraction.cc:270] Processed file [61/143]
+I20261004 17:34:34.780594 132376912967360 feature_extraction.cc:273]   Name:            059.jpg
+I20261004 17:34:34.780604 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.780612 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.780622 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.780634 132376912967360 feature_extraction.cc:294]   Features:        660 (SIFT)
+I20261004 17:34:34.781163 132376912967360 feature_extraction.cc:270] Processed file [62/143]
+I20261004 17:34:34.781215 132376912967360 feature_extraction.cc:273]   Name:            061.jpg
+I20261004 17:34:34.781226 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.781235 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.781247 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.781261 132376912967360 feature_extraction.cc:294]   Features:        244 (SIFT)
+I20261004 17:34:34.862265 132376912967360 feature_extraction.cc:270] Processed file [63/143]
+I20261004 17:34:34.862309 132376912967360 feature_extraction.cc:273]   Name:            062.jpg
+I20261004 17:34:34.862319 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.862327 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.862334 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.862345 132376912967360 feature_extraction.cc:294]   Features:        303 (SIFT)
+I20261004 17:34:34.900599 132376912967360 feature_extraction.cc:270] Processed file [64/143]
+I20261004 17:34:34.900645 132376912967360 feature_extraction.cc:273]   Name:            063.jpg
+I20261004 17:34:34.900656 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.900662 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.900669 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.900681 132376912967360 feature_extraction.cc:294]   Features:        338 (SIFT)
+I20261004 17:34:34.900901 132376912967360 feature_extraction.cc:270] Processed file [65/143]
+I20261004 17:34:34.900933 132376912967360 feature_extraction.cc:273]   Name:            064.jpg
+I20261004 17:34:34.900943 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.900954 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.900963 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.900975 132376912967360 feature_extraction.cc:294]   Features:        424 (SIFT)
+I20261004 17:34:34.903690 132376912967360 feature_extraction.cc:270] Processed file [66/143]
+I20261004 17:34:34.903722 132376912967360 feature_extraction.cc:273]   Name:            065.jpg
+I20261004 17:34:34.903729 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.903751 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.903758 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.903767 132376912967360 feature_extraction.cc:294]   Features:        572 (SIFT)
+I20261004 17:34:34.996555 132376912967360 feature_extraction.cc:270] Processed file [67/143]
+I20261004 17:34:34.996607 132376912967360 feature_extraction.cc:273]   Name:            066.jpg
+I20261004 17:34:34.996617 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.996625 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.996631 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.996645 132376912967360 feature_extraction.cc:294]   Features:        649 (SIFT)
+I20261004 17:34:34.996972 132376912967360 feature_extraction.cc:270] Processed file [68/143]
+I20261004 17:34:34.996995 132376912967360 feature_extraction.cc:273]   Name:            067.jpg
+I20261004 17:34:34.997003 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:34.997010 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:34.997016 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:34.997025 132376912967360 feature_extraction.cc:294]   Features:        588 (SIFT)
+I20261004 17:34:35.062494 132376912967360 feature_extraction.cc:270] Processed file [69/143]
+I20261004 17:34:35.062580 132376912967360 feature_extraction.cc:273]   Name:            068.jpg
+I20261004 17:34:35.062590 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.062598 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.062605 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.062616 132376912967360 feature_extraction.cc:294]   Features:        622 (SIFT)
+I20261004 17:34:35.062942 132376912967360 feature_extraction.cc:270] Processed file [70/143]
+I20261004 17:34:35.062971 132376912967360 feature_extraction.cc:273]   Name:            069.jpg
+I20261004 17:34:35.062980 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.062986 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.062993 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.063002 132376912967360 feature_extraction.cc:294]   Features:        670 (SIFT)
+I20261004 17:34:35.128347 132376912967360 feature_extraction.cc:270] Processed file [71/143]
+I20261004 17:34:35.128392 132376912967360 feature_extraction.cc:273]   Name:            070.jpg
+I20261004 17:34:35.128401 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.128410 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.128416 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.128428 132376912967360 feature_extraction.cc:294]   Features:        771 (SIFT)
+I20261004 17:34:35.128776 132376912967360 feature_extraction.cc:270] Processed file [72/143]
+I20261004 17:34:35.128795 132376912967360 feature_extraction.cc:273]   Name:            072.jpg
+I20261004 17:34:35.128801 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.128809 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.128817 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.128828 132376912967360 feature_extraction.cc:294]   Features:        668 (SIFT)
+I20261004 17:34:35.191429 132376912967360 feature_extraction.cc:270] Processed file [73/143]
+I20261004 17:34:35.191477 132376912967360 feature_extraction.cc:273]   Name:            071.jpg
+I20261004 17:34:35.191487 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.191496 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.191502 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.191513 132376912967360 feature_extraction.cc:294]   Features:        2208 (SIFT)
+I20261004 17:34:35.192313 132376912967360 feature_extraction.cc:270] Processed file [74/143]
+I20261004 17:34:35.192336 132376912967360 feature_extraction.cc:273]   Name:            073.jpg
+I20261004 17:34:35.192343 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.192350 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.192379 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.192390 132376912967360 feature_extraction.cc:294]   Features:        817 (SIFT)
+I20261004 17:34:35.259601 132376912967360 feature_extraction.cc:270] Processed file [75/143]
+I20261004 17:34:35.259654 132376912967360 feature_extraction.cc:273]   Name:            074.jpg
+I20261004 17:34:35.259673 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.259681 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.259704 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.259717 132376912967360 feature_extraction.cc:294]   Features:        652 (SIFT)
+I20261004 17:34:35.260103 132376912967360 feature_extraction.cc:270] Processed file [76/143]
+I20261004 17:34:35.260122 132376912967360 feature_extraction.cc:273]   Name:            075.jpg
+I20261004 17:34:35.260129 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.260136 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.260166 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.260178 132376912967360 feature_extraction.cc:294]   Features:        788 (SIFT)
+I20261004 17:34:35.324081 132376912967360 feature_extraction.cc:270] Processed file [77/143]
+I20261004 17:34:35.324183 132376912967360 feature_extraction.cc:273]   Name:            076.jpg
+I20261004 17:34:35.324194 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.324204 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.324211 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.324223 132376912967360 feature_extraction.cc:294]   Features:        4028 (SIFT)
+I20261004 17:34:35.325596 132376912967360 feature_extraction.cc:270] Processed file [78/143]
+I20261004 17:34:35.325620 132376912967360 feature_extraction.cc:273]   Name:            078.jpg
+I20261004 17:34:35.325626 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.325633 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.325642 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.325671 132376912967360 feature_extraction.cc:294]   Features:        3094 (SIFT)
+I20261004 17:34:35.358237 132376912967360 feature_extraction.cc:270] Processed file [79/143]
+I20261004 17:34:35.358321 132376912967360 feature_extraction.cc:273]   Name:            077.jpg
+I20261004 17:34:35.358354 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.358376 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.358396 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.358420 132376912967360 feature_extraction.cc:294]   Features:        3496 (SIFT)
+I20261004 17:34:35.421796 132376912967360 feature_extraction.cc:270] Processed file [80/143]
+I20261004 17:34:35.421825 132376912967360 feature_extraction.cc:273]   Name:            079.jpg
+I20261004 17:34:35.421830 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.421833 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.421838 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.421847 132376912967360 feature_extraction.cc:294]   Features:        2005 (SIFT)
+I20261004 17:34:35.422546 132376912967360 feature_extraction.cc:270] Processed file [81/143]
+I20261004 17:34:35.422569 132376912967360 feature_extraction.cc:273]   Name:            080.jpg
+I20261004 17:34:35.422575 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.422583 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.422592 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.422601 132376912967360 feature_extraction.cc:294]   Features:        2163 (SIFT)
+I20261004 17:34:35.484634 132376912967360 feature_extraction.cc:270] Processed file [82/143]
+I20261004 17:34:35.484659 132376912967360 feature_extraction.cc:273]   Name:            081.jpg
+I20261004 17:34:35.484664 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.484687 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.484692 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.484726 132376912967360 feature_extraction.cc:294]   Features:        844 (SIFT)
+I20261004 17:34:35.485146 132376912967360 feature_extraction.cc:270] Processed file [83/143]
+I20261004 17:34:35.485167 132376912967360 feature_extraction.cc:273]   Name:            082.jpg
+I20261004 17:34:35.485175 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.485180 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.485188 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.485199 132376912967360 feature_extraction.cc:294]   Features:        490 (SIFT)
+I20261004 17:34:35.545273 132376912967360 feature_extraction.cc:270] Processed file [84/143]
+I20261004 17:34:35.545296 132376912967360 feature_extraction.cc:273]   Name:            083.jpg
+I20261004 17:34:35.545301 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.545304 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.545309 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.545317 132376912967360 feature_extraction.cc:294]   Features:        659 (SIFT)
+I20261004 17:34:35.545637 132376912967360 feature_extraction.cc:270] Processed file [85/143]
+I20261004 17:34:35.545656 132376912967360 feature_extraction.cc:273]   Name:            084.jpg
+I20261004 17:34:35.545662 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.545670 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.545677 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.545687 132376912967360 feature_extraction.cc:294]   Features:        661 (SIFT)
+I20261004 17:34:35.606266 132376912967360 feature_extraction.cc:270] Processed file [86/143]
+I20261004 17:34:35.606296 132376912967360 feature_extraction.cc:273]   Name:            085.jpg
+I20261004 17:34:35.606301 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.606305 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.606309 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.606317 132376912967360 feature_extraction.cc:294]   Features:        396 (SIFT)
+I20261004 17:34:35.606576 132376912967360 feature_extraction.cc:270] Processed file [87/143]
+I20261004 17:34:35.606593 132376912967360 feature_extraction.cc:273]   Name:            086.jpg
+I20261004 17:34:35.606598 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.606606 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.606615 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.606688 132376912967360 feature_extraction.cc:294]   Features:        736 (SIFT)
+I20261004 17:34:35.667750 132376912967360 feature_extraction.cc:270] Processed file [88/143]
+I20261004 17:34:35.667774 132376912967360 feature_extraction.cc:273]   Name:            087.jpg
+I20261004 17:34:35.667779 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.667783 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.667787 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.667795 132376912967360 feature_extraction.cc:294]   Features:        981 (SIFT)
+I20261004 17:34:35.668236 132376912967360 feature_extraction.cc:270] Processed file [89/143]
+I20261004 17:34:35.668257 132376912967360 feature_extraction.cc:273]   Name:            089.jpg
+I20261004 17:34:35.668347 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.668356 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.668362 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.668371 132376912967360 feature_extraction.cc:294]   Features:        1124 (SIFT)
+I20261004 17:34:35.731562 132376912967360 feature_extraction.cc:270] Processed file [90/143]
+I20261004 17:34:35.731590 132376912967360 feature_extraction.cc:273]   Name:            088.jpg
+I20261004 17:34:35.731606 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.731610 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.731615 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.731623 132376912967360 feature_extraction.cc:294]   Features:        1549 (SIFT)
+I20261004 17:34:35.737620 132376912967360 feature_extraction.cc:270] Processed file [91/143]
+I20261004 17:34:35.737667 132376912967360 feature_extraction.cc:273]   Name:            091.jpg
+I20261004 17:34:35.737677 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.737683 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.737690 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.737711 132376912967360 feature_extraction.cc:294]   Features:        65 (SIFT)
+I20261004 17:34:35.815573 132376912967360 feature_extraction.cc:270] Processed file [92/143]
+I20261004 17:34:35.815625 132376912967360 feature_extraction.cc:273]   Name:            090.jpg
+I20261004 17:34:35.815636 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.815645 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.815653 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.815667 132376912967360 feature_extraction.cc:294]   Features:        346 (SIFT)
+I20261004 17:34:35.855278 132376912967360 feature_extraction.cc:270] Processed file [93/143]
+I20261004 17:34:35.855315 132376912967360 feature_extraction.cc:273]   Name:            092.jpg
+I20261004 17:34:35.855321 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.855327 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.855334 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.855347 132376912967360 feature_extraction.cc:294]   Features:        64 (SIFT)
+I20261004 17:34:35.855507 132376912967360 feature_extraction.cc:270] Processed file [94/143]
+I20261004 17:34:35.855521 132376912967360 feature_extraction.cc:273]   Name:            093.jpg
+I20261004 17:34:35.855527 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.855533 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.855539 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.855547 132376912967360 feature_extraction.cc:294]   Features:        305 (SIFT)
+I20261004 17:34:35.856425 132376912967360 feature_extraction.cc:270] Processed file [95/143]
+I20261004 17:34:35.856450 132376912967360 feature_extraction.cc:273]   Name:            094.jpg
+I20261004 17:34:35.856457 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.856462 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.856469 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.856479 132376912967360 feature_extraction.cc:294]   Features:        284 (SIFT)
+I20261004 17:34:35.970897 132376912967360 feature_extraction.cc:270] Processed file [96/143]
+I20261004 17:34:35.970963 132376912967360 feature_extraction.cc:273]   Name:            095.jpg
+I20261004 17:34:35.970971 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.970977 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.970984 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.970998 132376912967360 feature_extraction.cc:294]   Features:        630 (SIFT)
+I20261004 17:34:35.971399 132376912967360 feature_extraction.cc:270] Processed file [97/143]
+I20261004 17:34:35.971421 132376912967360 feature_extraction.cc:273]   Name:            096.jpg
+I20261004 17:34:35.971427 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:35.971432 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:35.971438 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:35.971447 132376912967360 feature_extraction.cc:294]   Features:        798 (SIFT)
+I20261004 17:34:36.049506 132376912967360 feature_extraction.cc:270] Processed file [98/143]
+I20261004 17:34:36.049543 132376912967360 feature_extraction.cc:273]   Name:            097.jpg
+I20261004 17:34:36.049550 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.049556 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.049563 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.049576 132376912967360 feature_extraction.cc:294]   Features:        856 (SIFT)
+I20261004 17:34:36.050022 132376912967360 feature_extraction.cc:270] Processed file [99/143]
+I20261004 17:34:36.050040 132376912967360 feature_extraction.cc:273]   Name:            098.jpg
+I20261004 17:34:36.050046 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.050052 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.050058 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.050067 132376912967360 feature_extraction.cc:294]   Features:        1236 (SIFT)
+I20261004 17:34:36.129855 132376912967360 feature_extraction.cc:270] Processed file [100/143]
+I20261004 17:34:36.129912 132376912967360 feature_extraction.cc:273]   Name:            099.jpg
+I20261004 17:34:36.129918 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.129924 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.129931 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.129944 132376912967360 feature_extraction.cc:294]   Features:        1257 (SIFT)
+I20261004 17:34:36.130539 132376912967360 feature_extraction.cc:270] Processed file [101/143]
+I20261004 17:34:36.130560 132376912967360 feature_extraction.cc:273]   Name:            100.jpg
+I20261004 17:34:36.130565 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.130571 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.130577 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.130586 132376912967360 feature_extraction.cc:294]   Features:        1271 (SIFT)
+I20261004 17:34:36.209354 132376912967360 feature_extraction.cc:270] Processed file [102/143]
+I20261004 17:34:36.209396 132376912967360 feature_extraction.cc:273]   Name:            101.jpg
+I20261004 17:34:36.209403 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.209408 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.209415 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.209429 132376912967360 feature_extraction.cc:294]   Features:        670 (SIFT)
+I20261004 17:34:36.209851 132376912967360 feature_extraction.cc:270] Processed file [103/143]
+I20261004 17:34:36.209872 132376912967360 feature_extraction.cc:273]   Name:            102.jpg
+I20261004 17:34:36.209878 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.209884 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.209890 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.209899 132376912967360 feature_extraction.cc:294]   Features:        828 (SIFT)
+I20261004 17:34:36.289280 132376912967360 feature_extraction.cc:270] Processed file [104/143]
+I20261004 17:34:36.289320 132376912967360 feature_extraction.cc:273]   Name:            103.jpg
+I20261004 17:34:36.289326 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.289332 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.289338 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.289351 132376912967360 feature_extraction.cc:294]   Features:        762 (SIFT)
+I20261004 17:34:36.289754 132376912967360 feature_extraction.cc:270] Processed file [105/143]
+I20261004 17:34:36.289768 132376912967360 feature_extraction.cc:273]   Name:            104.jpg
+I20261004 17:34:36.289773 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.289778 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.289784 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.289812 132376912967360 feature_extraction.cc:294]   Features:        545 (SIFT)
+I20261004 17:34:36.366143 132376912967360 feature_extraction.cc:270] Processed file [106/143]
+I20261004 17:34:36.366181 132376912967360 feature_extraction.cc:273]   Name:            105.jpg
+I20261004 17:34:36.366188 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.366193 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.366199 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.366211 132376912967360 feature_extraction.cc:294]   Features:        420 (SIFT)
+I20261004 17:34:36.366509 132376912967360 feature_extraction.cc:270] Processed file [107/143]
+I20261004 17:34:36.366527 132376912967360 feature_extraction.cc:273]   Name:            106.jpg
+I20261004 17:34:36.366533 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.366608 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.366616 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.366624 132376912967360 feature_extraction.cc:294]   Features:        557 (SIFT)
+I20261004 17:34:36.443112 132376912967360 feature_extraction.cc:270] Processed file [108/143]
+I20261004 17:34:36.443166 132376912967360 feature_extraction.cc:273]   Name:            107.jpg
+I20261004 17:34:36.443172 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.443178 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.443184 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.443196 132376912967360 feature_extraction.cc:294]   Features:        288 (SIFT)
+I20261004 17:34:36.474325 132376912967360 feature_extraction.cc:270] Processed file [109/143]
+I20261004 17:34:36.474353 132376912967360 feature_extraction.cc:273]   Name:            108.jpg
+I20261004 17:34:36.474359 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.474365 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.474371 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.474405 132376912967360 feature_extraction.cc:294]   Features:        216 (SIFT)
+I20261004 17:34:36.512876 132376912967360 feature_extraction.cc:270] Processed file [110/143]
+I20261004 17:34:36.512907 132376912967360 feature_extraction.cc:273]   Name:            109.jpg
+I20261004 17:34:36.512914 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.512919 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.512926 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.512936 132376912967360 feature_extraction.cc:294]   Features:        240 (SIFT)
+I20261004 17:34:36.513189 132376912967360 feature_extraction.cc:270] Processed file [111/143]
+I20261004 17:34:36.513207 132376912967360 feature_extraction.cc:273]   Name:            110.jpg
+I20261004 17:34:36.513213 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.513219 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.513224 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.513232 132376912967360 feature_extraction.cc:294]   Features:        255 (SIFT)
+I20261004 17:34:36.588914 132376912967360 feature_extraction.cc:270] Processed file [112/143]
+I20261004 17:34:36.588950 132376912967360 feature_extraction.cc:273]   Name:            111.jpg
+I20261004 17:34:36.588957 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.588963 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.588969 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.588980 132376912967360 feature_extraction.cc:294]   Features:        112 (SIFT)
+I20261004 17:34:36.589189 132376912967360 feature_extraction.cc:270] Processed file [113/143]
+I20261004 17:34:36.589208 132376912967360 feature_extraction.cc:273]   Name:            112.jpg
+I20261004 17:34:36.589214 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.589219 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.589225 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.589233 132376912967360 feature_extraction.cc:294]   Features:        53 (SIFT)
+I20261004 17:34:36.666406 132376912967360 feature_extraction.cc:270] Processed file [114/143]
+I20261004 17:34:36.666438 132376912967360 feature_extraction.cc:273]   Name:            113.jpg
+I20261004 17:34:36.666445 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.666451 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.666457 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.666468 132376912967360 feature_extraction.cc:294]   Features:        106 (SIFT)
+I20261004 17:34:36.666641 132376912967360 feature_extraction.cc:270] Processed file [115/143]
+I20261004 17:34:36.666657 132376912967360 feature_extraction.cc:273]   Name:            114.jpg
+I20261004 17:34:36.666662 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.666668 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.666746 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.666761 132376912967360 feature_extraction.cc:294]   Features:        88 (SIFT)
+I20261004 17:34:36.745590 132376912967360 feature_extraction.cc:270] Processed file [116/143]
+I20261004 17:34:36.745625 132376912967360 feature_extraction.cc:273]   Name:            115.jpg
+I20261004 17:34:36.745632 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.745637 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.745679 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.745690 132376912967360 feature_extraction.cc:294]   Features:        212 (SIFT)
+I20261004 17:34:36.745910 132376912967360 feature_extraction.cc:270] Processed file [117/143]
+I20261004 17:34:36.745927 132376912967360 feature_extraction.cc:273]   Name:            116.jpg
+I20261004 17:34:36.745933 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.745939 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.745945 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.745953 132376912967360 feature_extraction.cc:294]   Features:        240 (SIFT)
+I20261004 17:34:36.823906 132376912967360 feature_extraction.cc:270] Processed file [118/143]
+I20261004 17:34:36.823941 132376912967360 feature_extraction.cc:273]   Name:            117.jpg
+I20261004 17:34:36.823948 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.823954 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.823969 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.823981 132376912967360 feature_extraction.cc:294]   Features:        660 (SIFT)
+I20261004 17:34:36.824382 132376912967360 feature_extraction.cc:270] Processed file [119/143]
+I20261004 17:34:36.824404 132376912967360 feature_extraction.cc:273]   Name:            118.jpg
+I20261004 17:34:36.824410 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.824416 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.824422 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.824431 132376912967360 feature_extraction.cc:294]   Features:        925 (SIFT)
+I20261004 17:34:36.902569 132376912967360 feature_extraction.cc:270] Processed file [120/143]
+I20261004 17:34:36.902603 132376912967360 feature_extraction.cc:273]   Name:            119.jpg
+I20261004 17:34:36.902609 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.902615 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.902622 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.902633 132376912967360 feature_extraction.cc:294]   Features:        699 (SIFT)
+I20261004 17:34:36.902987 132376912967360 feature_extraction.cc:270] Processed file [121/143]
+I20261004 17:34:36.903001 132376912967360 feature_extraction.cc:273]   Name:            120.jpg
+I20261004 17:34:36.903007 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.903012 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.903041 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.903050 132376912967360 feature_extraction.cc:294]   Features:        465 (SIFT)
+I20261004 17:34:36.980993 132376912967360 feature_extraction.cc:270] Processed file [122/143]
+I20261004 17:34:36.981028 132376912967360 feature_extraction.cc:273]   Name:            121.jpg
+I20261004 17:34:36.981035 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.981040 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.981047 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.981058 132376912967360 feature_extraction.cc:294]   Features:        513 (SIFT)
+I20261004 17:34:36.981382 132376912967360 feature_extraction.cc:270] Processed file [123/143]
+I20261004 17:34:36.981402 132376912967360 feature_extraction.cc:273]   Name:            122.jpg
+I20261004 17:34:36.981408 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:36.981457 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:36.981463 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:36.981472 132376912967360 feature_extraction.cc:294]   Features:        912 (SIFT)
+I20261004 17:34:37.059378 132376912967360 feature_extraction.cc:270] Processed file [124/143]
+I20261004 17:34:37.059414 132376912967360 feature_extraction.cc:273]   Name:            123.jpg
+I20261004 17:34:37.059421 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.059426 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.059433 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.059445 132376912967360 feature_extraction.cc:294]   Features:        1093 (SIFT)
+I20261004 17:34:37.065997 132376912967360 feature_extraction.cc:270] Processed file [125/143]
+I20261004 17:34:37.066020 132376912967360 feature_extraction.cc:273]   Name:            124.jpg
+I20261004 17:34:37.066026 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.066032 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.066045 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.066055 132376912967360 feature_extraction.cc:294]   Features:        1355 (SIFT)
+I20261004 17:34:37.066645 132376912967360 feature_extraction.cc:270] Processed file [126/143]
+I20261004 17:34:37.066660 132376912967360 feature_extraction.cc:273]   Name:            125.jpg
+I20261004 17:34:37.066666 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.066671 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.066677 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.066685 132376912967360 feature_extraction.cc:294]   Features:        1396 (SIFT)
+I20261004 17:34:37.174347 132376912967360 feature_extraction.cc:270] Processed file [127/143]
+I20261004 17:34:37.174377 132376912967360 feature_extraction.cc:273]   Name:            126.jpg
+I20261004 17:34:37.174382 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.174385 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.174390 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.174420 132376912967360 feature_extraction.cc:294]   Features:        1180 (SIFT)
+I20261004 17:34:37.174856 132376912967360 feature_extraction.cc:270] Processed file [128/143]
+I20261004 17:34:37.174877 132376912967360 feature_extraction.cc:273]   Name:            127.jpg
+I20261004 17:34:37.174883 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.174888 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.174894 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.174903 132376912967360 feature_extraction.cc:294]   Features:        546 (SIFT)
+I20261004 17:34:37.249967 132376912967360 feature_extraction.cc:270] Processed file [129/143]
+I20261004 17:34:37.250000 132376912967360 feature_extraction.cc:273]   Name:            128.jpg
+I20261004 17:34:37.250007 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.250012 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.250018 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.250029 132376912967360 feature_extraction.cc:294]   Features:        245 (SIFT)
+I20261004 17:34:37.250262 132376912967360 feature_extraction.cc:270] Processed file [130/143]
+I20261004 17:34:37.250319 132376912967360 feature_extraction.cc:273]   Name:            130.jpg
+I20261004 17:34:37.250326 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.250331 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.250337 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.250345 132376912967360 feature_extraction.cc:294]   Features:        172 (SIFT)
+I20261004 17:34:37.326561 132376912967360 feature_extraction.cc:270] Processed file [131/143]
+I20261004 17:34:37.326599 132376912967360 feature_extraction.cc:273]   Name:            129.jpg
+I20261004 17:34:37.326607 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.326612 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.326619 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.326631 132376912967360 feature_extraction.cc:294]   Features:        221 (SIFT)
+I20261004 17:34:37.326854 132376912967360 feature_extraction.cc:270] Processed file [132/143]
+I20261004 17:34:37.326870 132376912967360 feature_extraction.cc:273]   Name:            131.jpg
+I20261004 17:34:37.326875 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.326880 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.326887 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.326895 132376912967360 feature_extraction.cc:294]   Features:        121 (SIFT)
+I20261004 17:34:37.404209 132376912967360 feature_extraction.cc:270] Processed file [133/143]
+I20261004 17:34:37.404251 132376912967360 feature_extraction.cc:273]   Name:            132.jpg
+I20261004 17:34:37.404258 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.404264 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.404271 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.404285 132376912967360 feature_extraction.cc:294]   Features:        106 (SIFT)
+I20261004 17:34:37.404493 132376912967360 feature_extraction.cc:270] Processed file [134/143]
+I20261004 17:34:37.404511 132376912967360 feature_extraction.cc:273]   Name:            133.jpg
+I20261004 17:34:37.404518 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.404524 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.404531 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.404541 132376912967360 feature_extraction.cc:294]   Features:        34 (SIFT)
+I20261004 17:34:37.451053 132376912967360 feature_extraction.cc:270] Processed file [135/143]
+I20261004 17:34:37.451103 132376912967360 feature_extraction.cc:273]   Name:            134.jpg
+I20261004 17:34:37.451111 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.451117 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.451124 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.451135 132376912967360 feature_extraction.cc:294]   Features:        58 (SIFT)
+I20261004 17:34:37.451340 132376912967360 feature_extraction.cc:270] Processed file [136/143]
+I20261004 17:34:37.451355 132376912967360 feature_extraction.cc:273]   Name:            135.jpg
+I20261004 17:34:37.451361 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.451367 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.451374 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.451383 132376912967360 feature_extraction.cc:294]   Features:        16 (SIFT)
+I20261004 17:34:37.451552 132376912967360 feature_extraction.cc:270] Processed file [137/143]
+I20261004 17:34:37.451567 132376912967360 feature_extraction.cc:273]   Name:            136.jpg
+I20261004 17:34:37.451573 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.451579 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.451586 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.451594 132376912967360 feature_extraction.cc:294]   Features:        76 (SIFT)
+I20261004 17:34:37.489735 132376912967360 feature_extraction.cc:270] Processed file [138/143]
+I20261004 17:34:37.489759 132376912967360 feature_extraction.cc:273]   Name:            137.jpg
+I20261004 17:34:37.489765 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.489771 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.489777 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.489786 132376912967360 feature_extraction.cc:294]   Features:        186 (SIFT)
+I20261004 17:34:37.490259 132376912967360 feature_extraction.cc:270] Processed file [139/143]
+I20261004 17:34:37.490314 132376912967360 feature_extraction.cc:273]   Name:            138.jpg
+I20261004 17:34:37.490328 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.490333 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.490339 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.490348 132376912967360 feature_extraction.cc:294]   Features:        217 (SIFT)
+I20261004 17:34:37.530265 132376912967360 feature_extraction.cc:270] Processed file [140/143]
+I20261004 17:34:37.530290 132376912967360 feature_extraction.cc:273]   Name:            140.jpg
+I20261004 17:34:37.530296 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.530365 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.530373 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.530383 132376912967360 feature_extraction.cc:294]   Features:        518 (SIFT)
+I20261004 17:34:37.530834 132376912967360 feature_extraction.cc:270] Processed file [141/143]
+I20261004 17:34:37.530856 132376912967360 feature_extraction.cc:273]   Name:            139.jpg
+I20261004 17:34:37.530861 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.530867 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.530873 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.530882 132376912967360 feature_extraction.cc:294]   Features:        382 (SIFT)
+I20261004 17:34:37.571471 132376912967360 feature_extraction.cc:270] Processed file [142/143]
+I20261004 17:34:37.571513 132376912967360 feature_extraction.cc:273]   Name:            141.jpg
+I20261004 17:34:37.571522 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.571530 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.571540 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.571554 132376912967360 feature_extraction.cc:294]   Features:        912 (SIFT)
+I20261004 17:34:37.572865 132376912967360 feature_extraction.cc:270] Processed file [143/143]
+I20261004 17:34:37.572887 132376912967360 feature_extraction.cc:273]   Name:            142.jpg
+I20261004 17:34:37.572893 132376912967360 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:34:37.572898 132376912967360 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:34:37.572905 132376912967360 feature_extraction.cc:289]   Focal Length:    1599.70px (Prior)
+I20261004 17:34:37.572934 132376912967360 feature_extraction.cc:294]   Features:        1069 (SIFT)
+I20261004 17:34:37.640576 132378057705152 timer.cc:90] Elapsed time: 0.097 [minutes]
+I20261004 17:34:37.653504 132378057705152 feature_matching.cc:196] === Feature matching & geometric verification ===
+I20261004 17:34:37.653618 132376912967360 feature_matching_utils.cc:79] Bind FeatureMatcherWorker to GPU device 0
+I20261004 17:34:37.653671 132376921360064 feature_matching_utils.cc:79] Bind FeatureMatcherWorker to GPU device 1
+I20261004 17:34:37.654055 132376912967360 sift.cc:1679] Creating SIFT GPU feature matcher
+I20261004 17:34:37.654089 132376921360064 sift.cc:1679] Creating SIFT GPU feature matcher
+I20261004 17:34:37.655014 132378057705152 pairing.cc:438] Generating sequential image pairs...
+I20261004 17:34:37.655438 132378057705152 pairing.cc:562] Processing image [1/143]
+I20261004 17:34:37.674321 132378057705152 feature_matching.cc:218] in 0.019s
+I20261004 17:34:37.674345 132378057705152 pairing.cc:562] Processing image [2/143]
+I20261004 17:34:37.682023 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:37.682044 132378057705152 pairing.cc:562] Processing image [3/143]
+I20261004 17:34:37.692478 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:37.692499 132378057705152 pairing.cc:562] Processing image [4/143]
+I20261004 17:34:37.698777 132378057705152 feature_matching.cc:218] in 0.006s
+I20261004 17:34:37.698797 132378057705152 pairing.cc:562] Processing image [5/143]
+I20261004 17:34:37.710985 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:37.711016 132378057705152 pairing.cc:562] Processing image [6/143]
+I20261004 17:34:37.726378 132378057705152 feature_matching.cc:218] in 0.015s
+I20261004 17:34:37.726400 132378057705152 pairing.cc:562] Processing image [7/143]
+I20261004 17:34:37.749668 132378057705152 feature_matching.cc:218] in 0.023s
+I20261004 17:34:37.749691 132378057705152 pairing.cc:562] Processing image [8/143]
+I20261004 17:34:37.764388 132378057705152 feature_matching.cc:218] in 0.015s
+I20261004 17:34:37.764435 132378057705152 pairing.cc:562] Processing image [9/143]
+I20261004 17:34:37.776257 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:37.776278 132378057705152 pairing.cc:562] Processing image [10/143]
+I20261004 17:34:37.794408 132378057705152 feature_matching.cc:218] in 0.018s
+I20261004 17:34:37.794429 132378057705152 pairing.cc:562] Processing image [11/143]
+I20261004 17:34:37.803958 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:37.803982 132378057705152 pairing.cc:562] Processing image [12/143]
+I20261004 17:34:37.816212 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:37.816233 132378057705152 pairing.cc:562] Processing image [13/143]
+I20261004 17:34:37.821952 132378057705152 feature_matching.cc:218] in 0.006s
+I20261004 17:34:37.821973 132378057705152 pairing.cc:562] Processing image [14/143]
+I20261004 17:34:37.824209 132378057705152 feature_matching.cc:218] in 0.002s
+I20261004 17:34:37.824246 132378057705152 pairing.cc:562] Processing image [15/143]
+I20261004 17:34:37.826585 132378057705152 feature_matching.cc:218] in 0.002s
+I20261004 17:34:37.826623 132378057705152 pairing.cc:562] Processing image [16/143]
+I20261004 17:34:37.828346 132378057705152 feature_matching.cc:218] in 0.002s
+I20261004 17:34:37.828379 132378057705152 pairing.cc:562] Processing image [17/143]
+I20261004 17:34:37.830432 132378057705152 feature_matching.cc:218] in 0.002s
+I20261004 17:34:37.830452 132378057705152 pairing.cc:562] Processing image [18/143]
+I20261004 17:34:37.831878 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:37.831898 132378057705152 pairing.cc:562] Processing image [19/143]
+I20261004 17:34:37.838180 132378057705152 feature_matching.cc:218] in 0.006s
+I20261004 17:34:37.838215 132378057705152 pairing.cc:562] Processing image [20/143]
+I20261004 17:34:37.852465 132378057705152 feature_matching.cc:218] in 0.014s
+I20261004 17:34:37.852487 132378057705152 pairing.cc:562] Processing image [21/143]
+I20261004 17:34:37.864605 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:37.864627 132378057705152 pairing.cc:562] Processing image [22/143]
+I20261004 17:34:37.875599 132378057705152 feature_matching.cc:218] in 0.011s
+I20261004 17:34:37.875622 132378057705152 pairing.cc:562] Processing image [23/143]
+I20261004 17:34:37.906527 132378057705152 feature_matching.cc:218] in 0.031s
+I20261004 17:34:37.906566 132378057705152 pairing.cc:562] Processing image [24/143]
+I20261004 17:34:37.917381 132378057705152 feature_matching.cc:218] in 0.011s
+I20261004 17:34:37.917403 132378057705152 pairing.cc:562] Processing image [25/143]
+I20261004 17:34:37.926232 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:37.926254 132378057705152 pairing.cc:562] Processing image [26/143]
+I20261004 17:34:37.941875 132378057705152 feature_matching.cc:218] in 0.016s
+I20261004 17:34:37.941914 132378057705152 pairing.cc:562] Processing image [27/143]
+I20261004 17:34:37.959405 132378057705152 feature_matching.cc:218] in 0.017s
+I20261004 17:34:37.959429 132378057705152 pairing.cc:562] Processing image [28/143]
+I20261004 17:34:37.984534 132378057705152 feature_matching.cc:218] in 0.025s
+I20261004 17:34:37.984557 132378057705152 pairing.cc:562] Processing image [29/143]
+I20261004 17:34:38.019571 132378057705152 feature_matching.cc:218] in 0.035s
+I20261004 17:34:38.019612 132378057705152 pairing.cc:562] Processing image [30/143]
+I20261004 17:34:38.043809 132378057705152 feature_matching.cc:218] in 0.024s
+I20261004 17:34:38.043831 132378057705152 pairing.cc:562] Processing image [31/143]
+I20261004 17:34:38.088015 132378057705152 feature_matching.cc:218] in 0.044s
+I20261004 17:34:38.088038 132378057705152 pairing.cc:562] Processing image [32/143]
+I20261004 17:34:38.123293 132378057705152 feature_matching.cc:218] in 0.035s
+I20261004 17:34:38.123337 132378057705152 pairing.cc:562] Processing image [33/143]
+I20261004 17:34:38.155534 132378057705152 feature_matching.cc:218] in 0.032s
+I20261004 17:34:38.155557 132378057705152 pairing.cc:562] Processing image [34/143]
+I20261004 17:34:38.186237 132378057705152 feature_matching.cc:218] in 0.031s
+I20261004 17:34:38.186273 132378057705152 pairing.cc:562] Processing image [35/143]
+I20261004 17:34:38.224265 132378057705152 feature_matching.cc:218] in 0.038s
+I20261004 17:34:38.224287 132378057705152 pairing.cc:562] Processing image [36/143]
+I20261004 17:34:38.255122 132378057705152 feature_matching.cc:218] in 0.031s
+I20261004 17:34:38.255144 132378057705152 pairing.cc:562] Processing image [37/143]
+I20261004 17:34:38.284833 132378057705152 feature_matching.cc:218] in 0.030s
+I20261004 17:34:38.284861 132378057705152 pairing.cc:562] Processing image [38/143]
+I20261004 17:34:38.302188 132378057705152 feature_matching.cc:218] in 0.017s
+I20261004 17:34:38.302228 132378057705152 pairing.cc:562] Processing image [39/143]
+I20261004 17:34:38.309941 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:38.309993 132378057705152 pairing.cc:562] Processing image [40/143]
+I20261004 17:34:38.311378 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:38.311413 132378057705152 pairing.cc:562] Processing image [41/143]
+I20261004 17:34:38.312500 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:38.312521 132378057705152 pairing.cc:562] Processing image [42/143]
+I20261004 17:34:38.313622 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:38.313640 132378057705152 pairing.cc:562] Processing image [43/143]
+I20261004 17:34:38.314661 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:38.314680 132378057705152 pairing.cc:562] Processing image [44/143]
+I20261004 17:34:38.329485 132378057705152 feature_matching.cc:218] in 0.015s
+I20261004 17:34:38.329506 132378057705152 pairing.cc:562] Processing image [45/143]
+I20261004 17:34:38.339180 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:38.339200 132378057705152 pairing.cc:562] Processing image [46/143]
+I20261004 17:34:38.550506 132378057705152 feature_matching.cc:218] in 0.211s
+I20261004 17:34:38.550568 132378057705152 pairing.cc:562] Processing image [47/143]
+I20261004 17:34:38.562657 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:38.562698 132378057705152 pairing.cc:562] Processing image [48/143]
+I20261004 17:34:38.572971 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:38.573007 132378057705152 pairing.cc:562] Processing image [49/143]
+I20261004 17:34:38.585002 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:38.585031 132378057705152 pairing.cc:562] Processing image [50/143]
+I20261004 17:34:38.594985 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:38.595009 132378057705152 pairing.cc:562] Processing image [51/143]
+I20261004 17:34:38.607944 132378057705152 feature_matching.cc:218] in 0.013s
+I20261004 17:34:38.607967 132378057705152 pairing.cc:562] Processing image [52/143]
+I20261004 17:34:38.620341 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:38.620361 132378057705152 pairing.cc:562] Processing image [53/143]
+I20261004 17:34:38.628552 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:38.628574 132378057705152 pairing.cc:562] Processing image [54/143]
+I20261004 17:34:38.639257 132378057705152 feature_matching.cc:218] in 0.011s
+I20261004 17:34:38.639277 132378057705152 pairing.cc:562] Processing image [55/143]
+I20261004 17:34:38.648774 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:38.648793 132378057705152 pairing.cc:562] Processing image [56/143]
+I20261004 17:34:38.657471 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:38.657492 132378057705152 pairing.cc:562] Processing image [57/143]
+I20261004 17:34:38.666802 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:38.666841 132378057705152 pairing.cc:562] Processing image [58/143]
+I20261004 17:34:38.675606 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:38.675626 132378057705152 pairing.cc:562] Processing image [59/143]
+I20261004 17:34:38.684996 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:38.685019 132378057705152 pairing.cc:562] Processing image [60/143]
+I20261004 17:34:38.694473 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:38.694494 132378057705152 pairing.cc:562] Processing image [61/143]
+I20261004 17:34:38.702966 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:38.703001 132378057705152 pairing.cc:562] Processing image [62/143]
+I20261004 17:34:38.710598 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:38.710634 132378057705152 pairing.cc:562] Processing image [63/143]
+I20261004 17:34:38.718224 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:38.718261 132378057705152 pairing.cc:562] Processing image [64/143]
+I20261004 17:34:38.729213 132378057705152 feature_matching.cc:218] in 0.011s
+I20261004 17:34:38.729251 132378057705152 pairing.cc:562] Processing image [65/143]
+I20261004 17:34:38.740137 132378057705152 feature_matching.cc:218] in 0.011s
+I20261004 17:34:38.740158 132378057705152 pairing.cc:562] Processing image [66/143]
+I20261004 17:34:38.749007 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:38.749027 132378057705152 pairing.cc:562] Processing image [67/143]
+I20261004 17:34:38.757457 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:38.757477 132378057705152 pairing.cc:562] Processing image [68/143]
+I20261004 17:34:38.766227 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:38.766270 132378057705152 pairing.cc:562] Processing image [69/143]
+I20261004 17:34:38.774328 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:38.774349 132378057705152 pairing.cc:562] Processing image [70/143]
+I20261004 17:34:38.783402 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:38.783422 132378057705152 pairing.cc:562] Processing image [71/143]
+I20261004 17:34:38.792310 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:38.792346 132378057705152 pairing.cc:562] Processing image [72/143]
+I20261004 17:34:38.800516 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:38.800536 132378057705152 pairing.cc:562] Processing image [73/143]
+I20261004 17:34:38.807708 132378057705152 feature_matching.cc:218] in 0.007s
+I20261004 17:34:38.807729 132378057705152 pairing.cc:562] Processing image [74/143]
+I20261004 17:34:38.816199 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:38.816222 132378057705152 pairing.cc:562] Processing image [75/143]
+I20261004 17:34:38.817662 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:38.817682 132378057705152 pairing.cc:562] Processing image [76/143]
+I20261004 17:34:38.836610 132378057705152 feature_matching.cc:218] in 0.019s
+I20261004 17:34:38.836630 132378057705152 pairing.cc:562] Processing image [77/143]
+I20261004 17:34:38.886328 132378057705152 feature_matching.cc:218] in 0.050s
+I20261004 17:34:38.886368 132378057705152 pairing.cc:562] Processing image [78/143]
+I20261004 17:34:38.925799 132378057705152 feature_matching.cc:218] in 0.039s
+I20261004 17:34:38.925821 132378057705152 pairing.cc:562] Processing image [79/143]
+I20261004 17:34:38.985587 132378057705152 feature_matching.cc:218] in 0.060s
+I20261004 17:34:38.985610 132378057705152 pairing.cc:562] Processing image [80/143]
+I20261004 17:34:39.012598 132378057705152 feature_matching.cc:218] in 0.027s
+I20261004 17:34:39.012623 132378057705152 pairing.cc:562] Processing image [81/143]
+I20261004 17:34:39.029273 132378057705152 feature_matching.cc:218] in 0.017s
+I20261004 17:34:39.029314 132378057705152 pairing.cc:562] Processing image [82/143]
+I20261004 17:34:39.043224 132378057705152 feature_matching.cc:218] in 0.014s
+I20261004 17:34:39.043245 132378057705152 pairing.cc:562] Processing image [83/143]
+I20261004 17:34:39.052577 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:39.052597 132378057705152 pairing.cc:562] Processing image [84/143]
+I20261004 17:34:39.060932 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:39.060977 132378057705152 pairing.cc:562] Processing image [85/143]
+I20261004 17:34:39.074061 132378057705152 feature_matching.cc:218] in 0.013s
+I20261004 17:34:39.074082 132378057705152 pairing.cc:562] Processing image [86/143]
+I20261004 17:34:39.082814 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:39.082834 132378057705152 pairing.cc:562] Processing image [87/143]
+I20261004 17:34:39.101398 132378057705152 feature_matching.cc:218] in 0.019s
+I20261004 17:34:39.101420 132378057705152 pairing.cc:562] Processing image [88/143]
+I20261004 17:34:39.115645 132378057705152 feature_matching.cc:218] in 0.014s
+I20261004 17:34:39.115684 132378057705152 pairing.cc:562] Processing image [89/143]
+I20261004 17:34:39.139434 132378057705152 feature_matching.cc:218] in 0.024s
+I20261004 17:34:39.139457 132378057705152 pairing.cc:562] Processing image [90/143]
+I20261004 17:34:39.146240 132378057705152 feature_matching.cc:218] in 0.007s
+I20261004 17:34:39.146261 132378057705152 pairing.cc:562] Processing image [91/143]
+I20261004 17:34:39.149804 132378057705152 feature_matching.cc:218] in 0.004s
+I20261004 17:34:39.149839 132378057705152 pairing.cc:562] Processing image [92/143]
+I20261004 17:34:39.150649 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.150679 132378057705152 pairing.cc:562] Processing image [93/143]
+I20261004 17:34:39.151546 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.151567 132378057705152 pairing.cc:562] Processing image [94/143]
+I20261004 17:34:39.152350 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.152368 132378057705152 pairing.cc:562] Processing image [95/143]
+I20261004 17:34:39.153249 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.153284 132378057705152 pairing.cc:562] Processing image [96/143]
+I20261004 17:34:39.180313 132378057705152 feature_matching.cc:218] in 0.027s
+I20261004 17:34:39.180336 132378057705152 pairing.cc:562] Processing image [97/143]
+I20261004 17:34:39.191729 132378057705152 feature_matching.cc:218] in 0.011s
+I20261004 17:34:39.191770 132378057705152 pairing.cc:562] Processing image [98/143]
+I20261004 17:34:39.202695 132378057705152 feature_matching.cc:218] in 0.011s
+I20261004 17:34:39.202716 132378057705152 pairing.cc:562] Processing image [99/143]
+I20261004 17:34:39.217516 132378057705152 feature_matching.cc:218] in 0.015s
+I20261004 17:34:39.217536 132378057705152 pairing.cc:562] Processing image [100/143]
+I20261004 17:34:39.242022 132378057705152 feature_matching.cc:218] in 0.024s
+I20261004 17:34:39.242044 132378057705152 pairing.cc:562] Processing image [101/143]
+I20261004 17:34:39.281481 132378057705152 feature_matching.cc:218] in 0.039s
+I20261004 17:34:39.281522 132378057705152 pairing.cc:562] Processing image [102/143]
+I20261004 17:34:39.293949 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:39.293986 132378057705152 pairing.cc:562] Processing image [103/143]
+I20261004 17:34:39.306273 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:39.306294 132378057705152 pairing.cc:562] Processing image [104/143]
+I20261004 17:34:39.314837 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:39.314858 132378057705152 pairing.cc:562] Processing image [105/143]
+I20261004 17:34:39.324680 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:39.324701 132378057705152 pairing.cc:562] Processing image [106/143]
+I20261004 17:34:39.335200 132378057705152 feature_matching.cc:218] in 0.011s
+I20261004 17:34:39.335246 132378057705152 pairing.cc:562] Processing image [107/143]
+I20261004 17:34:39.345932 132378057705152 feature_matching.cc:218] in 0.011s
+I20261004 17:34:39.345952 132378057705152 pairing.cc:562] Processing image [108/143]
+I20261004 17:34:39.354862 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:39.354899 132378057705152 pairing.cc:562] Processing image [109/143]
+I20261004 17:34:39.365084 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:39.365139 132378057705152 pairing.cc:562] Processing image [110/143]
+I20261004 17:34:39.371499 132378057705152 feature_matching.cc:218] in 0.006s
+I20261004 17:34:39.371522 132378057705152 pairing.cc:562] Processing image [111/143]
+I20261004 17:34:39.376788 132378057705152 feature_matching.cc:218] in 0.005s
+I20261004 17:34:39.376810 132378057705152 pairing.cc:562] Processing image [112/143]
+I20261004 17:34:39.377618 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.377637 132378057705152 pairing.cc:562] Processing image [113/143]
+I20261004 17:34:39.378323 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.378342 132378057705152 pairing.cc:562] Processing image [114/143]
+I20261004 17:34:39.387549 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:39.387572 132378057705152 pairing.cc:562] Processing image [115/143]
+I20261004 17:34:39.388463 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.388482 132378057705152 pairing.cc:562] Processing image [116/143]
+I20261004 17:34:39.395220 132378057705152 feature_matching.cc:218] in 0.007s
+I20261004 17:34:39.395239 132378057705152 pairing.cc:562] Processing image [117/143]
+I20261004 17:34:39.407220 132378057705152 feature_matching.cc:218] in 0.012s
+I20261004 17:34:39.407241 132378057705152 pairing.cc:562] Processing image [118/143]
+I20261004 17:34:39.419836 132378057705152 feature_matching.cc:218] in 0.013s
+I20261004 17:34:39.419856 132378057705152 pairing.cc:562] Processing image [119/143]
+I20261004 17:34:39.433723 132378057705152 feature_matching.cc:218] in 0.014s
+I20261004 17:34:39.433746 132378057705152 pairing.cc:562] Processing image [120/143]
+I20261004 17:34:39.443529 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:39.443565 132378057705152 pairing.cc:562] Processing image [121/143]
+I20261004 17:34:39.451057 132378057705152 feature_matching.cc:218] in 0.007s
+I20261004 17:34:39.451080 132378057705152 pairing.cc:562] Processing image [122/143]
+I20261004 17:34:39.463833 132378057705152 feature_matching.cc:218] in 0.013s
+I20261004 17:34:39.463873 132378057705152 pairing.cc:562] Processing image [123/143]
+I20261004 17:34:39.482213 132378057705152 feature_matching.cc:218] in 0.018s
+I20261004 17:34:39.482253 132378057705152 pairing.cc:562] Processing image [124/143]
+I20261004 17:34:39.500336 132378057705152 feature_matching.cc:218] in 0.018s
+I20261004 17:34:39.500359 132378057705152 pairing.cc:562] Processing image [125/143]
+I20261004 17:34:39.515637 132378057705152 feature_matching.cc:218] in 0.015s
+I20261004 17:34:39.515658 132378057705152 pairing.cc:562] Processing image [126/143]
+I20261004 17:34:39.534980 132378057705152 feature_matching.cc:218] in 0.019s
+I20261004 17:34:39.535019 132378057705152 pairing.cc:562] Processing image [127/143]
+I20261004 17:34:39.545263 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:39.545284 132378057705152 pairing.cc:562] Processing image [128/143]
+I20261004 17:34:39.553946 132378057705152 feature_matching.cc:218] in 0.009s
+I20261004 17:34:39.553966 132378057705152 pairing.cc:562] Processing image [129/143]
+I20261004 17:34:39.558173 132378057705152 feature_matching.cc:218] in 0.004s
+I20261004 17:34:39.558195 132378057705152 pairing.cc:562] Processing image [130/143]
+I20261004 17:34:39.562452 132378057705152 feature_matching.cc:218] in 0.004s
+I20261004 17:34:39.562489 132378057705152 pairing.cc:562] Processing image [131/143]
+I20261004 17:34:39.563184 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.563215 132378057705152 pairing.cc:562] Processing image [132/143]
+I20261004 17:34:39.563685 132378057705152 feature_matching.cc:218] in 0.000s
+I20261004 17:34:39.563721 132378057705152 pairing.cc:562] Processing image [133/143]
+I20261004 17:34:39.564228 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.564260 132378057705152 pairing.cc:562] Processing image [134/143]
+I20261004 17:34:39.564731 132378057705152 feature_matching.cc:218] in 0.000s
+I20261004 17:34:39.564761 132378057705152 pairing.cc:562] Processing image [135/143]
+I20261004 17:34:39.565267 132378057705152 feature_matching.cc:218] in 0.001s
+I20261004 17:34:39.565294 132378057705152 pairing.cc:562] Processing image [136/143]
+I20261004 17:34:39.565725 132378057705152 feature_matching.cc:218] in 0.000s
+I20261004 17:34:39.565754 132378057705152 pairing.cc:562] Processing image [137/143]
+I20261004 17:34:39.573372 132378057705152 feature_matching.cc:218] in 0.008s
+I20261004 17:34:39.573392 132378057705152 pairing.cc:562] Processing image [138/143]
+I20261004 17:34:39.573886 132378057705152 feature_matching.cc:218] in 0.000s
+I20261004 17:34:39.573909 132378057705152 pairing.cc:562] Processing image [139/143]
+I20261004 17:34:39.580134 132378057705152 feature_matching.cc:218] in 0.006s
+I20261004 17:34:39.580153 132378057705152 pairing.cc:562] Processing image [140/143]
+I20261004 17:34:39.587469 132378057705152 feature_matching.cc:218] in 0.007s
+I20261004 17:34:39.587489 132378057705152 pairing.cc:562] Processing image [141/143]
+I20261004 17:34:39.597645 132378057705152 feature_matching.cc:218] in 0.010s
+I20261004 17:34:39.597667 132378057705152 pairing.cc:562] Processing image [142/143]
+I20261004 17:34:39.611075 132378057705152 feature_matching.cc:218] in 0.013s
+I20261004 17:34:39.611147 132378057705152 pairing.cc:562] Processing image [143/143]
+I20261004 17:34:39.611162 132378057705152 feature_matching.cc:218] in 0.000s
+I20261004 17:34:39.611168 132378057705152 timer.cc:90] Elapsed time: 0.033 [minutes]
+I20261004 17:34:39.622917 132379477324544 incremental_pipeline.cc:353] Loading database
+I20261004 17:34:39.623027 132379477324544 database_cache.cc:82] Loading rigs...
+I20261004 17:34:39.623121 132379477324544 database_cache.cc:92]  1 in 0.000s
+I20261004 17:34:39.623156 132379477324544 database_cache.cc:100] Loading cameras...
+I20261004 17:34:39.623184 132379477324544 database_cache.cc:118]  1 in 0.000s
+I20261004 17:34:39.623198 132379477324544 database_cache.cc:126] Loading frames...
+I20261004 17:34:39.623408 132379477324544 database_cache.cc:136]  143 in 0.000s
+I20261004 17:34:39.623454 132379477324544 database_cache.cc:144] Loading matches...
+I20261004 17:34:39.625030 132379477324544 database_cache.cc:163]  342 in 0.002s
+I20261004 17:34:39.625071 132379477324544 database_cache.cc:171] Loading images...
+I20261004 17:34:39.632433 132379477324544 database_cache.cc:268]  143 in 0.007s (connected 128, loaded 128)
+I20261004 17:34:39.632485 132379477324544 database_cache.cc:282] Loading pose priors...
+I20261004 17:34:39.632509 132379477324544 database_cache.cc:290]  0 in 0.000s
+I20261004 17:34:39.632527 132379477324544 database_cache.cc:298] Building correspondence graph...
+I20261004 17:34:39.642065 132379477324544 database_cache.cc:327]  in 0.010s (ignored 0)
+I20261004 17:34:39.642152 132379477324544 timer.cc:90] Elapsed time: 0.000 [minutes]
+I20261004 17:34:39.645153 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:39.718745 132379477324544 incremental_pipeline.cc:492] Registering initial image pair #32 and #36
+I20261004 17:34:39.720817 132379477324544 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:34:39.779195 132379477324544 incremental_pipeline.cc:620] Registering image #34 (num_reg_frames=2)
+I20261004 17:34:39.779241 132379477324544 incremental_pipeline.cc:623] => Image sees 206 / 1005 points
+I20261004 17:34:39.860973 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:39.901367 132379477324544 incremental_pipeline.cc:620] Registering image #35 (num_reg_frames=3)
+I20261004 17:34:39.901418 132379477324544 incremental_pipeline.cc:623] => Image sees 513 / 1146 points
+I20261004 17:34:39.948002 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:39.995941 132379477324544 incremental_pipeline.cc:620] Registering image #33 (num_reg_frames=4)
+I20261004 17:34:39.995996 132379477324544 incremental_pipeline.cc:623] => Image sees 501 / 860 points
+I20261004 17:34:40.089673 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:40.146943 132379477324544 incremental_pipeline.cc:620] Registering image #31 (num_reg_frames=5)
+I20261004 17:34:40.147005 132379477324544 incremental_pipeline.cc:623] => Image sees 658 / 1293 points
+I20261004 17:34:40.272948 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:40.352372 132379477324544 incremental_pipeline.cc:620] Registering image #30 (num_reg_frames=6)
+I20261004 17:34:40.352421 132379477324544 incremental_pipeline.cc:623] => Image sees 282 / 977 points
+I20261004 17:34:40.416878 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:40.504238 132379477324544 incremental_pipeline.cc:620] Registering image #29 (num_reg_frames=7)
+I20261004 17:34:40.504288 132379477324544 incremental_pipeline.cc:623] => Image sees 493 / 982 points
+I20261004 17:34:40.573909 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:40.705527 132379477324544 incremental_pipeline.cc:620] Registering image #28 (num_reg_frames=8)
+I20261004 17:34:40.705580 132379477324544 incremental_pipeline.cc:623] => Image sees 319 / 666 points
+I20261004 17:34:40.768967 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:40.882185 132379477324544 incremental_pipeline.cc:620] Registering image #37 (num_reg_frames=9)
+I20261004 17:34:40.882235 132379477324544 incremental_pipeline.cc:623] => Image sees 507 / 1093 points
+I20261004 17:34:40.964254 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:41.099496 132379477324544 incremental_pipeline.cc:620] Registering image #27 (num_reg_frames=10)
+I20261004 17:34:41.099549 132379477324544 incremental_pipeline.cc:623] => Image sees 181 / 428 points
+I20261004 17:34:41.159410 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:41.312380 132379477324544 incremental_pipeline.cc:620] Registering image #26 (num_reg_frames=11)
+I20261004 17:34:41.312470 132379477324544 incremental_pipeline.cc:623] => Image sees 194 / 426 points
+I20261004 17:34:41.386426 132379477324544 incremental_pipeline.cc:620] Registering image #38 (num_reg_frames=12)
+I20261004 17:34:41.386477 132379477324544 incremental_pipeline.cc:623] => Image sees 527 / 973 points
+I20261004 17:34:41.462640 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:41.640521 132379477324544 incremental_pipeline.cc:620] Registering image #39 (num_reg_frames=13)
+I20261004 17:34:41.640571 132379477324544 incremental_pipeline.cc:623] => Image sees 271 / 417 points
+I20261004 17:34:41.741582 132379477324544 incremental_pipeline.cc:620] Registering image #40 (num_reg_frames=14)
+I20261004 17:34:41.741670 132379477324544 incremental_pipeline.cc:623] => Image sees 72 / 97 points
+I20261004 17:34:41.791830 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:41.955005 132379477324544 incremental_pipeline.cc:620] Registering image #25 (num_reg_frames=15)
+I20261004 17:34:41.955057 132379477324544 incremental_pipeline.cc:623] => Image sees 53 / 245 points
+I20261004 17:34:42.002199 132379477324544 incremental_pipeline.cc:620] Registering image #24 (num_reg_frames=16)
+I20261004 17:34:42.002256 132379477324544 incremental_pipeline.cc:623] => Image sees 57 / 220 points
+I20261004 17:34:42.019717 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:42.684380 132379477324544 incremental_pipeline.cc:620] Registering image #23 (num_reg_frames=17)
+I20261004 17:34:42.684437 132379477324544 incremental_pipeline.cc:623] => Image sees 47 / 236 points
+I20261004 17:34:42.729740 132379477324544 incremental_pipeline.cc:620] Registering image #22 (num_reg_frames=18)
+I20261004 17:34:42.729791 132379477324544 incremental_pipeline.cc:623] => Image sees 90 / 211 points
+I20261004 17:34:42.751735 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:42.986213 132379477324544 incremental_pipeline.cc:620] Registering image #21 (num_reg_frames=19)
+I20261004 17:34:42.986263 132379477324544 incremental_pipeline.cc:623] => Image sees 78 / 216 points
+I20261004 17:34:43.035491 132379477324544 incremental_pipeline.cc:620] Registering image #20 (num_reg_frames=20)
+I20261004 17:34:43.035540 132379477324544 incremental_pipeline.cc:623] => Image sees 95 / 201 points
+I20261004 17:34:43.063029 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:43.562974 132379477324544 incremental_pipeline.cc:620] Registering image #19 (num_reg_frames=21)
+I20261004 17:34:43.563029 132379477324544 incremental_pipeline.cc:623] => Image sees 37 / 46 points
+I20261004 17:34:43.609145 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:43.913786 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:43.998492 132379477324544 incremental_pipeline.cc:826] Keeping successful reconstruction
+I20261004 17:34:44.003397 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:44.294602 132379477324544 incremental_pipeline.cc:492] Registering initial image pair #10 and #9
+I20261004 17:34:44.295606 132379477324544 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:34:44.356681 132379477324544 incremental_pipeline.cc:620] Registering image #11 (num_reg_frames=2)
+I20261004 17:34:44.356719 132379477324544 incremental_pipeline.cc:623] => Image sees 86 / 461 points
+I20261004 17:34:44.387349 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:44.452866 132379477324544 incremental_pipeline.cc:620] Registering image #12 (num_reg_frames=3)
+I20261004 17:34:44.452906 132379477324544 incremental_pipeline.cc:623] => Image sees 113 / 340 points
+I20261004 17:34:44.485877 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:44.554289 132379477324544 incremental_pipeline.cc:620] Registering image #13 (num_reg_frames=4)
+I20261004 17:34:44.554333 132379477324544 incremental_pipeline.cc:623] => Image sees 115 / 283 points
+I20261004 17:34:44.600899 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:44.648693 132379477324544 incremental_pipeline.cc:620] Registering image #8 (num_reg_frames=5)
+I20261004 17:34:44.648747 132379477324544 incremental_pipeline.cc:623] => Image sees 100 / 612 points
+I20261004 17:34:44.710996 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:44.740615 132379477324544 incremental_pipeline.cc:620] Registering image #7 (num_reg_frames=6)
+I20261004 17:34:44.740664 132379477324544 incremental_pipeline.cc:623] => Image sees 206 / 627 points
+I20261004 17:34:44.781139 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:44.832566 132379477324544 incremental_pipeline.cc:620] Registering image #6 (num_reg_frames=7)
+I20261004 17:34:44.832609 132379477324544 incremental_pipeline.cc:623] => Image sees 202 / 381 points
+I20261004 17:34:44.857965 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:44.922047 132379477324544 incremental_pipeline.cc:620] Registering image #5 (num_reg_frames=8)
+I20261004 17:34:44.922093 132379477324544 incremental_pipeline.cc:623] => Image sees 94 / 161 points
+I20261004 17:34:44.950960 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:45.002911 132379477324544 incremental_pipeline.cc:620] Registering image #4 (num_reg_frames=9)
+I20261004 17:34:45.002955 132379477324544 incremental_pipeline.cc:623] => Image sees 37 / 195 points
+I20261004 17:34:45.021387 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:45.084352 132379477324544 incremental_pipeline.cc:620] Registering image #3 (num_reg_frames=10)
+I20261004 17:34:45.084396 132379477324544 incremental_pipeline.cc:623] => Image sees 34 / 221 points
+I20261004 17:34:45.100235 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:45.164319 132379477324544 incremental_pipeline.cc:620] Registering image #14 (num_reg_frames=11)
+I20261004 17:34:45.164363 132379477324544 incremental_pipeline.cc:623] => Image sees 35 / 76 points
+I20261004 17:34:45.205056 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:45.238133 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:45.245766 132379477324544 incremental_pipeline.cc:826] Keeping successful reconstruction
+I20261004 17:34:45.248533 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:45.372988 132379477324544 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:34:45.373026 132379477324544 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:34:45.373301 132379477324544 incremental_pipeline.cc:429] => Relaxing the initialization constraints.
+I20261004 17:34:45.374597 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:45.955906 132379477324544 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:34:45.955961 132379477324544 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:34:45.956369 132379477324544 incremental_pipeline.cc:442] => Relaxing the initialization constraints.
+I20261004 17:34:45.957916 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:46.127288 132379477324544 incremental_pipeline.cc:492] Registering initial image pair #90 and #87
+I20261004 17:34:46.128561 132379477324544 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:34:46.183898 132379477324544 incremental_pipeline.cc:620] Registering image #88 (num_reg_frames=2)
+I20261004 17:34:46.183964 132379477324544 incremental_pipeline.cc:623] => Image sees 61 / 404 points
+I20261004 17:34:46.210647 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.239151 132379477324544 incremental_pipeline.cc:620] Registering image #89 (num_reg_frames=3)
+I20261004 17:34:46.239203 132379477324544 incremental_pipeline.cc:623] => Image sees 196 / 688 points
+I20261004 17:34:46.262905 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.295263 132379477324544 incremental_pipeline.cc:620] Registering image #92 (num_reg_frames=4)
+I20261004 17:34:46.295286 132379477324544 incremental_pipeline.cc:623] => Image sees 67 / 111 points
+I20261004 17:34:46.327422 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.359121 132379477324544 incremental_pipeline.cc:620] Registering image #86 (num_reg_frames=5)
+I20261004 17:34:46.359143 132379477324544 incremental_pipeline.cc:623] => Image sees 69 / 202 points
+I20261004 17:34:46.389994 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.425333 132379477324544 incremental_pipeline.cc:620] Registering image #85 (num_reg_frames=6)
+I20261004 17:34:46.425355 132379477324544 incremental_pipeline.cc:623] => Image sees 98 / 263 points
+I20261004 17:34:46.442905 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.480554 132379477324544 incremental_pipeline.cc:620] Registering image #84 (num_reg_frames=7)
+I20261004 17:34:46.480573 132379477324544 incremental_pipeline.cc:623] => Image sees 54 / 246 points
+I20261004 17:34:46.495276 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.534475 132379477324544 incremental_pipeline.cc:620] Registering image #83 (num_reg_frames=8)
+I20261004 17:34:46.534495 132379477324544 incremental_pipeline.cc:623] => Image sees 49 / 241 points
+I20261004 17:34:46.550167 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.593288 132379477324544 incremental_pipeline.cc:620] Registering image #82 (num_reg_frames=9)
+I20261004 17:34:46.593310 132379477324544 incremental_pipeline.cc:623] => Image sees 66 / 373 points
+I20261004 17:34:46.605155 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.674514 132379477324544 incremental_pipeline.cc:620] Registering image #81 (num_reg_frames=10)
+I20261004 17:34:46.674535 132379477324544 incremental_pipeline.cc:623] => Image sees 108 / 723 points
+I20261004 17:34:46.693478 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.776337 132379477324544 incremental_pipeline.cc:620] Registering image #80 (num_reg_frames=11)
+I20261004 17:34:46.776359 132379477324544 incremental_pipeline.cc:623] => Image sees 140 / 848 points
+I20261004 17:34:46.804571 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:46.883882 132379477324544 incremental_pipeline.cc:620] Registering image #78 (num_reg_frames=12)
+I20261004 17:34:46.883905 132379477324544 incremental_pipeline.cc:623] => Image sees 224 / 1129 points
+I20261004 17:34:46.916402 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:47.015811 132379477324544 incremental_pipeline.cc:620] Registering image #79 (num_reg_frames=13)
+I20261004 17:34:47.015835 132379477324544 incremental_pipeline.cc:623] => Image sees 255 / 1347 points
+I20261004 17:34:47.057875 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:47.234698 132379477324544 incremental_pipeline.cc:620] Registering image #77 (num_reg_frames=14)
+I20261004 17:34:47.234757 132379477324544 incremental_pipeline.cc:623] => Image sees 310 / 1218 points
+I20261004 17:34:47.280947 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:47.397770 132379477324544 incremental_pipeline.cc:620] Registering image #76 (num_reg_frames=15)
+I20261004 17:34:47.397799 132379477324544 incremental_pipeline.cc:623] => Image sees 175 / 336 points
+I20261004 17:34:47.452968 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:47.529632 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:47.545178 132379477324544 incremental_pipeline.cc:826] Keeping successful reconstruction
+I20261004 17:34:47.549417 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:47.623807 132379477324544 incremental_pipeline.cc:492] Registering initial image pair #124 and #126
+I20261004 17:34:47.625001 132379477324544 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:34:47.679502 132379477324544 incremental_pipeline.cc:620] Registering image #125 (num_reg_frames=2)
+I20261004 17:34:47.679524 132379477324544 incremental_pipeline.cc:623] => Image sees 78 / 489 points
+I20261004 17:34:47.709098 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:47.744914 132379477324544 incremental_pipeline.cc:620] Registering image #127 (num_reg_frames=3)
+I20261004 17:34:47.744946 132379477324544 incremental_pipeline.cc:623] => Image sees 139 / 387 points
+I20261004 17:34:47.767283 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:47.808278 132379477324544 incremental_pipeline.cc:620] Registering image #123 (num_reg_frames=4)
+I20261004 17:34:47.808300 132379477324544 incremental_pipeline.cc:623] => Image sees 127 / 368 points
+I20261004 17:34:47.857043 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:47.898565 132379477324544 incremental_pipeline.cc:620] Registering image #122 (num_reg_frames=5)
+I20261004 17:34:47.898586 132379477324544 incremental_pipeline.cc:623] => Image sees 116 / 216 points
+I20261004 17:34:47.941038 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:47.980249 132379477324544 incremental_pipeline.cc:620] Registering image #128 (num_reg_frames=6)
+I20261004 17:34:47.980270 132379477324544 incremental_pipeline.cc:623] => Image sees 75 / 166 points
+I20261004 17:34:47.999777 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.062903 132379477324544 incremental_pipeline.cc:620] Registering image #119 (num_reg_frames=7)
+I20261004 17:34:48.062926 132379477324544 incremental_pipeline.cc:623] => Image sees 76 / 256 points
+I20261004 17:34:48.093390 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.160174 132379477324544 incremental_pipeline.cc:620] Registering image #120 (num_reg_frames=8)
+I20261004 17:34:48.160196 132379477324544 incremental_pipeline.cc:623] => Image sees 62 / 192 points
+I20261004 17:34:48.189838 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.268323 132379477324544 incremental_pipeline.cc:620] Registering image #118 (num_reg_frames=9)
+I20261004 17:34:48.268345 132379477324544 incremental_pipeline.cc:623] => Image sees 85 / 223 points
+I20261004 17:34:48.286817 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.345084 132379477324544 incremental_pipeline.cc:620] Registering image #121 (num_reg_frames=10)
+I20261004 17:34:48.345119 132379477324544 incremental_pipeline.cc:623] => Image sees 71 / 132 points
+I20261004 17:34:48.360920 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.449216 132379477324544 incremental_pipeline.cc:620] Registering image #129 (num_reg_frames=11)
+I20261004 17:34:48.449279 132379477324544 incremental_pipeline.cc:623] => Image sees 47 / 79 points
+I20261004 17:34:48.495951 132379477324544 incremental_pipeline.cc:620] Registering image #117 (num_reg_frames=12)
+I20261004 17:34:48.495976 132379477324544 incremental_pipeline.cc:623] => Image sees 34 / 84 points
+I20261004 17:34:48.508985 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.613957 132379477324544 incremental_pipeline.cc:620] Registering image #131 (num_reg_frames=13)
+I20261004 17:34:48.613979 132379477324544 incremental_pipeline.cc:623] => Image sees 34 / 61 points
+I20261004 17:34:48.651146 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.684270 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.690959 132379477324544 incremental_pipeline.cc:826] Keeping successful reconstruction
+I20261004 17:34:48.693883 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:48.700193 132379477324544 incremental_pipeline.cc:492] Registering initial image pair #99 and #103
+I20261004 17:34:48.700816 132379477324544 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:34:48.751750 132379477324544 incremental_pipeline.cc:620] Registering image #101 (num_reg_frames=2)
+I20261004 17:34:48.751772 132379477324544 incremental_pipeline.cc:623] => Image sees 38 / 575 points
+I20261004 17:34:48.782688 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.817746 132379477324544 incremental_pipeline.cc:620] Registering image #100 (num_reg_frames=3)
+I20261004 17:34:48.817765 132379477324544 incremental_pipeline.cc:623] => Image sees 220 / 556 points
+I20261004 17:34:48.836626 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.886995 132379477324544 incremental_pipeline.cc:620] Registering image #102 (num_reg_frames=4)
+I20261004 17:34:48.887015 132379477324544 incremental_pipeline.cc:623] => Image sees 125 / 296 points
+I20261004 17:34:48.917131 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:48.960491 132379477324544 incremental_pipeline.cc:620] Registering image #104 (num_reg_frames=5)
+I20261004 17:34:48.960511 132379477324544 incremental_pipeline.cc:623] => Image sees 107 / 223 points
+I20261004 17:34:49.042733 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.081463 132379477324544 incremental_pipeline.cc:620] Registering image #105 (num_reg_frames=6)
+I20261004 17:34:49.081485 132379477324544 incremental_pipeline.cc:623] => Image sees 104 / 185 points
+I20261004 17:34:49.101179 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.140018 132379477324544 incremental_pipeline.cc:620] Registering image #98 (num_reg_frames=7)
+I20261004 17:34:49.140038 132379477324544 incremental_pipeline.cc:623] => Image sees 99 / 239 points
+I20261004 17:34:49.161874 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.202165 132379477324544 incremental_pipeline.cc:620] Registering image #97 (num_reg_frames=8)
+I20261004 17:34:49.202185 132379477324544 incremental_pipeline.cc:623] => Image sees 67 / 185 points
+I20261004 17:34:49.218043 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.266754 132379477324544 incremental_pipeline.cc:620] Registering image #106 (num_reg_frames=9)
+I20261004 17:34:49.266774 132379477324544 incremental_pipeline.cc:623] => Image sees 54 / 170 points
+I20261004 17:34:49.281665 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.333255 132379477324544 incremental_pipeline.cc:620] Registering image #107 (num_reg_frames=10)
+I20261004 17:34:49.333302 132379477324544 incremental_pipeline.cc:623] => Image sees 74 / 213 points
+I20261004 17:34:49.357332 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.406843 132379477324544 incremental_pipeline.cc:620] Registering image #108 (num_reg_frames=11)
+I20261004 17:34:49.406863 132379477324544 incremental_pipeline.cc:623] => Image sees 34 / 148 points
+I20261004 17:34:49.442961 132379477324544 incremental_pipeline.cc:620] Registering image #109 (num_reg_frames=12)
+I20261004 17:34:49.442982 132379477324544 incremental_pipeline.cc:623] => Image sees 63 / 134 points
+I20261004 17:34:49.457764 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.528274 132379477324544 incremental_pipeline.cc:620] Registering image #110 (num_reg_frames=13)
+I20261004 17:34:49.528302 132379477324544 incremental_pipeline.cc:623] => Image sees 82 / 136 points
+I20261004 17:34:49.567666 132379477324544 incremental_pipeline.cc:620] Registering image #111 (num_reg_frames=14)
+I20261004 17:34:49.567692 132379477324544 incremental_pipeline.cc:623] => Image sees 80 / 114 points
+I20261004 17:34:49.582681 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.644341 132379477324544 incremental_pipeline.cc:620] Registering image #112 (num_reg_frames=15)
+I20261004 17:34:49.644374 132379477324544 incremental_pipeline.cc:623] => Image sees 44 / 59 points
+I20261004 17:34:49.679061 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.714969 132379477324544 incremental_pipeline.cc:826] Keeping successful reconstruction
+I20261004 17:34:49.717991 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:49.779812 132379477324544 incremental_pipeline.cc:492] Registering initial image pair #58 and #55
+I20261004 17:34:49.780398 132379477324544 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:34:49.831247 132379477324544 incremental_pipeline.cc:620] Registering image #56 (num_reg_frames=2)
+I20261004 17:34:49.831268 132379477324544 incremental_pipeline.cc:623] => Image sees 52 / 181 points
+I20261004 17:34:49.839616 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.867146 132379477324544 incremental_pipeline.cc:620] Registering image #54 (num_reg_frames=3)
+I20261004 17:34:49.867166 132379477324544 incremental_pipeline.cc:623] => Image sees 79 / 156 points
+I20261004 17:34:49.875376 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.905594 132379477324544 incremental_pipeline.cc:620] Registering image #57 (num_reg_frames=4)
+I20261004 17:34:49.905615 132379477324544 incremental_pipeline.cc:623] => Image sees 79 / 118 points
+I20261004 17:34:49.928548 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:49.957506 132379477324544 incremental_pipeline.cc:620] Registering image #59 (num_reg_frames=5)
+I20261004 17:34:49.957526 132379477324544 incremental_pipeline.cc:623] => Image sees 67 / 180 points
+I20261004 17:34:49.988217 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.016861 132379477324544 incremental_pipeline.cc:620] Registering image #61 (num_reg_frames=6)
+I20261004 17:34:50.016881 132379477324544 incremental_pipeline.cc:623] => Image sees 81 / 183 points
+I20261004 17:34:50.032217 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.064346 132379477324544 incremental_pipeline.cc:620] Registering image #53 (num_reg_frames=7)
+I20261004 17:34:50.064369 132379477324544 incremental_pipeline.cc:623] => Image sees 73 / 140 points
+I20261004 17:34:50.076423 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.132029 132379477324544 incremental_pipeline.cc:620] Registering image #51 (num_reg_frames=8)
+I20261004 17:34:50.132084 132379477324544 incremental_pipeline.cc:623] => Image sees 69 / 242 points
+I20261004 17:34:50.143957 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.195012 132379477324544 incremental_pipeline.cc:620] Registering image #52 (num_reg_frames=9)
+I20261004 17:34:50.195040 132379477324544 incremental_pipeline.cc:623] => Image sees 97 / 249 points
+I20261004 17:34:50.210017 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.252447 132379477324544 incremental_pipeline.cc:620] Registering image #50 (num_reg_frames=10)
+I20261004 17:34:50.252469 132379477324544 incremental_pipeline.cc:623] => Image sees 72 / 170 points
+I20261004 17:34:50.267131 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.313679 132379477324544 incremental_pipeline.cc:620] Registering image #49 (num_reg_frames=11)
+I20261004 17:34:50.313701 132379477324544 incremental_pipeline.cc:623] => Image sees 85 / 166 points
+I20261004 17:34:50.353240 132379477324544 incremental_pipeline.cc:620] Registering image #60 (num_reg_frames=12)
+I20261004 17:34:50.353261 132379477324544 incremental_pipeline.cc:623] => Image sees 65 / 140 points
+I20261004 17:34:50.366717 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.424771 132379477324544 incremental_pipeline.cc:620] Registering image #62 (num_reg_frames=13)
+I20261004 17:34:50.424794 132379477324544 incremental_pipeline.cc:623] => Image sees 73 / 150 points
+I20261004 17:34:50.460897 132379477324544 incremental_pipeline.cc:620] Registering image #63 (num_reg_frames=14)
+I20261004 17:34:50.460917 132379477324544 incremental_pipeline.cc:623] => Image sees 71 / 142 points
+I20261004 17:34:50.476013 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.521989 132379477324544 incremental_pipeline.cc:620] Registering image #64 (num_reg_frames=15)
+I20261004 17:34:50.522010 132379477324544 incremental_pipeline.cc:623] => Image sees 61 / 195 points
+I20261004 17:34:50.561396 132379477324544 incremental_pipeline.cc:620] Registering image #65 (num_reg_frames=16)
+I20261004 17:34:50.561415 132379477324544 incremental_pipeline.cc:623] => Image sees 64 / 215 points
+I20261004 17:34:50.573893 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.624325 132379477324544 incremental_pipeline.cc:620] Registering image #48 (num_reg_frames=17)
+I20261004 17:34:50.624347 132379477324544 incremental_pipeline.cc:623] => Image sees 58 / 251 points
+I20261004 17:34:50.661488 132379477324544 incremental_pipeline.cc:620] Registering image #47 (num_reg_frames=18)
+I20261004 17:34:50.661514 132379477324544 incremental_pipeline.cc:623] => Image sees 58 / 227 points
+I20261004 17:34:50.676317 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.747380 132379477324544 incremental_pipeline.cc:620] Registering image #45 (num_reg_frames=19)
+I20261004 17:34:50.747403 132379477324544 incremental_pipeline.cc:623] => Image sees 31 / 89 points
+I20261004 17:34:50.748149 132379477324544 incremental_pipeline.cc:646] => Could not register, trying another image.
+I20261004 17:34:50.748158 132379477324544 incremental_pipeline.cc:620] Registering image #66 (num_reg_frames=19)
+I20261004 17:34:50.748162 132379477324544 incremental_pipeline.cc:623] => Image sees 45 / 178 points
+I20261004 17:34:50.784093 132379477324544 incremental_pipeline.cc:620] Registering image #46 (num_reg_frames=20)
+I20261004 17:34:50.784126 132379477324544 incremental_pipeline.cc:623] => Image sees 34 / 154 points
+I20261004 17:34:50.797310 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:50.862495 132379477324544 incremental_pipeline.cc:620] Registering image #67 (num_reg_frames=21)
+I20261004 17:34:50.862544 132379477324544 incremental_pipeline.cc:623] => Image sees 34 / 176 points
+I20261004 17:34:50.897648 132379477324544 incremental_pipeline.cc:620] Registering image #68 (num_reg_frames=22)
+I20261004 17:34:50.897670 132379477324544 incremental_pipeline.cc:623] => Image sees 32 / 154 points
+I20261004 17:34:50.930620 132379477324544 incremental_pipeline.cc:620] Registering image #45 (num_reg_frames=23)
+I20261004 17:34:50.930640 132379477324544 incremental_pipeline.cc:623] => Image sees 41 / 89 points
+I20261004 17:34:50.944828 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:51.010734 132379477324544 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:34:51.049664 132379477324544 incremental_pipeline.cc:826] Keeping successful reconstruction
+I20261004 17:34:51.052919 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:51.098751 132379477324544 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:34:51.098771 132379477324544 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:34:51.098992 132379477324544 incremental_pipeline.cc:429] => Relaxing the initialization constraints.
+I20261004 17:34:51.100338 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:51.161489 132379477324544 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:34:51.161514 132379477324544 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:34:51.161825 132379477324544 incremental_pipeline.cc:442] => Relaxing the initialization constraints.
+I20261004 17:34:51.163372 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:51.207221 132379477324544 incremental_pipeline.cc:492] Registering initial image pair #69 and #72
+I20261004 17:34:51.207551 132379477324544 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:34:51.209544 132379477324544 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:34:51.211354 132379477324544 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:34:51.227704 132379477324544 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:34:51.227726 132379477324544 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:34:51.227901 132379477324544 timer.cc:90] Elapsed time: 0.193 [minutes]
+INFO src.tiers.colmap_utils: COLMAP succeeded with config: strict, 411 points, 24 images registered
+INFO src.tiers.colmap_utils: reconstructed 24 images, 411 points
+WARNING src.tiers.colmap_utils: scale refinement skipped: neither wall lines nor a room outline found
+INFO src.tiers.colmap_utils: scale: prior vertical-extent x0.147, refinement vertical-extent x1.000
+WARNING floorplan: geometry failed for room-1, room dropped: neither wall lines nor a room outline found
+DEBUG matplotlib: CACHEDIR=/root/.cache/matplotlib
+DEBUG matplotlib.font_manager: Using fontManager instance from /root/.cache/matplotlib/fontlist-v390.json
+DEBUG matplotlib.pyplot: Loaded backend Agg version v2.2.
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0.
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf', name='Liberation Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf', name='Liberation Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf', name='Liberation Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/humor-sans/Humor-Sans.ttf', name='Humor Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf', name='Liberation Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf', name='Liberation Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf', name='Liberation Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0 to DejaVu Sans ('/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=12.0.
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf', name='Liberation Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf', name='Liberation Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf', name='Liberation Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/humor-sans/Humor-Sans.ttf', name='Humor Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf', name='Liberation Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf', name='Liberation Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf', name='Liberation Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=12.0 to DejaVu Sans ('/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=bold:stretch=normal:size=20.0.
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.33499999999999996
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf', name='Liberation Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf', name='Liberation Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf', name='Liberation Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/humor-sans/Humor-Sans.ttf', name='Humor Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf', name='Liberation Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf', name='Liberation Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf', name='Liberation Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=bold:stretch=normal:size=20.0 to DejaVu Sans ('/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf') with score of 0.050000.
