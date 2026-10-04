@@ -151,15 +151,12 @@ def run_pipeline(
     property_ir.rooms = solved
     timed("geometry", t)
 
-    # 4. stitching. LiDAR/video rooms already share one frame, so without a stitcher
-    # every room keeps an identity transform.
+    # 4. stitching
     t = time.perf_counter()
-    try:
-        property_ir = stitch_rooms(property_ir, drift_correction=drift_correction)
-    except NotImplementedError:
-        _say("Step stitch not yet implemented (rooms kept in capture frame)")
-        property_ir.room_transforms = {r.room_id: (0.0, 0.0, 0.0) for r in property_ir.rooms}
-        property_ir.adjacencies = []
+    property_ir = stitch_rooms(property_ir, drift_correction=drift_correction)
+    _say(f"Stitched {len(property_ir.rooms)} room(s), "
+         f"{len(property_ir.adjacencies or [])} adjacency link(s), "
+         f"drift_correction={drift_correction}")
     timed("stitch", t)
 
     # 5-7. damage detection, concealed-damage rules, scope: not implemented yet.
