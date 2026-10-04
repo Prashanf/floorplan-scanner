@@ -42,6 +42,7 @@ class RoomIR:
     wall_segments: Optional[list] = None
     openings: Optional[list] = None
     ceiling_height: Optional[float] = None
+    ceiling_observed: bool = True  # False: no ceiling plane was scanned; ceiling_height is a lower bound
     floor_polygon: Optional[list] = None
     point_density: Optional[float] = None
     metadata: dict = field(default_factory=dict)  # e.g. scale method and factor from SfM tiers

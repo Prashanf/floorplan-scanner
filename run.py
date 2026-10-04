@@ -39,6 +39,10 @@ def main(capture_dir: Path, tier: str, output_dir: Path, no_drift_correction: bo
         raise click.ClickException(f"Invalid capture for tier '{tier}': {exc}")
     except NotImplementedError as exc:
         raise click.ClickException(str(exc))
+    except (RuntimeError, ValueError, FileNotFoundError) as exc:  # reconstruction or geometry gave nothing usable
+        if verbose:
+            raise
+        raise click.ClickException(f"{tier} tier could not process this capture: {exc} (run with --verbose for details)")
 
     click.echo("\n--- Summary ---")
     click.echo(f"tier: {report.capture_tier} | rooms: {report.room_count} | "

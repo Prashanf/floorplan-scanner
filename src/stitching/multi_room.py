@@ -10,11 +10,14 @@ from shapely.geometry import Polygon as ShapelyPolygon
 
 from src.room_ir import PropertyIR, RoomIR
 from src.stitching.drift_correction import correct_drift
+from src.stitching.opening_ids import opening_id
 from src.stitching.photo_stitch import stitch_photos
 
 log = logging.getLogger("floorplan.stitch")
 
 OPENING_PROXIMITY = 0.5  # metres: openings closer than this link two rooms
+CONTACT_GAP = 0.2  # metres: walls this close count as touching (a wall is 0.1 to 0.3 m thick)
+MIN_CONTACT_LENGTH = 0.6  # metres of shared boundary needed to call two rooms adjacent
 
 
 def _opening_global_pos(room: RoomIR, opening) -> np.ndarray:
@@ -27,34 +30,52 @@ def _opening_global_pos(room: RoomIR, opening) -> np.ndarray:
     ])
 
 
+def _contact_length(ra: RoomIR, rb: RoomIR) -> float:
+    """Approximate length (m) of boundary that two room outlines share within CONTACT_GAP."""
+    if not ra.floor_polygon or not rb.floor_polygon:
+        return 0.0
+    pa = _valid(ShapelyPolygon(ra.floor_polygon)).buffer(CONTACT_GAP / 2)
+    pb = _valid(ShapelyPolygon(rb.floor_polygon)).buffer(CONTACT_GAP / 2)
+    return float(pa.intersection(pb).area / CONTACT_GAP) if pa.intersects(pb) else 0.0
+
+
 def _build_adjacency_graph(rooms: list[RoomIR]) -> list[dict]:
-    """Link rooms whose openings are within OPENING_PROXIMITY metres."""
+    """Link rooms joined by an opening (openings within OPENING_PROXIMITY metres of each other),
+    or, when partial scans missed the doorway, rooms whose outlines share a boundary of
+    MIN_CONTACT_LENGTH or more (shared_opening_id is then None)."""
     adjacencies: list[dict] = []
     seen: set[tuple[str, str]] = set()
     for i, ra in enumerate(rooms):
-        if not ra.openings:
-            continue
         for j, rb in enumerate(rooms):
-            if j <= i or not rb.openings:
+            if j <= i:
                 continue
             key = (ra.room_id, rb.room_id)
             if key in seen:
                 continue
-            for oa in ra.openings:
-                for ob in rb.openings:
+            for oa in (ra.openings or []):
+                for ob in (rb.openings or []):
                     pa = _opening_global_pos(ra, oa)
                     pb = _opening_global_pos(rb, ob)
                     if float(np.linalg.norm(pa - pb)) < OPENING_PROXIMITY:
                         adjacencies.append({
                             "room_a_id": ra.room_id,
                             "room_b_id": rb.room_id,
-                            "shared_opening_id": f"{ra.room_id}/{oa.type}-{oa.wall_index}",
+                            "shared_opening_id": opening_id(ra, oa),
                         })
                         seen.add(key)
                         break
                 if key in seen:
                     break
+            if key not in seen and _contact_length(ra, rb) >= MIN_CONTACT_LENGTH:
+                adjacencies.append({"room_a_id": ra.room_id, "room_b_id": rb.room_id,
+                                    "shared_opening_id": None})
+                seen.add(key)
     return adjacencies
+
+
+def _valid(poly: ShapelyPolygon) -> ShapelyPolygon:
+    """Repair a self-intersecting outline (common with partial real scans) so Shapely ops cannot raise."""
+    return poly if poly.is_valid else poly.buffer(0)
 
 
 def _validate_no_overlap(rooms: list[RoomIR], transforms: dict) -> None:
@@ -67,7 +88,7 @@ def _validate_no_overlap(rooms: list[RoomIR], transforms: dict) -> None:
         dx, dy, rot = tf
         c, s = math.cos(rot), math.sin(rot)
         pts = [(c * x - s * y + dx, s * x + c * y + dy) for x, y in r.floor_polygon]
-        polys.append((r.room_id, ShapelyPolygon(pts)))
+        polys.append((r.room_id, _valid(ShapelyPolygon(pts))))
 
     for i, (id_a, pa) in enumerate(polys):
         for j in range(i + 1, len(polys)):

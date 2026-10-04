@@ -6,6 +6,7 @@ import json
 import logging
 from pathlib import Path
 
+from src import config as cfg
 from src.models import (
     DamageRegion,
     Measurement,
@@ -18,19 +19,11 @@ from src.models import (
 
 log = logging.getLogger("floorplan.calibration")
 
-BASE_UNCERTAINTY = {
-    "wall_length": 0.01,
-    "ceiling_height": 0.01,
-    "opening_width": 0.02,
-    "floor_area": 0.1,
-    "damage_extent": 0.05,
-}
+BASE_UNCERTAINTY = cfg.BASE_UNCERTAINTY
 
-TIER_MULTIPLIER = {
-    "lidar": 1.5,
-    "video": 3.0,
-    "photo": 6.0,
-}
+TIER_MULTIPLIER = cfg.CONFIDENCE_MULTIPLIER
+
+UNOBSERVED_CEILING_EXTRA = cfg.UNOBSERVED_CEILING_EXTRA
 
 CALIBRATION_FILE = Path(__file__).resolve().parents[2] / "calibration_data.json"
 
@@ -100,10 +93,17 @@ def calibrate_measurements(report: PropertyReport, tier: str) -> PropertyReport:
             })
             for o in room.openings
         ]
+        if room.ceiling_observed:
+            ceiling = cal(room.ceiling_height, "ceiling_height")
+        else:  # a lower bound: the interval opens upward instead of being symmetric
+            ceiling = room.ceiling_height.model_copy(update={
+                "confidence_low": room.ceiling_height.value,
+                "confidence_high": room.ceiling_height.value + UNOBSERVED_CEILING_EXTRA})
+        new_walls = [w.model_copy(update={"height": ceiling}) for w in new_walls]
         new_rooms.append(room.model_copy(update={
             "walls": new_walls,
             "openings": new_openings,
-            "ceiling_height": cal(room.ceiling_height, "ceiling_height"),
+            "ceiling_height": ceiling,
             "floor_area": cal(room.floor_area, "floor_area"),
         }))
 

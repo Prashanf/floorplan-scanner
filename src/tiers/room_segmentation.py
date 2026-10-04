@@ -26,18 +26,19 @@ from sklearn.cluster import DBSCAN
 
 from src.geometry.ceiling import find_floor_and_ceiling
 from src.room_ir import PointCloud
+from src import config as cfg
 
-WALL_BAND = (0.8, 1.5)  # meters above floor
-DBSCAN_EPS = 0.5
-DBSCAN_MIN_SAMPLES = 50
-CELL = 0.05  # occupancy grid resolution, meters
-PERSISTENCE = 0.1  # meters a room's peak must rise above the pass to its neighbor
-MIN_ROOM_RADIUS = 0.3  # a room's largest inscribed circle must reach this radius
+WALL_BAND = cfg.WALL_HEIGHT_BAND
+DBSCAN_EPS = cfg.DBSCAN_EPS
+DBSCAN_MIN_SAMPLES = cfg.DBSCAN_MIN_SAMPLES
+CELL = cfg.SEGMENTATION_CELL
+PERSISTENCE = cfg.ROOM_PERSISTENCE
+MIN_ROOM_RADIUS = cfg.MIN_ROOM_RADIUS
 MIN_FREE_AREA = 0.5  # m2 of enclosed free space below which the walls are treated as leaking
 MAX_REACH = 0.4  # points farther than this from every room region are dropped
 PROBE = 0.1  # meters; wall points look this far to each side for a room
 NORMAL_NEIGHBORS = 30
-MIN_ROOM_POINTS = 500
+MIN_ROOM_POINTS = cfg.MIN_ROOM_POINTS
 
 
 def _subset(cloud: PointCloud, mask: np.ndarray) -> PointCloud:
@@ -176,6 +177,20 @@ def _assign_points(
     return masks
 
 
+def _cluster_band(xy: np.ndarray) -> np.ndarray:
+    """DBSCAN labels (-1 = noise) of the wall-band points.
+
+    Points are first binned to CELL-sized cells and DBSCAN runs on the cell centres weighted
+    by their point counts. That gives the same clusters as running on every point, but
+    dense real scans (hundreds of thousands of band points) stay fast instead of taking minutes.
+    """
+    cells, inverse, counts = np.unique(np.floor(xy / CELL).astype(np.int64), axis=0,
+                                       return_inverse=True, return_counts=True)
+    labels = DBSCAN(eps=DBSCAN_EPS, min_samples=DBSCAN_MIN_SAMPLES).fit_predict(
+        (cells + 0.5) * CELL, sample_weight=counts)
+    return labels[inverse.reshape(-1)]
+
+
 def segment_rooms(cloud: PointCloud) -> list[PointCloud]:
     """Return one full-height PointCloud per room, ordered left to right (then bottom to top).
 
@@ -188,7 +203,7 @@ def segment_rooms(cloud: PointCloud) -> list[PointCloud]:
         return [cloud]
 
     band_idx = np.flatnonzero(band)
-    cluster_of_band = DBSCAN(eps=DBSCAN_EPS, min_samples=DBSCAN_MIN_SAMPLES).fit_predict(pts[band_idx, :2])
+    cluster_of_band = _cluster_band(pts[band_idx, :2])
     cluster_ids = [c for c in np.unique(cluster_of_band) if c != -1]
     if not cluster_ids:
         return [cloud]

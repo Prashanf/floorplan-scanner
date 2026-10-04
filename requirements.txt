@@ -3,6 +3,7 @@ open3d>=0.17
 opencv-python>=4.8
 Pillow>=10.0
 pillow-heif>=0.13
+rawpy>=0.19  # optional: DNG raw photos; without it DNG files are skipped with a warning
 pydantic>=2.0
 shapely>=2.0
 scipy>=1.11

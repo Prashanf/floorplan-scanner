@@ -11,14 +11,18 @@ from scipy import ndimage
 from src.geometry.ceiling import find_floor_and_ceiling
 from src.geometry.wall_fitting import WallSegment
 from src.room_ir import PointCloud
+from src import config as cfg
 
-PLANE_DISTANCE = 0.15  # meters: points this close to the wall plane belong to the wall
-BIN_WIDTH = 0.05  # meters along the wall
-MIN_OPENING_WIDTH = 0.4
-MIN_OPENING_HEIGHT = 0.4  # a column is open if it has an empty vertical run at least this tall
-DOOR_MAX_START = 0.2  # gap starting within this of the floor is a door
-WINDOW_MIN_START = 0.7  # gap starting above this is a window
+PLANE_DISTANCE = cfg.OPENING_PLANE_DISTANCE
+BIN_WIDTH = cfg.OPENING_BIN_WIDTH
+MIN_OPENING_WIDTH = cfg.MIN_OPENING_WIDTH
+MIN_OPENING_HEIGHT = cfg.MIN_OPENING_HEIGHT
+DOOR_MAX_START = cfg.DOOR_MAX_HEIGHT_START
+WINDOW_MIN_START = cfg.WINDOW_MIN_HEIGHT_START
 SIMILAR_GAP = 0.15  # columns in one opening agree on gap start/end within this
+DOOR_MIN_HEIGHT = cfg.DOOR_MIN_HEIGHT
+WINDOW_MAX_HEIGHT = cfg.WINDOW_MAX_HEIGHT
+LINTEL_MIN = cfg.WINDOW_LINTEL_MIN
 
 
 @dataclass
@@ -98,6 +102,17 @@ def _detect_on_wall(
             left, right = lo_u, hi_u
 
         kind: Literal["door", "window"] = "door" if g0 <= DOOR_MAX_START else "window"
+        if kind == "door" and g1 - g0 < DOOR_MIN_HEIGHT:
+            continue
+        if kind == "window":
+            # A window is framed: wall below the sill, wall above the head, wall to both sides.
+            # A gap that reaches the top of the wall, or runs off the end of it, is an unscanned
+            # stretch, not a window.
+            left_col, right_col = cols[0] - 1, cols[-1] + 1
+            flanked = (left_col >= 0 and right_col < n_bins and not is_open[left_col] and not is_open[right_col]
+                       and bounds[left_col + 1] > bounds[left_col] and bounds[right_col + 1] > bounds[right_col])
+            if not flanked or g1 > height - LINTEL_MIN or g1 - g0 > WINDOW_MAX_HEIGHT or g0 < WINDOW_MIN_START - 0.2:
+                continue
         confidence = 0.5 + 0.5 * float(consistent)
         if kind == "window" and g0 < WINDOW_MIN_START:
             confidence *= 0.8  # gap starts between door and window range: ambiguous

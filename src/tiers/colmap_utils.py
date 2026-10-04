@@ -28,18 +28,19 @@ import numpy as np
 
 from src.geometry.ceiling import find_floor_and_ceiling
 from src.room_ir import CameraPose, PointCloud
+from src import config as cfg
 
 logger = logging.getLogger(__name__)
 
-DOOR_WIDTH = 0.86  # meters; the scale reference
-TYPICAL_CEILING = 2.5
+DOOR_WIDTH = cfg.DEFAULT_DOOR_WIDTH
+TYPICAL_CEILING = cfg.TYPICAL_CEILING
 TYPICAL_LONGEST_WALL = 4.0
 FEATURE_HEIGHT = 2.2  # typical vertical extent of reconstructed features on walls
-DOOR_WIDTH_RANGE = (0.6, 1.2)  # detected "doors" outside this (in approximate meters) are ignored
+DOOR_WIDTH_RANGE = cfg.DOOR_WIDTH_RANGE
 DOOR_MIN_GAP_HEIGHT = 1.5  # sparse SfM clouds: only door-tall empty columns count as openings
-DOOR_CORRECTION_RANGE = (0.8, 1.25)  # the prior is good to ~15%; a bigger door-based correction is a false door
+DOOR_CORRECTION_RANGE = cfg.DOOR_CORRECTION_RANGE
 MAX_SCALE_CORRECTION = (0.6, 1.6)
-SFM_WALL_THRESHOLD = 0.06  # meters; SfM points scatter more around a wall than LiDAR
+SFM_WALL_THRESHOLD = cfg.SFM_WALL_INLIER_THRESHOLD
 MIN_POINTS = 30
 MIN_IMAGES = 3
 MAX_REPROJECTION_ERROR = 1.5  # pixels
@@ -91,34 +92,100 @@ def _run(cmd: list[str]) -> None:
         raise ColmapError(f"`{' '.join(cmd[:2])}` failed (exit {proc.returncode}): {' | '.join(tail)}")
 
 
-def _reconstruct_cli(image_dir: Path, db: Path, sparse: Path, matcher: str) -> None:
-    _run(["colmap", "feature_extractor", "--database_path", str(db), "--image_path", str(image_dir),
-          "--ImageReader.single_camera", "1"])
-    _run(["colmap", f"{matcher}_matcher", "--database_path", str(db)])
-    _run(["colmap", "mapper", "--database_path", str(db), "--image_path", str(image_dir),
-          "--output_path", str(sparse)])
+def _camera_param_string(prior: tuple[float, float, float]) -> str:
+    """COLMAP SIMPLE_RADIAL parameters 'f,cx,cy,k' for a focal length and principal point prior."""
+    return f"{prior[0]:.3f},{prior[1]:.3f},{prior[2]:.3f},0"
 
 
-def _reconstruct_pycolmap(image_dir: Path, db: Path, sparse: Path, matcher: str) -> None:
+def _reconstruct_cli(image_dir: Path, db: Path, sparse: Path, matcher: str,
+                     camera_prior: tuple[float, float, float] | None = None, relaxed: bool = False) -> None:
+    extract = ["colmap", "feature_extractor", "--database_path", str(db), "--image_path", str(image_dir),
+               "--ImageReader.single_camera", "1"]
+    if relaxed:
+        extract += ["--SiftExtraction.peak_threshold", "0.002", "--SiftExtraction.max_num_features", "16384",
+                    "--SiftExtraction.estimate_affine_shape", "1", "--SiftExtraction.domain_size_pooling", "1"]
+    if camera_prior is not None:
+        extract += ["--ImageReader.camera_model", "SIMPLE_RADIAL",
+                    "--ImageReader.camera_params", _camera_param_string(camera_prior)]
+    _run(extract)
+    match = ["colmap", f"{matcher}_matcher", "--database_path", str(db)]
+    mapper = ["colmap", "mapper", "--database_path", str(db), "--image_path", str(image_dir),
+              "--output_path", str(sparse)]
+    if relaxed:
+        match += ["--SiftMatching.guided_matching", "1", "--TwoViewGeometry.min_num_inliers", "8"]
+        mapper += ["--Mapper.init_min_num_inliers", "10", "--Mapper.abs_pose_min_num_inliers", "8",
+                   "--Mapper.abs_pose_min_inlier_ratio", "0.15", "--Mapper.init_min_tri_angle", "3",
+                   "--Mapper.min_num_matches", "8", "--Mapper.min_model_size", "3"]
+    _run(match)
+    _run(mapper)
+
+
+def _device_and_threads(pycolmap) -> tuple[object, int, bool]:
+    """(Device, feature/matching threads, uses_gpu) from FLOORPLAN_COLMAP_DEVICE and _THREADS.
+
+    FLOORPLAN_COLMAP_DEVICE = auto (default: CUDA when this pycolmap build has it) | cpu | cuda.
+    FLOORPLAN_COLMAP_THREADS (default 1) sets CPU threads for feature extraction and matching;
+    1 keeps repeated runs identical, more is faster but may change features slightly.
+    The mapper always runs on one thread.
+    """
+    choice = os.environ.get("FLOORPLAN_COLMAP_DEVICE", "auto").lower()
+    cuda = bool(getattr(pycolmap, "has_cuda", False))
+    if choice == "cpu" or (choice == "auto" and not cuda):
+        device, gpu = pycolmap.Device.cpu, False
+    else:
+        device, gpu = pycolmap.Device.cuda if choice == "cuda" else pycolmap.Device.auto, cuda
+    try:
+        threads = max(1, int(os.environ.get("FLOORPLAN_COLMAP_THREADS", "1")))
+    except ValueError:
+        threads = 1
+    return device, threads, gpu
+
+
+def _reconstruct_pycolmap(image_dir: Path, db: Path, sparse: Path, matcher: str,
+                          camera_prior: tuple[float, float, float] | None = None, relaxed: bool = False) -> None:
     """pycolmap with fixed seeds and a single mapper thread, so the same images give the same model."""
     import pycolmap
 
     pycolmap.set_random_seed(SEED)
+    device, threads, gpu = _device_and_threads(pycolmap)
+    logger.info("COLMAP device: %s (%d feature/matching thread(s))", "GPU" if gpu else "CPU", threads)
     extraction = pycolmap.FeatureExtractionOptions()
-    extraction.num_threads = 1
+    extraction.num_threads = threads
+    if relaxed:  # low-texture rooms: more, softer features and laxer verification
+        extraction.sift.peak_threshold = 0.002
+        extraction.sift.max_num_features = 16384
+        if not gpu:  # affine shape and domain-size pooling are CPU-only: they would silently force the CPU path
+            extraction.sift.estimate_affine_shape = True
+            extraction.sift.domain_size_pooling = True
+    reader = pycolmap.ImageReaderOptions()
+    if camera_prior is not None:  # a known focal length makes registration far more reliable
+        reader.camera_model = "SIMPLE_RADIAL"
+        reader.camera_params = _camera_param_string(camera_prior)
     pycolmap.extract_features(str(db), str(image_dir), camera_mode=pycolmap.CameraMode.SINGLE,
-                              extraction_options=extraction)
+                              reader_options=reader, extraction_options=extraction, device=device)
     verification = pycolmap.TwoViewGeometryOptions()
     verification.ransac.random_seed = SEED
     matching = pycolmap.FeatureMatchingOptions()
-    matching.num_threads = 1
+    matching.num_threads = threads
+    if relaxed:
+        matching.guided_matching = True
+        verification.min_num_inliers = 8
     if matcher == "sequential":
-        pycolmap.match_sequential(str(db), matching_options=matching, verification_options=verification)
+        pycolmap.match_sequential(str(db), matching_options=matching, verification_options=verification,
+                                  device=device)
     else:
-        pycolmap.match_exhaustive(str(db), matching_options=matching, verification_options=verification)
+        pycolmap.match_exhaustive(str(db), matching_options=matching, verification_options=verification,
+                                  device=device)
     options = pycolmap.IncrementalPipelineOptions()
     options.random_seed = SEED
     options.num_threads = 1
+    if relaxed:
+        options.min_num_matches = 8
+        options.min_model_size = 3
+        options.mapper.init_min_num_inliers = 10
+        options.mapper.abs_pose_min_num_inliers = 8
+        options.mapper.abs_pose_min_inlier_ratio = 0.15
+        options.mapper.init_min_tri_angle = 3
     pycolmap.incremental_mapping(str(db), str(image_dir), str(sparse), options=options)
 
 
@@ -138,8 +205,21 @@ def _to_text_model(model_dir: Path, backend: str) -> Path:
     return text_dir
 
 
+def _best_model(sparse: Path, backend: str) -> tuple[np.ndarray, list[CameraPose]] | None:
+    """(points, poses) of the registered model with the most images, or None if none is usable."""
+    best: tuple[np.ndarray, list[CameraPose]] | None = None
+    for model in sorted(p for p in sparse.iterdir() if p.is_dir() and p.name.isdigit()):
+        candidate = parse_colmap_sparse(str(_to_text_model(model, backend)))
+        if best is None or len(candidate[1]) > len(best[1]):
+            best = candidate
+    if best is None or len(best[1]) < MIN_IMAGES or len(best[0]) < MIN_POINTS:
+        return None
+    return best
+
+
 def run_colmap_reconstruction(
-    image_dir: str, workspace_dir: str, matcher: str = "exhaustive"
+    image_dir: str, workspace_dir: str, matcher: str = "exhaustive",
+    camera_prior: tuple[float, float, float] | None = None,
 ) -> tuple[np.ndarray, list[CameraPose]]:
     """Reconstruct a folder of images and return (points N x 3, camera poses).
 
@@ -147,6 +227,8 @@ def run_colmap_reconstruction(
     (photos) or "sequential" (video frames, which only overlap with neighbors). When
     COLMAP builds several disconnected models the one with the most images is used.
     The coordinates are COLMAP's own: arbitrary scale and orientation.
+    camera_prior = (focal_px, cx, cy) in the images' pixels, when the intrinsics are known
+    (for example from a phone's calibration log); COLMAP then starts from it.
     """
     image_dir, workspace = Path(image_dir), Path(workspace_dir)
     workspace.mkdir(parents=True, exist_ok=True)
@@ -158,24 +240,31 @@ def run_colmap_reconstruction(
 
     backend = colmap_backend()
     logger.info("COLMAP backend: %s, %d images", backend, len(list(image_dir.iterdir())))
-    try:
-        (_reconstruct_cli if backend == "cli" else _reconstruct_pycolmap)(image_dir, db, sparse, matcher)
-    except ColmapError:
-        raise
-    except Exception as exc:  # pycolmap raises RuntimeError and friends
-        raise ColmapError(f"COLMAP reconstruction failed: {exc}") from exc
-
-    models = sorted(p for p in sparse.iterdir() if p.is_dir() and p.name.isdigit())
-    if not models:
-        raise ColmapError("COLMAP produced no model (too few matching features between images)")
-    best: tuple[np.ndarray, list[CameraPose]] | None = None
-    for model in models:
-        points, poses = parse_colmap_sparse(str(_to_text_model(model, backend)))
-        if best is None or len(poses) > len(best[1]):
-            best = (points, poses)
+    best = None
+    for relaxed in (False, True):
+        if relaxed:
+            logger.warning("default COLMAP settings gave no usable model; retrying with settings for "
+                           "low-texture scenes (more features, laxer matching)")
+            if db.exists():
+                db.unlink()
+            shutil.rmtree(sparse, ignore_errors=True)
+            sparse.mkdir()
+        try:
+            (_reconstruct_cli if backend == "cli" else _reconstruct_pycolmap)(
+                image_dir, db, sparse, matcher, camera_prior, relaxed)
+        except ColmapError:
+            raise
+        except Exception as exc:  # pycolmap raises RuntimeError and friends
+            if relaxed:
+                raise ColmapError(f"COLMAP reconstruction failed: {exc}") from exc
+            logger.warning("COLMAP failed: %s", exc)
+            continue
+        best = _best_model(sparse, backend)
+        if best is not None:
+            break
+    if best is None:
+        raise ColmapError("COLMAP produced no usable model (too few matching features between images)")
     points, poses = best
-    if len(poses) < MIN_IMAGES or len(points) < MIN_POINTS:
-        raise ColmapError(f"reconstruction too small: {len(poses)} images, {len(points)} points")
     logger.info("reconstructed %d images, %d points", len(poses), len(points))
     return points, poses
 

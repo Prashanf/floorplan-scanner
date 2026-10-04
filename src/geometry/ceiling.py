@@ -10,6 +10,8 @@ from src.room_ir import PointCloud
 
 BIN_SIZE = 0.02  # meters
 END_FRACTION = 0.25  # floor lives in the lower 25% of the Z range, ceiling in the upper 25%
+MIN_CEILING_HEIGHT = 2.0  # metres; a "ceiling" lower than this is furniture or the top of a partial wall
+MIN_CEILING_TO_FLOOR_DENSITY = 0.1  # the ceiling peak must hold at least this share of the floor peak's points
 
 
 @dataclass
@@ -25,6 +27,17 @@ class FloorCeiling:
     @property
     def height(self) -> float:
         return self.ceiling_z - self.floor_z
+
+    @property
+    def ceiling_observed(self) -> bool:
+        """True when a ceiling plane was actually scanned.
+
+        A scan that never pointed up still has a "tallest bin in the upper 25%": the top of
+        the highest wall or a cupboard. A ceiling is a plane, so it must be at least
+        MIN_CEILING_HEIGHT above the floor and hold a real share of the floor's point density.
+        """
+        return (self.height >= MIN_CEILING_HEIGHT
+                and self.ceiling_peak_count >= MIN_CEILING_TO_FLOOR_DENSITY * self.floor_peak_count)
 
 
 def find_floor_and_ceiling(z: np.ndarray, bin_size: float = BIN_SIZE) -> FloorCeiling:
@@ -74,3 +87,15 @@ def detect_ceiling_height(point_cloud: PointCloud) -> tuple[float, float]:
     levels = find_floor_and_ceiling(point_cloud.points[:, 2])
     proxy = min(levels.floor_peak_count, levels.ceiling_peak_count) / levels.total_points
     return levels.height, float(proxy)
+
+
+def is_ceiling_observed(point_cloud: PointCloud) -> bool:
+    """Whether the scan contains a ceiling plane (see FloorCeiling.ceiling_observed)."""
+    return find_floor_and_ceiling(point_cloud.points[:, 2]).ceiling_observed
+
+
+def observed_top_height(point_cloud: PointCloud) -> float:
+    """Height of the highest well-supported points above the floor: a lower bound on the
+    ceiling height when no ceiling was scanned (99.5th percentile, robust to stray points)."""
+    levels = find_floor_and_ceiling(point_cloud.points[:, 2])
+    return float(np.percentile(point_cloud.points[:, 2], 99.5) - levels.floor_z)

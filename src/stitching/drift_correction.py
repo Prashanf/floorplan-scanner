@@ -14,6 +14,8 @@ log = logging.getLogger("floorplan.stitch")
 PARALLEL_ANGLE = np.deg2rad(10.0)
 PROXIMITY = 0.3  # metres: how close midpoints must be to count as "shared"
 LENGTH_RATIO = 0.20  # lengths must agree within this fraction
+MAX_CORRECTION = 0.5  # metres per room: drift between rooms of one scan is small; more means a bad match
+REGULARIZATION = 0.05  # pulls offsets toward zero so under-constrained rooms do not wander
 WALL_THICKNESS_TOL = 0.15  # metres: two scans of one wall sit a wall thickness apart, not drift
 
 
@@ -103,10 +105,10 @@ def correct_drift(
                 # Along the wall any offset is drift; across it, up to a wall thickness is real.
                 total += along ** 2 + max(0.0, across - WALL_THICKNESS_TOL) ** 2
                 total += (sa.length - sb.length) ** 2
-        return total
+        return total + REGULARIZATION * float(np.sum(offsets ** 2))
 
     x0 = np.zeros(2 * (n - 1))
-    result = minimize(cost, x0, method="L-BFGS-B")
+    result = minimize(cost, x0, method="L-BFGS-B", bounds=[(-MAX_CORRECTION, MAX_CORRECTION)] * len(x0))
     offsets = result.x.reshape(n - 1, 2)
 
     transforms: dict[str, tuple[float, float, float]] = {}

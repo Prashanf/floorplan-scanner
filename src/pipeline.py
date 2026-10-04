@@ -15,7 +15,7 @@ from src.damage.concealed_rules import check_concealed_damage
 from src.damage.detection import detect_damage
 from src.damage.scope import area_measurement, generate_scope
 from src.damage.surface_projection import project_damage_to_surfaces
-from src.geometry.ceiling import detect_ceiling_height
+from src.geometry.ceiling import detect_ceiling_height, is_ceiling_observed, observed_top_height
 from src.geometry.floor_area import compute_floor_area
 from src.geometry.openings import detect_openings
 from src.geometry.wall_fitting import fit_walls
@@ -92,7 +92,7 @@ def _build_room(room: RoomIR, tier: str, transform: tuple[float, float, float]) 
     area_half = BASE_ERROR["wall"] * TIER_MULTIPLIER[tier] * perimeter / 2
     return Room(
         id=room.room_id, name=room.room_id.replace("-", " ").title(), walls=walls, openings=openings,
-        ceiling_height=height, floor_area=_measurement(area, 0.0, tier, unit="m2", half_width=area_half),
+        ceiling_height=height, ceiling_observed=room.ceiling_observed, floor_area=_measurement(area, 0.0, tier, unit="m2", half_width=area_half),
         floor_polygon=polygon)
 
 
@@ -128,15 +128,16 @@ def run_pipeline(
     def timed(name: str, start: float) -> None:
         timings[name] = time.perf_counter() - start
 
-    # 1. preprocess
+    # 1. preprocess: convert stray formats first so validation sees what the tiers will read
     t = time.perf_counter()
+    normalized = normalize_capture_dir(capture_dir)
     for warning in validate_capture_dir(capture_dir, tier):
         log.warning(warning)
-    normalized = normalize_capture_dir(capture_dir)
-    if normalized.converted:
-        _say(f"Converted {len(normalized.converted)} HEIC file(s) to JPEG")
-    for bad in normalized.failed + normalized.videos_unreadable:
+    if normalized["converted"]:
+        _say(f"Converted {len(normalized['converted'])} file(s) to JPEG/MP4")
+    for bad in normalized["failed"]:
         log.warning("could not process %s", bad)
+        _say(f"warning: could not process {bad}")
     timed("preprocess", t)
 
     # 2. tier front-end
@@ -154,8 +155,15 @@ def run_pipeline(
     for room in property_ir.rooms:
         try:
             room.wall_segments, room.floor_polygon = fit_walls(
-                room.point_cloud, inlier_threshold=WALL_INLIER_THRESHOLD[tier])
-            room.ceiling_height, _ = detect_ceiling_height(room.point_cloud)
+                room.point_cloud, inlier_threshold=WALL_INLIER_THRESHOLD[tier],
+                reference_angle=0.0 if tier == "lidar" else None)  # lidar clouds are wall-aligned
+            room.ceiling_observed = is_ceiling_observed(room.point_cloud)
+            if room.ceiling_observed:
+                room.ceiling_height, _ = detect_ceiling_height(room.point_cloud)
+            else:
+                room.ceiling_height = observed_top_height(room.point_cloud)
+                log.warning("%s: no ceiling scanned; reporting the highest observed point (%.2f m) as a "
+                            "lower bound", room.room_id, room.ceiling_height)
             room.openings = detect_openings(room.point_cloud, room.wall_segments)
             area = compute_floor_area(room.floor_polygon)
             if len(room.wall_segments) < 4 or area < MIN_ROOM_AREA:

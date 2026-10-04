@@ -12,24 +12,26 @@ import numpy as np
 
 from src.room_ir import CameraPose, PointCloud, PropertyIR, RoomIR
 from src.tiers.colmap_utils import ColmapError, make_metric_point_cloud, run_colmap_reconstruction
-from src.tiers.preprocessing import VIDEO_EXTS
+from src.tiers.preprocessing import list_videos, video_readable
 from src.tiers.room_segmentation import segment_rooms
+from src import config as cfg
 
 logger = logging.getLogger(__name__)
 
-TARGET_KEYFRAMES = 100  # per video; the 50-150 range keeps COLMAP fast and the baseline wide
-MAX_LONG_EDGE = 1600  # pixels; keyframes are downscaled to this
+TARGET_KEYFRAMES = cfg.KEYFRAME_MAX_COUNT
+KEYFRAME_SECONDS = cfg.KEYFRAME_SECONDS
+MAX_LONG_EDGE = cfg.KEYFRAME_MAX_LONG_EDGE
 FALLBACK_STEP = 20  # frames, when the container does not report a frame count
 
 
 def find_videos(capture_dir: str) -> list[Path]:
-    return sorted(p for p in Path(capture_dir).rglob("*")
-                  if p.is_file() and not p.name.startswith(".") and p.suffix.lower() in VIDEO_EXTS)
+    return [v for v in list_videos(capture_dir) if video_readable(v)]
 
 
 def extract_keyframes(video_path: str, out_dir: str, prefix: str = "frame",
                       target: int = TARGET_KEYFRAMES) -> list[str]:
-    """Save about `target` sharp, evenly spaced JPEG keyframes of a video; return their paths.
+    """Save sharp, evenly spaced JPEG keyframes of a video (about one per KEYFRAME_SECONDS,
+    at most `target`); return their paths.
 
     The video is cut into equal windows and the sharpest frame (variance of the Laplacian)
     of each window is kept, which avoids motion-blurred frames that SfM cannot match.
@@ -40,7 +42,12 @@ def extract_keyframes(video_path: str, out_dir: str, prefix: str = "frame",
     if not cap.isOpened():
         raise ColmapError(f"cannot open video {video_path}")
     total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    step = max(1, round(total / target)) if total > 0 else FALLBACK_STEP
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    if total > 0:
+        by_time = max(1, round(fps * KEYFRAME_SECONDS)) if fps and fps > 1 else FALLBACK_STEP
+        step = max(by_time, round(total / target))  # never more than `target` keyframes
+    else:
+        step = FALLBACK_STEP
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -95,6 +102,31 @@ def _assign_poses(rooms: list[RoomIR], poses: list[CameraPose], frames: dict[str
         rooms[target].images.append(frame)
 
 
+def _camera_prior(video: Path, frame_path: str) -> tuple[float, float, float] | None:
+    """(focal, cx, cy) in keyframe pixels from a camera_matrix.csv beside the video, if there is one.
+
+    Phones that log depth write the RGB intrinsics for the full-size video; the keyframes
+    are scaled down, so the matrix is scaled by the same factor.
+    """
+    import cv2
+
+    matrix_file = video.with_name("camera_matrix.csv")
+    if not matrix_file.is_file():
+        return None
+    try:
+        k = np.loadtxt(matrix_file, delimiter=",")
+        cap = cv2.VideoCapture(str(video))
+        video_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+        cap.release()
+        frame = cv2.imread(frame_path)
+        if frame is None or video_width <= 0 or k.shape != (3, 3):
+            return None
+        scale = frame.shape[1] / video_width
+        return float(k[0, 0] * scale), float(k[0, 2] * scale), float(k[1, 2] * scale)
+    except (OSError, ValueError):
+        return None
+
+
 def process_video(capture_dir: str) -> PropertyIR:
     """Extract keyframes from the walkthrough, reconstruct with COLMAP, split into rooms.
 
@@ -104,7 +136,7 @@ def process_video(capture_dir: str) -> PropertyIR:
     """
     videos = find_videos(capture_dir)
     if not videos:
-        raise FileNotFoundError(f"no .mp4 or .mov file in {capture_dir}")
+        raise FileNotFoundError(f"no readable video file (.mp4 .mov .mkv .avi) in {capture_dir}")
     keep = bool(os.environ.get("FLOORPLAN_KEEP_WORKSPACE"))
     work = Path(tempfile.mkdtemp(prefix="floorplan-colmap-"))
     try:
@@ -115,7 +147,11 @@ def process_video(capture_dir: str) -> PropertyIR:
         if len(frames) < 3:
             raise ColmapError(f"only {len(frames)} keyframes extracted; is the video empty?")
 
-        points, poses = run_colmap_reconstruction(str(frame_dir), str(work), matcher="sequential")
+        prior = _camera_prior(videos[0], next(iter(frames.values()))) if len(videos) == 1 else None
+        if prior:
+            logger.info("using the intrinsics logged beside the video: f=%.0f px", prior[0])
+        points, poses = run_colmap_reconstruction(str(frame_dir), str(work), matcher="sequential",
+                                                  camera_prior=prior)
         cloud, poses, meta = make_metric_point_cloud(points, poses)
 
         # Keep the frames after the temp workspace goes away.
