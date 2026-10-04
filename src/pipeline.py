@@ -30,6 +30,11 @@ log = logging.getLogger("floorplan")
 TIER_MULTIPLIER = {"lidar": 1.0, "video": 2.5, "photo": 5.0}
 BASE_ERROR = {"wall": 0.01, "ceiling": 0.01, "opening": 0.02}  # meters
 
+# RANSAC wall-line inlier distance per tier: SfM clouds are noisier than LiDAR.
+WALL_INLIER_THRESHOLD = {"lidar": 0.03, "video": 0.06, "photo": 0.06}
+
+MIN_ROOM_AREA = 1.0  # m2; a smaller polygon is a failed fit, not a room
+
 FRONT_ENDS = {"lidar": process_lidar, "photo": process_photos, "video": process_video}
 
 
@@ -130,9 +135,13 @@ def run_pipeline(
     solved: list[RoomIR] = []
     for room in property_ir.rooms:
         try:
-            room.wall_segments, room.floor_polygon = fit_walls(room.point_cloud)
+            room.wall_segments, room.floor_polygon = fit_walls(
+                room.point_cloud, inlier_threshold=WALL_INLIER_THRESHOLD[tier])
             room.ceiling_height, _ = detect_ceiling_height(room.point_cloud)
             room.openings = detect_openings(room.point_cloud, room.wall_segments)
+            area = compute_floor_area(room.floor_polygon)
+            if len(room.wall_segments) < 4 or area < MIN_ROOM_AREA:
+                raise ValueError(f"degenerate fit ({len(room.wall_segments)} walls, {area:.2f} m2)")
             solved.append(room)
         except ValueError as exc:
             log.warning("geometry failed for %s, room dropped: %s", room.room_id, exc)

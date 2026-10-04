@@ -11,3 +11,6 @@ matplotlib>=3.7
 trimesh>=3.23
 tqdm>=4.65
 click>=8.1
+pycolmap>=3.10  # used when the colmap binary is not installed
+pyyaml>=6.0
+pytest>=7.0

@@ -12,7 +12,7 @@ How to capture: [`capture_protocol.md`](capture_protocol.md). Hardware and accur
 
 ## Prerequisites
 - Python 3.10+
-- COLMAP (photo and video tiers): `brew install colmap`
+- COLMAP (photo and video tiers): `brew install colmap`, or nothing: `pycolmap` (in requirements.txt) is used when the binary is missing. `FLOORPLAN_COLMAP_BACKEND=cli|pycolmap` forces one.
 - macOS: `brew install libusb` (Open3D loads it)
 
 ## Install
@@ -34,7 +34,12 @@ Options: `--output-dir ./output/`, `--no-drift-correction` (ablation), `--render
 ```bash
 python tests/create_test_ply.py          # writes test_data/apartment.ply + ground_truth.yaml
 python run.py ./test_data/ --tier lidar
+
+python tests/create_test_photos.py       # renders test_photos/room-1..3 and test_video/walkthrough.mp4
+python run.py ./test_photos/ --tier photo
+python run.py ./test_video/ --tier video # about 3 minutes (COLMAP runs single-threaded so results repeat exactly)
 ```
+`pytest` runs the fast tests; `pytest -m slow` also runs COLMAP on rendered rooms.
 On macOS, Open3D also needs `brew install libusb`.
 
 ## Output
@@ -55,4 +60,4 @@ Every measurement is `{value, confidence_low, confidence_high, unit}`. Empty lis
 - `fix_loop/` fix declaration, before and after runs
 
 ## Status
-Working end to end: LiDAR tier (PLY/OBJ, room segmentation), geometry, JSON report, rendered plan. Stubs: photo and video front-ends, stitching and drift correction, damage detection, concealed-damage rules and scope. Until stitching exists, rooms keep their capture-frame coordinates and `adjacencies` is empty.
+Working end to end: all three tiers (LiDAR, video, photo), geometry, JSON report, rendered plan. Photo and video clouds are sparse, so they are scaled from a floor-to-ceiling prior and refined with a 0.86 m door when one is found (`RoomIR.metadata` records which). Stubs: stitching and drift correction (photo rooms each keep their own frame and overlap in the plan until Session 5), damage detection, concealed-damage rules, scope.

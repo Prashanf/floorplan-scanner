@@ -19,8 +19,8 @@ SNAP_TOLERANCE = np.deg2rad(15.0)  # lines further than this from the dominant g
 MERGE_OFFSET = 0.05  # snapped parallel lines closer than this are one wall
 MIN_WALL_LENGTH = 0.3
 COVERAGE_BIN = 0.1  # meters along a line
-MIN_BIN_POINTS = 3
-MIN_COVERAGE = 0.3  # share of bins along a wall's extent that must hold points; rejects sparse strays
+MIN_BIN_POINTS = 1
+MIN_COVERAGE = 0.4  # share of bins along a wall's extent that must hold points; rejects sparse strays
 SEED = 0  # fixed: same room in, same plan out
 
 
@@ -65,7 +65,7 @@ def _total_least_squares(points: np.ndarray) -> tuple[np.ndarray, float]:
     return center, float(np.arctan2(major[1], major[0]) % np.pi)
 
 
-def _ransac_line(points: np.ndarray, rng: np.random.Generator) -> _Line | None:
+def _ransac_line(points: np.ndarray, rng: np.random.Generator, threshold: float) -> _Line | None:
     """Best line by consensus, refit by total least squares on its inliers."""
     n = len(points)
     sample = points if n <= RANSAC_SAMPLE else points[rng.choice(n, RANSAC_SAMPLE, replace=False)]
@@ -80,13 +80,13 @@ def _ransac_line(points: np.ndarray, rng: np.random.Generator) -> _Line | None:
     nx, ny = -d[:, 1] / norm, d[:, 0] / norm
     dist = np.abs((sample[None, :, 0] - p[:, None, 0]) * nx[:, None]
                   + (sample[None, :, 1] - p[:, None, 1]) * ny[:, None])
-    best = int(np.argmax((dist < INLIER_THRESHOLD).sum(axis=1)))
+    best = int(np.argmax((dist < threshold).sum(axis=1)))
     center, angle = p[best], float(np.arctan2(d[best, 1], d[best, 0]) % np.pi)
 
     inliers = points
     for _ in range(2):  # refit, then re-collect inliers around the refit line
         normal = np.array([-np.sin(angle), np.cos(angle)])
-        inliers = points[np.abs((points - center) @ normal) < INLIER_THRESHOLD]
+        inliers = points[np.abs((points - center) @ normal) < threshold]
         if len(inliers) < 2:
             return None
         center, angle = _total_least_squares(inliers)
@@ -108,19 +108,19 @@ def _coverage(line: _Line) -> float:
     return float((counts >= MIN_BIN_POINTS).sum() / n_bins)
 
 
-def _fit_lines(xy: np.ndarray) -> list[_Line]:
+def _fit_lines(xy: np.ndarray, threshold: float = INLIER_THRESHOLD) -> list[_Line]:
     """Iterative RANSAC: fit a line, remove its inliers, repeat until support runs out."""
     rng = np.random.default_rng(SEED)
     lines: list[_Line] = []
     remaining = xy
     while len(lines) < MAX_LINES and len(remaining) >= MIN_INLIERS:
-        line = _ransac_line(remaining, rng)
+        line = _ransac_line(remaining, rng, threshold)
         if line is None or len(line.points) < MIN_INLIERS:
             break
         if _coverage(line) >= MIN_COVERAGE:
             lines.append(line)
         normal = line.normal
-        remaining = remaining[np.abs((remaining - line.center) @ normal) >= INLIER_THRESHOLD]
+        remaining = remaining[np.abs((remaining - line.center) @ normal) >= threshold]
     return lines
 
 
@@ -129,7 +129,7 @@ def _angle_residual(angle: float, reference: float) -> float:
     return float((angle - reference + np.pi / 4) % (np.pi / 2) - np.pi / 4)
 
 
-def _snap_and_merge(lines: list[_Line]) -> list[_Line]:
+def _snap_and_merge(lines: list[_Line], merge_offset: float = MERGE_OFFSET) -> list[_Line]:
     """Snap lines to the dominant direction's 90 degree grid; merge duplicates of one wall."""
     dominant = max(lines, key=lambda ln: len(ln.points)).angle
     snapped: list[_Line] = []
@@ -144,7 +144,7 @@ def _snap_and_merge(lines: list[_Line]) -> list[_Line]:
         for other in merged:
             diff = abs(ln.angle - other.angle) % np.pi
             parallel = min(diff, np.pi - diff) < 1e-6  # only snapped lines match exactly
-            if parallel and abs((ln.center - other.center) @ other.normal) < MERGE_OFFSET:
+            if parallel and abs((ln.center - other.center) @ other.normal) < merge_offset:
                 pts = np.vstack([other.points, ln.points])
                 other.points = pts
                 other.center = pts.mean(axis=0)
@@ -173,13 +173,16 @@ def _corner(a: _Line, b: _Line) -> np.ndarray:
     return (pa + pb) / 2
 
 
-def fit_walls(point_cloud: PointCloud) -> tuple[list[WallSegment], list[tuple[float, float]]]:
+def fit_walls(
+    point_cloud: PointCloud, *, inlier_threshold: float = INLIER_THRESHOLD
+) -> tuple[list[WallSegment], list[tuple[float, float]]]:
     """Fit wall segments and a closed counterclockwise floor polygon.
 
     Finds floor and ceiling, slices points 0.8-1.5 m above the floor, projects
     to 2D, fits lines with iterative RANSAC (0.03 m threshold, min 20 inliers),
     snaps lines to 90 degrees of the dominant direction, intersects adjacent
-    lines for vertices, and returns (wall segments, polygon vertices).
+    lines for vertices, and returns (wall segments, polygon vertices). Sparse SfM clouds
+    are noisier: pass a larger inlier_threshold.
     """
     pts = point_cloud.points
     levels = find_floor_and_ceiling(pts[:, 2])
@@ -188,7 +191,8 @@ def fit_walls(point_cloud: PointCloud) -> tuple[list[WallSegment], list[tuple[fl
     if len(xy) < MIN_INLIERS:
         raise ValueError(f"only {len(xy)} points in the {WALL_BAND[0]}-{WALL_BAND[1]} m wall band")
 
-    lines = _snap_and_merge(_fit_lines(xy))
+    # noisier clouds (larger inlier threshold) also see one wall as parallel lines further apart
+    lines = _snap_and_merge(_fit_lines(xy, inlier_threshold), max(MERGE_OFFSET, 1.5 * inlier_threshold))
     if len(lines) < 3:
         raise ValueError(f"found {len(lines)} wall line(s); need at least 3 to close a room")
 

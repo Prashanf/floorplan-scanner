@@ -6,3 +6,5 @@ __pycache__/
 *.egg-info/
 .venv/
 test_data/*.ply
+test_photos/
+test_video/
