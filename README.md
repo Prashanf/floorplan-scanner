@@ -47,4 +47,4 @@ Every measurement is `{value, confidence_low, confidence_high, unit}`. Empty lis
 - `fix_loop/` fix declaration, before and after runs
 
 ## Status
-Skeleton stage: schema, CLI, preprocessing, capture protocol and device matrix are implemented. Tier front-ends, geometry, stitching, damage and output steps are stubs; the CLI reports each as "not yet implemented".
+Implemented: schema, CLI, preprocessing, capture protocol, device matrix, geometry (walls, ceiling, openings, floor area; tested on a synthetic room). Tier front-ends, stitching, damage and output steps are stubs; the CLI reports each as "not yet implemented".
