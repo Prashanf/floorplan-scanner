@@ -1,0 +1,135 @@
+RUN SUMMARY
+ tier                           capture status  rooms  area_m2 area_interval  adjacencies  damage  flags  scope  seconds  geometry_failed  no_ceiling  colmap_retry  skipped_rooms  overlaps                                                                     last_error
+lidar                       single_room     ok    3.0      8.6    [8.5, 8.8]          0.0     0.0    0.0    0.0   14.500                1           4             0              0         0                                                                               
+lidar            single_scan_floor_only     ok    9.0     32.4  [32.3, 32.6]          3.0     0.0    0.0    0.0   24.719                1           9             0              0         2                                                                               
+lidar          single_scan_with_ceiling     ok   10.0     56.2  [56.1, 56.4]          7.0     0.0    8.0    8.0   36.652                1           1             0              0         3                                                                               
+photo                       single_room FAILED    NaN      NaN           NaN          NaN     NaN    NaN    NaN      NaN                0           0             1              1         0 RuntimeError: no room could be reconstructed; check photo overlap and lighting
+photo              single_room_no_drift FAILED    NaN      NaN           NaN          NaN     NaN    NaN    NaN      NaN                0           0             1              1         0 RuntimeError: no room could be reconstructed; check photo overlap and lighting
+photo            single_scan_floor_only FAILED    NaN      NaN           NaN          NaN     NaN    NaN    NaN      NaN                4           0             5              3         0                RuntimeError: geometry failed for every room; check the capture
+photo   single_scan_floor_only_no_drift FAILED    NaN      NaN           NaN          NaN     NaN    NaN    NaN      NaN                4           0             5              3         0                RuntimeError: geometry failed for every room; check the capture
+photo          single_scan_with_ceiling FAILED    NaN      NaN           NaN          NaN     NaN    NaN    NaN      NaN                4           0             6              3         0                RuntimeError: geometry failed for every room; check the capture
+photo single_scan_with_ceiling_no_drift FAILED    NaN      NaN           NaN          NaN     NaN    NaN    NaN      NaN                5           0             6              2         0                RuntimeError: geometry failed for every room; check the capture
+video                       single_room FAILED    NaN      NaN           NaN          NaN     NaN    NaN    NaN      NaN                1           0             0              0         0                RuntimeError: geometry failed for every room; check the capture
+video            single_scan_floor_only FAILED    NaN      NaN           NaN          NaN     NaN    NaN    NaN      NaN                1           0             0              0         0                RuntimeError: geometry failed for every room; check the capture
+video          single_scan_with_ceiling FAILED    NaN      NaN           NaN          NaN     NaN    NaN    NaN      NaN                1           0             0              0         0                RuntimeError: geometry failed for every room; check the capture
+
+ROOMS
+ tier                  capture    room  area_m2  walls  ceiling_m  ceiling_seen  doors  windows
+lidar              single_room  room-1     2.27      4       1.25         False      0        0
+lidar              single_room  room-3     2.35      4       1.59         False      0        0
+lidar              single_room  room-4     4.00      4       1.62         False      0        0
+lidar   single_scan_floor_only  room-1     5.78      4       2.03         False      0        0
+lidar   single_scan_floor_only  room-2     2.45      4       1.69         False      0        0
+lidar   single_scan_floor_only  room-4     2.67      4       1.95         False      0        0
+lidar   single_scan_floor_only  room-5     2.11      4       1.94         False      0        0
+lidar   single_scan_floor_only  room-6     4.28      4       2.20         False      1        0
+lidar   single_scan_floor_only  room-7     4.80      4       1.82         False      0        0
+lidar   single_scan_floor_only  room-8     4.46      6       2.19         False      1        0
+lidar   single_scan_floor_only  room-9     3.12      4       1.39         False      0        0
+lidar   single_scan_floor_only room-10     2.74      4       1.61         False      0        0
+lidar single_scan_with_ceiling  room-1     7.35      4       2.95          True      1        0
+lidar single_scan_with_ceiling  room-2     3.91      4       2.72          True      0        0
+lidar single_scan_with_ceiling  room-4     1.62      4       2.36          True      2        0
+lidar single_scan_with_ceiling  room-5     1.86      4       2.38          True      0        0
+lidar single_scan_with_ceiling  room-6    12.25      8       3.40         False      0        0
+lidar single_scan_with_ceiling  room-7    11.00      8       2.44          True      4        0
+lidar single_scan_with_ceiling  room-8     2.42      6       2.33          True      3        0
+lidar single_scan_with_ceiling  room-9     1.59      4       3.07          True      0        0
+lidar single_scan_with_ceiling room-10    10.41      6       3.08          True      1        0
+lidar single_scan_with_ceiling room-11     3.82      4       2.34          True      2        0
+
+--- pytest_log (tail) ---
+../../../usr/local/lib/python3.13/dist-packages/matplotlib/_fontconfig_pattern.py:89
+../../../usr/local/lib/python3.13/dist-packages/matplotlib/_fontconfig_pattern.py:89
+../../../usr/local/lib/python3.13/dist-packages/matplotlib/_fontconfig_pattern.py:89
+  /usr/local/lib/python3.13/dist-packages/matplotlib/_fontconfig_pattern.py:89: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+tests/test_lidar_pipeline.py::test_pipeline_matches_ground_truth
+  /usr/local/lib/python3.13/dist-packages/matplotlib/_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+80 passed, 4 deselected, 14 warnings in 12.88s
+
+--- validate_log (tail) ---
+=== sample_lidar_single_room ===
+  PASS: 3 rooms, 8.6 m2, 0 adjacencies, 0 damage regions, 0 concealed flags, 0 scope items
+
+=== sample_lidar_single_scan_floor_only ===
+  PASS: 9 rooms, 32.4 m2, 3 adjacencies, 0 damage regions, 0 concealed flags, 0 scope items
+
+=== sample_lidar_single_scan_with_ceiling ===
+  PASS: 10 rooms, 56.2 m2, 7 adjacencies, 0 damage regions, 8 concealed flags, 8 scope items
+
+--- sample_photo_single_room: failed, last lines ---
+  File "/kaggle/working/floorplan-scanner/src/pipeline.py", line 146, in run_pipeline
+    property_ir: PropertyIR = FRONT_ENDS[tier](capture_dir)
+                              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/kaggle/working/floorplan-scanner/src/tiers/photo.py", line 77, in process_photos
+    raise RuntimeError("no room could be reconstructed; check photo overlap and lighting")
+RuntimeError: no room could be reconstructed; check photo overlap and lighting
+
+--- sample_photo_single_room_no_drift: failed, last lines ---
+  File "/kaggle/working/floorplan-scanner/src/pipeline.py", line 146, in run_pipeline
+    property_ir: PropertyIR = FRONT_ENDS[tier](capture_dir)
+                              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/kaggle/working/floorplan-scanner/src/tiers/photo.py", line 77, in process_photos
+    raise RuntimeError("no room could be reconstructed; check photo overlap and lighting")
+RuntimeError: no room could be reconstructed; check photo overlap and lighting
+
+--- sample_photo_single_scan_floor_only: failed, last lines ---
+  File "/kaggle/working/floorplan-scanner/run.py", line 36, in main
+    report = run_pipeline(str(capture_dir), tier, str(output_dir),
+                          drift_correction=not no_drift_correction, render=render)
+  File "/kaggle/working/floorplan-scanner/src/pipeline.py", line 176, in run_pipeline
+    raise RuntimeError("geometry failed for every room; check the capture")
+RuntimeError: geometry failed for every room; check the capture
+
+--- sample_photo_single_scan_floor_only_no_drift: failed, last lines ---
+  File "/kaggle/working/floorplan-scanner/run.py", line 36, in main
+    report = run_pipeline(str(capture_dir), tier, str(output_dir),
+                          drift_correction=not no_drift_correction, render=render)
+  File "/kaggle/working/floorplan-scanner/src/pipeline.py", line 176, in run_pipeline
+    raise RuntimeError("geometry failed for every room; check the capture")
+RuntimeError: geometry failed for every room; check the capture
+
+--- sample_photo_single_scan_with_ceiling: failed, last lines ---
+  File "/kaggle/working/floorplan-scanner/run.py", line 36, in main
+    report = run_pipeline(str(capture_dir), tier, str(output_dir),
+                          drift_correction=not no_drift_correction, render=render)
+  File "/kaggle/working/floorplan-scanner/src/pipeline.py", line 176, in run_pipeline
+    raise RuntimeError("geometry failed for every room; check the capture")
+RuntimeError: geometry failed for every room; check the capture
+
+--- sample_photo_single_scan_with_ceiling_no_drift: failed, last lines ---
+  File "/kaggle/working/floorplan-scanner/run.py", line 36, in main
+    report = run_pipeline(str(capture_dir), tier, str(output_dir),
+                          drift_correction=not no_drift_correction, render=render)
+  File "/kaggle/working/floorplan-scanner/src/pipeline.py", line 176, in run_pipeline
+    raise RuntimeError("geometry failed for every room; check the capture")
+RuntimeError: geometry failed for every room; check the capture
+
+--- sample_video_single_room: failed, last lines ---
+  File "/kaggle/working/floorplan-scanner/run.py", line 36, in main
+    report = run_pipeline(str(capture_dir), tier, str(output_dir),
+                          drift_correction=not no_drift_correction, render=render)
+  File "/kaggle/working/floorplan-scanner/src/pipeline.py", line 176, in run_pipeline
+    raise RuntimeError("geometry failed for every room; check the capture")
+RuntimeError: geometry failed for every room; check the capture
+
+--- sample_video_single_scan_floor_only: failed, last lines ---
+  File "/kaggle/working/floorplan-scanner/run.py", line 36, in main
+    report = run_pipeline(str(capture_dir), tier, str(output_dir),
+                          drift_correction=not no_drift_correction, render=render)
+  File "/kaggle/working/floorplan-scanner/src/pipeline.py", line 176, in run_pipeline
+    raise RuntimeError("geometry failed for every room; check the capture")
+RuntimeError: geometry failed for every room; check the capture
+
+--- sample_video_single_scan_with_ceiling: failed, last lines ---
+  File "/kaggle/working/floorplan-scanner/run.py", line 36, in main
+    report = run_pipeline(str(capture_dir), tier, str(output_dir),
+                          drift_correction=not no_drift_correction, render=render)
+  File "/kaggle/working/floorplan-scanner/src/pipeline.py", line 176, in run_pipeline
+    raise RuntimeError("geometry failed for every room; check the capture")
+RuntimeError: geometry failed for every room; check the capture

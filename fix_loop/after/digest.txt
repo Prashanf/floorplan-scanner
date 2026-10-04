@@ -1,0 +1,115 @@
+RUN SUMMARY
+ tier                           capture                          status  rooms  area_m2 area_interval  adjacencies  damage  flags  scope  warnings  seconds  geometry_failed  no_ceiling  colmap_retry           colmap_configs  keyframe_sets  rotated_images  resized_images  skipped_rooms  fallback_rooms  overlaps last_error
+lidar                       single_room                              ok      3      8.6    [8.5, 8.8]            0       0      0      0         5   15.834                1           4             0                                       0               0               0              0               0         0           
+lidar            single_scan_floor_only                              ok      9     32.4  [32.3, 32.6]            3       0      0      0        10   25.949                1           9             0                                       0               0               0              0               0         2           
+lidar          single_scan_with_ceiling                              ok     10     56.2  [56.1, 56.4]            7       0      8      8         2   37.593                1           1             0                                       0               0               0              0               0         3           
+photo                       single_room ok, NO ROOMS (graceful failure)      0      0.0    [0.0, 0.0]            0       0      0      0         2    6.952                1           0             1                  relaxed              0               8               0              0               0         0           
+photo              single_room_no_drift ok, NO ROOMS (graceful failure)      0      0.0    [0.0, 0.0]            0       0      0      0         2    7.013                1           0             1                  relaxed              0               8               0              0               0         0           
+photo            single_scan_floor_only ok, NO ROOMS (graceful failure)      0      0.0    [0.0, 0.0]            0       0      0      0         8   89.467                5           0            10           relaxed,strict              0              56               0              2               0         0           
+photo   single_scan_floor_only_no_drift ok, NO ROOMS (graceful failure)      0      0.0    [0.0, 0.0]            0       0      0      0         8   89.090                5           0            10           relaxed,strict              0              56               0              2               0         0           
+photo          single_scan_with_ceiling ok, NO ROOMS (graceful failure)      0      0.0    [0.0, 0.0]            0       0      0      0         8   73.891                7           0            11 desperate,relaxed,strict              0              56               0              0               0         0           
+photo single_scan_with_ceiling_no_drift ok, NO ROOMS (graceful failure)      0      0.0    [0.0, 0.0]            0       0      0      0         8   72.150                7           0            11 desperate,relaxed,strict              0              56               0              0               0         0           
+video                       single_room ok, NO ROOMS (graceful failure)      0      0.0    [0.0, 0.0]            0       0      0      0         2   54.942                1           0             0                   strict              1               0               0              0               0         0           
+video            single_scan_floor_only ok, NO ROOMS (graceful failure)      0      0.0    [0.0, 0.0]            0       0      0      0         2  172.067                1           0             0                   strict              1               0               0              0               0         0           
+video          single_scan_with_ceiling ok, NO ROOMS (graceful failure)      0      0.0    [0.0, 0.0]            0       0      0      0         2  211.330                1           0             0                   strict              1               0               0              0               0         0           
+
+ROOMS
+ tier                  capture    room  area_m2  walls  ceiling_m  ceiling_seen  rough_estimate  doors  windows
+lidar              single_room  room-1     2.27      4       1.25         False           False      0        0
+lidar              single_room  room-3     2.35      4       1.59         False           False      0        0
+lidar              single_room  room-4     4.00      4       1.62         False           False      0        0
+lidar   single_scan_floor_only  room-1     5.78      4       2.03         False           False      0        0
+lidar   single_scan_floor_only  room-2     2.45      4       1.69         False           False      0        0
+lidar   single_scan_floor_only  room-4     2.67      4       1.95         False           False      0        0
+lidar   single_scan_floor_only  room-5     2.11      4       1.94         False           False      0        0
+lidar   single_scan_floor_only  room-6     4.28      4       2.20         False           False      1        0
+lidar   single_scan_floor_only  room-7     4.80      4       1.82         False           False      0        0
+lidar   single_scan_floor_only  room-8     4.46      6       2.19         False           False      1        0
+lidar   single_scan_floor_only  room-9     3.12      4       1.39         False           False      0        0
+lidar   single_scan_floor_only room-10     2.74      4       1.61         False           False      0        0
+lidar single_scan_with_ceiling  room-1     7.35      4       2.95          True           False      1        0
+lidar single_scan_with_ceiling  room-2     3.91      4       2.72          True           False      0        0
+lidar single_scan_with_ceiling  room-4     1.62      4       2.36          True           False      2        0
+lidar single_scan_with_ceiling  room-5     1.86      4       2.38          True           False      0        0
+lidar single_scan_with_ceiling  room-6    12.25      8       3.40         False           False      0        0
+lidar single_scan_with_ceiling  room-7    11.00      8       2.44          True           False      4        0
+lidar single_scan_with_ceiling  room-8     2.42      6       2.33          True           False      3        0
+lidar single_scan_with_ceiling  room-9     1.59      4       3.07          True           False      0        0
+lidar single_scan_with_ceiling room-10    10.41      6       3.08          True           False      1        0
+lidar single_scan_with_ceiling room-11     3.82      4       2.34          True           False      2        0
+
+--- pytest_log (tail) ---
+../../../usr/local/lib/python3.13/dist-packages/matplotlib/_fontconfig_pattern.py:89
+../../../usr/local/lib/python3.13/dist-packages/matplotlib/_fontconfig_pattern.py:89
+../../../usr/local/lib/python3.13/dist-packages/matplotlib/_fontconfig_pattern.py:89
+  /usr/local/lib/python3.13/dist-packages/matplotlib/_fontconfig_pattern.py:89: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+tests/test_graceful_degradation.py::test_unmatchable_photos_give_an_empty_report
+  /usr/local/lib/python3.13/dist-packages/matplotlib/_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+98 passed, 4 deselected, 14 warnings in 25.15s
+
+--- validate_log (tail) ---
+
+=== sample_video_single_room ===
+  WARN: no rooms reconstructed: COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted); room-1: no room geometry could be fitted (nei
+  PASS: 0 rooms, 0.0 m2, 0 adjacencies, 0 damage regions, 0 concealed flags, 0 scope items
+
+=== sample_video_single_scan_floor_only ===
+  WARN: no rooms reconstructed: COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted); room-1: no room geometry could be fitted (nei
+  PASS: 0 rooms, 0.0 m2, 0 adjacencies, 0 damage regions, 0 concealed flags, 0 scope items
+
+=== sample_video_single_scan_with_ceiling ===
+  WARN: no rooms reconstructed: COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted); room-1: no room geometry could be fitted (nei
+  PASS: 0 rooms, 0.0 m2, 0 adjacencies, 0 damage regions, 0 concealed flags, 0 scope items
+
+[sample_lidar_single_room] room-1: the ceiling was not scanned; ceiling_height is the highest observed point (1.25 m), a lower bound.
+[sample_lidar_single_room] room-2: the ceiling was not scanned; ceiling_height is the highest observed point (1.24 m), a lower bound.
+[sample_lidar_single_room] room-2: no room geometry could be fitted (degenerate fit (3 walls, 0.04 m2)); the room is not in the plan.
+[sample_lidar_single_room] room-3: the ceiling was not scanned; ceiling_height is the highest observed point (1.59 m), a lower bound.
+[sample_lidar_single_room] room-4: the ceiling was not scanned; ceiling_height is the highest observed point (1.62 m), a lower bound.
+[sample_lidar_single_scan_floor_only] room-1: the ceiling was not scanned; ceiling_height is the highest observed point (2.03 m), a lower bound.
+[sample_lidar_single_scan_floor_only] room-2: the ceiling was not scanned; ceiling_height is the highest observed point (1.69 m), a lower bound.
+[sample_lidar_single_scan_floor_only] room-3: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_lidar_single_scan_floor_only] room-4: the ceiling was not scanned; ceiling_height is the highest observed point (1.95 m), a lower bound.
+[sample_lidar_single_scan_floor_only] room-5: the ceiling was not scanned; ceiling_height is the highest observed point (1.94 m), a lower bound.
+[sample_lidar_single_scan_floor_only] room-6: the ceiling was not scanned; ceiling_height is the highest observed point (2.20 m), a lower bound.
+[sample_lidar_single_scan_with_ceiling] room-3: no room geometry could be fitted (degenerate fit (3 walls, 0.00 m2)); the room is not in the plan.
+[sample_lidar_single_scan_with_ceiling] room-6: the ceiling was not scanned; ceiling_height is the highest observed point (3.40 m), a lower bound.
+[sample_photo_single_room] COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+[sample_photo_single_room] room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_room_no_drift] COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+[sample_photo_single_room_no_drift] room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_floor_only] COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+[sample_photo_single_scan_floor_only] room-6: COLMAP reconstruction failed (insufficient feature matches between images, capture may have too little visual overlap) and no image looked like a room, so the room is missing from the plan.
+[sample_photo_single_scan_floor_only] room-7: COLMAP reconstruction failed (insufficient feature matches between images, capture may have too little visual overlap) and no image looked like a room, so the room is missing from the plan.
+[sample_photo_single_scan_floor_only] room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_floor_only] room-2: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_floor_only] room-3: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_floor_only_no_drift] COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+[sample_photo_single_scan_floor_only_no_drift] room-6: COLMAP reconstruction failed (insufficient feature matches between images, capture may have too little visual overlap) and no image looked like a room, so the room is missing from the plan.
+[sample_photo_single_scan_floor_only_no_drift] room-7: COLMAP reconstruction failed (insufficient feature matches between images, capture may have too little visual overlap) and no image looked like a room, so the room is missing from the plan.
+[sample_photo_single_scan_floor_only_no_drift] room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_floor_only_no_drift] room-2: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_floor_only_no_drift] room-3: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling] COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+[sample_photo_single_scan_with_ceiling] room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling] room-2: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling] room-3: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling] room-4: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling] room-5: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling_no_drift] COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+[sample_photo_single_scan_with_ceiling_no_drift] room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling_no_drift] room-2: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling_no_drift] room-3: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling_no_drift] room-4: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_photo_single_scan_with_ceiling_no_drift] room-5: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_video_single_room] COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+[sample_video_single_room] room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_video_single_scan_floor_only] COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+[sample_video_single_scan_floor_only] room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+[sample_video_single_scan_with_ceiling] COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+[sample_video_single_scan_with_ceiling] room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.

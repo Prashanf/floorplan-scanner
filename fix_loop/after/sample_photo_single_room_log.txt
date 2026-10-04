@@ -1,0 +1,521 @@
+Pipeline 0.1.0 | tier=photo | drift_correction=True
+Found 8 images in 1 formats (jpg), 0 videos
+1 room(s) found
+warning: geometry failed for room-1: neither wall lines nor a room outline found
+warning: COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+warning: room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+Wrote output/sample_photo_single_room/report.json
+Wrote output/sample_photo_single_room/floor_plan.png
+Timing: preprocess 0.21s, photo front-end 6.74s, geometry 0.00s, write JSON 0.01s, render 0.35s | total 7.31s
+
+--- Summary ---
+tier: photo | rooms: 0 | total floor area: 0.00 m² [0.00, 0.00]
+no rooms could be reconstructed from this capture (see warnings in the report)
+  warning: COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)
+  warning: room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan.
+report: output/sample_photo_single_room/report.json
+plan:   output/sample_photo_single_room/floor_plan.png
+
+INFO floorplan: drift_correction=True
+DEBUG PIL.Image: Importing JpegImagePlugin
+INFO src.tiers.preprocessing: 8 of 8 images are portrait (height > width); kept upright
+INFO src.tiers.preprocessing: Preprocessed 8 images: 8 rotated, 0 resized
+INFO src.tiers.colmap_utils: COLMAP attempt: strict
+INFO src.tiers.colmap_utils: COLMAP device: GPU (4 feature/matching thread(s))
+I20261004 17:28:03.410149 132673192322752 feature_extraction.cc:498] === Feature extraction ===
+I20261004 17:28:03.410655 132673039087296 sift.cc:758] Creating SIFT GPU feature extractor
+I20261004 17:28:03.410697 132673030694592 sift.cc:758] Creating SIFT GPU feature extractor
+I20261004 17:28:03.908047 132672680621760 feature_extraction.cc:270] Processed file [1/8]
+I20261004 17:28:03.908082 132672680621760 feature_extraction.cc:273]   Name:            000.jpg
+I20261004 17:28:03.908099 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:03.908106 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:28:03.908115 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:03.908128 132672680621760 feature_extraction.cc:294]   Features:        258 (SIFT)
+I20261004 17:28:03.972079 132672680621760 feature_extraction.cc:270] Processed file [2/8]
+I20261004 17:28:03.972125 132672680621760 feature_extraction.cc:273]   Name:            001.jpg
+I20261004 17:28:03.972132 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:03.972138 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:28:03.972146 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:03.972160 132672680621760 feature_extraction.cc:294]   Features:        526 (SIFT)
+I20261004 17:28:04.017801 132672680621760 feature_extraction.cc:270] Processed file [3/8]
+I20261004 17:28:04.017856 132672680621760 feature_extraction.cc:273]   Name:            002.jpg
+I20261004 17:28:04.017866 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.017876 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:28:04.017884 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.017900 132672680621760 feature_extraction.cc:294]   Features:        1986 (SIFT)
+I20261004 17:28:04.084337 132672680621760 feature_extraction.cc:270] Processed file [4/8]
+I20261004 17:28:04.084384 132672680621760 feature_extraction.cc:273]   Name:            003.jpg
+I20261004 17:28:04.084394 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.084401 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:28:04.084408 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.084421 132672680621760 feature_extraction.cc:294]   Features:        92 (SIFT)
+I20261004 17:28:04.084604 132672680621760 feature_extraction.cc:270] Processed file [5/8]
+I20261004 17:28:04.084634 132672680621760 feature_extraction.cc:273]   Name:            004.jpg
+I20261004 17:28:04.084643 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.084648 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:28:04.084654 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.084662 132672680621760 feature_extraction.cc:294]   Features:        1125 (SIFT)
+I20261004 17:28:04.085252 132672680621760 feature_extraction.cc:270] Processed file [6/8]
+I20261004 17:28:04.085283 132672680621760 feature_extraction.cc:273]   Name:            005.jpg
+I20261004 17:28:04.085292 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.085298 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:28:04.085304 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.085312 132672680621760 feature_extraction.cc:294]   Features:        470 (SIFT)
+I20261004 17:28:04.134684 132672680621760 feature_extraction.cc:270] Processed file [7/8]
+I20261004 17:28:04.134715 132672680621760 feature_extraction.cc:273]   Name:            006.jpg
+I20261004 17:28:04.134721 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.134726 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:28:04.134761 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.134772 132672680621760 feature_extraction.cc:294]   Features:        800 (SIFT)
+I20261004 17:28:04.144698 132672680621760 feature_extraction.cc:270] Processed file [8/8]
+I20261004 17:28:04.144722 132672680621760 feature_extraction.cc:273]   Name:            007.jpg
+I20261004 17:28:04.144729 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.144734 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_RADIAL
+I20261004 17:28:04.144741 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.144751 132672680621760 feature_extraction.cc:294]   Features:        1437 (SIFT)
+I20261004 17:28:04.239941 132673192322752 timer.cc:90] Elapsed time: 0.014 [minutes]
+I20261004 17:28:04.265579 132673192322752 feature_matching.cc:196] === Feature matching & geometric verification ===
+I20261004 17:28:04.265708 132672680621760 feature_matching_utils.cc:79] Bind FeatureMatcherWorker to GPU device 0
+I20261004 17:28:04.265756 132673030694592 feature_matching_utils.cc:79] Bind FeatureMatcherWorker to GPU device 1
+I20261004 17:28:04.265844 132672680621760 sift.cc:1679] Creating SIFT GPU feature matcher
+I20261004 17:28:04.265865 132673030694592 sift.cc:1679] Creating SIFT GPU feature matcher
+I20261004 17:28:04.266919 132673192322752 pairing.cc:181] Generating exhaustive image pairs...
+I20261004 17:28:04.266935 132673192322752 pairing.cc:214] Processing block [1/1, 1/1]
+I20261004 17:28:04.587362 132673192322752 feature_matching.cc:218] in 0.320s
+I20261004 17:28:04.587416 132673192322752 timer.cc:90] Elapsed time: 0.005 [minutes]
+I20261004 17:28:04.619380 132674956329728 incremental_pipeline.cc:353] Loading database
+I20261004 17:28:04.619475 132674956329728 database_cache.cc:82] Loading rigs...
+I20261004 17:28:04.619559 132674956329728 database_cache.cc:92]  1 in 0.000s
+I20261004 17:28:04.619586 132674956329728 database_cache.cc:100] Loading cameras...
+I20261004 17:28:04.619611 132674956329728 database_cache.cc:118]  1 in 0.000s
+I20261004 17:28:04.619624 132674956329728 database_cache.cc:126] Loading frames...
+I20261004 17:28:04.619674 132674956329728 database_cache.cc:136]  8 in 0.000s
+I20261004 17:28:04.619699 132674956329728 database_cache.cc:144] Loading matches...
+I20261004 17:28:04.619743 132674956329728 database_cache.cc:163]  2 in 0.000s
+I20261004 17:28:04.619755 132674956329728 database_cache.cc:171] Loading images...
+I20261004 17:28:04.620160 132674956329728 database_cache.cc:268]  8 in 0.000s (connected 4, loaded 4)
+I20261004 17:28:04.620193 132674956329728 database_cache.cc:282] Loading pose priors...
+I20261004 17:28:04.620218 132674956329728 database_cache.cc:290]  0 in 0.000s
+I20261004 17:28:04.620227 132674956329728 database_cache.cc:298] Building correspondence graph...
+I20261004 17:28:04.620309 132674956329728 database_cache.cc:327]  in 0.000s (ignored 0)
+I20261004 17:28:04.620335 132674956329728 timer.cc:90] Elapsed time: 0.000 [minutes]
+I20261004 17:28:04.620484 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:04.620921 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:04.620973 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:04.620997 132674956329728 incremental_pipeline.cc:429] => Relaxing the initialization constraints.
+I20261004 17:28:04.621047 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:04.626846 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:04.626866 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:04.626885 132674956329728 incremental_pipeline.cc:442] => Relaxing the initialization constraints.
+I20261004 17:28:04.626928 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:04.632297 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:04.632327 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:04.632346 132674956329728 incremental_pipeline.cc:429] => Relaxing the initialization constraints.
+I20261004 17:28:04.632387 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:04.639991 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #5 and #6
+I20261004 17:28:04.640165 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:04.640263 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:04.640537 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:04.640565 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:04.640588 132674956329728 incremental_pipeline.cc:442] => Relaxing the initialization constraints.
+I20261004 17:28:04.640632 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:04.648476 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #5 and #6
+I20261004 17:28:04.648612 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:04.648720 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:04.648992 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:04.649019 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:04.649036 132674956329728 timer.cc:90] Elapsed time: 0.000 [minutes]
+E20261004 17:28:04.649062 132674956329728 sfm.cc:310] Failed to create any sparse model
+WARNING src.tiers.colmap_utils: COLMAP config 'strict' failed, trying next
+INFO src.tiers.colmap_utils: COLMAP attempt: relaxed
+INFO src.tiers.colmap_utils: COLMAP device: GPU (4 feature/matching thread(s))
+I20261004 17:28:04.653628 132673055872704 feature_extraction.cc:498] === Feature extraction ===
+I20261004 17:28:04.653894 132673047480000 sift.cc:758] Creating SIFT GPU feature extractor
+I20261004 17:28:04.653969 132673030694592 sift.cc:758] Creating SIFT GPU feature extractor
+I20261004 17:28:04.750224 132672680621760 feature_extraction.cc:270] Processed file [1/8]
+I20261004 17:28:04.750265 132672680621760 feature_extraction.cc:273]   Name:            000.jpg
+I20261004 17:28:04.750271 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.750276 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_PINHOLE
+I20261004 17:28:04.750283 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.750295 132672680621760 feature_extraction.cc:294]   Features:        2722 (SIFT)
+I20261004 17:28:04.820023 132672680621760 feature_extraction.cc:270] Processed file [2/8]
+I20261004 17:28:04.820073 132672680621760 feature_extraction.cc:273]   Name:            002.jpg
+I20261004 17:28:04.820080 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.820086 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_PINHOLE
+I20261004 17:28:04.820093 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.820119 132672680621760 feature_extraction.cc:294]   Features:        7520 (SIFT)
+I20261004 17:28:04.853374 132672680621760 feature_extraction.cc:270] Processed file [3/8]
+I20261004 17:28:04.853478 132672680621760 feature_extraction.cc:273]   Name:            001.jpg
+I20261004 17:28:04.853492 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.853500 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_PINHOLE
+I20261004 17:28:04.853508 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.853521 132672680621760 feature_extraction.cc:294]   Features:        17592 (SIFT)
+I20261004 17:28:04.898263 132672680621760 feature_extraction.cc:270] Processed file [4/8]
+I20261004 17:28:04.898384 132672680621760 feature_extraction.cc:273]   Name:            003.jpg
+I20261004 17:28:04.898396 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.898403 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_PINHOLE
+I20261004 17:28:04.898410 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.898422 132672680621760 feature_extraction.cc:294]   Features:        1003 (SIFT)
+I20261004 17:28:04.930207 132672680621760 feature_extraction.cc:270] Processed file [5/8]
+I20261004 17:28:04.930247 132672680621760 feature_extraction.cc:273]   Name:            004.jpg
+I20261004 17:28:04.930257 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.930263 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_PINHOLE
+I20261004 17:28:04.930270 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.930282 132672680621760 feature_extraction.cc:294]   Features:        4928 (SIFT)
+I20261004 17:28:04.931544 132672680621760 feature_extraction.cc:270] Processed file [6/8]
+I20261004 17:28:04.931581 132672680621760 feature_extraction.cc:273]   Name:            005.jpg
+I20261004 17:28:04.931590 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.931596 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_PINHOLE
+I20261004 17:28:04.931602 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.931612 132672680621760 feature_extraction.cc:294]   Features:        4276 (SIFT)
+I20261004 17:28:04.947051 132672680621760 feature_extraction.cc:270] Processed file [7/8]
+I20261004 17:28:04.947093 132672680621760 feature_extraction.cc:273]   Name:            006.jpg
+I20261004 17:28:04.947115 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.947121 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_PINHOLE
+I20261004 17:28:04.947128 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.947139 132672680621760 feature_extraction.cc:294]   Features:        3779 (SIFT)
+I20261004 17:28:04.979660 132672680621760 feature_extraction.cc:270] Processed file [8/8]
+I20261004 17:28:04.979686 132672680621760 feature_extraction.cc:273]   Name:            007.jpg
+I20261004 17:28:04.979692 132672680621760 feature_extraction.cc:282]   Dimensions:      1920 x 1440
+I20261004 17:28:04.979698 132672680621760 feature_extraction.cc:285]   Camera:          #1 - SIMPLE_PINHOLE
+I20261004 17:28:04.979705 132672680621760 feature_extraction.cc:289]   Focal Length:    2304.00px
+I20261004 17:28:04.979716 132672680621760 feature_extraction.cc:294]   Features:        5692 (SIFT)
+I20261004 17:28:05.048370 132673055872704 timer.cc:90] Elapsed time: 0.007 [minutes]
+I20261004 17:28:05.061736 132673055872704 feature_matching.cc:196] === Feature matching & geometric verification ===
+I20261004 17:28:05.061862 132672680621760 feature_matching_utils.cc:79] Bind FeatureMatcherWorker to GPU device 0
+I20261004 17:28:05.061914 132673030694592 feature_matching_utils.cc:79] Bind FeatureMatcherWorker to GPU device 1
+I20261004 17:28:05.061993 132672680621760 sift.cc:1679] Creating SIFT GPU feature matcher
+I20261004 17:28:05.062021 132673030694592 sift.cc:1679] Creating SIFT GPU feature matcher
+I20261004 17:28:05.062152 132673039087296 feature_matching_utils.cc:79] Bind FeatureMatcherWorker to GPU device 0
+I20261004 17:28:05.062171 132673039087296 sift.cc:1679] Creating SIFT GPU feature matcher
+I20261004 17:28:05.062203 132672512849600 feature_matching_utils.cc:79] Bind FeatureMatcherWorker to GPU device 1
+I20261004 17:28:05.062223 132672512849600 sift.cc:1679] Creating SIFT GPU feature matcher
+I20261004 17:28:05.065201 132673055872704 pairing.cc:181] Generating exhaustive image pairs...
+I20261004 17:28:05.065230 132673055872704 pairing.cc:214] Processing block [1/1, 1/1]
+I20261004 17:28:09.306648 132673055872704 feature_matching.cc:218] in 4.241s
+I20261004 17:28:09.306718 132673055872704 timer.cc:90] Elapsed time: 0.071 [minutes]
+I20261004 17:28:09.345823 132674956329728 incremental_pipeline.cc:353] Loading database
+I20261004 17:28:09.345922 132674956329728 database_cache.cc:82] Loading rigs...
+I20261004 17:28:09.345971 132674956329728 database_cache.cc:92]  1 in 0.000s
+I20261004 17:28:09.346015 132674956329728 database_cache.cc:100] Loading cameras...
+I20261004 17:28:09.346040 132674956329728 database_cache.cc:118]  1 in 0.000s
+I20261004 17:28:09.346052 132674956329728 database_cache.cc:126] Loading frames...
+I20261004 17:28:09.346114 132674956329728 database_cache.cc:136]  8 in 0.000s
+I20261004 17:28:09.346128 132674956329728 database_cache.cc:144] Loading matches...
+I20261004 17:28:09.346249 132674956329728 database_cache.cc:163]  26 in 0.000s
+I20261004 17:28:09.346274 132674956329728 database_cache.cc:171] Loading images...
+I20261004 17:28:09.348765 132674956329728 database_cache.cc:268]  8 in 0.002s (connected 8, loaded 8)
+I20261004 17:28:09.348812 132674956329728 database_cache.cc:282] Loading pose priors...
+I20261004 17:28:09.348838 132674956329728 database_cache.cc:290]  0 in 0.000s
+I20261004 17:28:09.348847 132674956329728 database_cache.cc:298] Building correspondence graph...
+I20261004 17:28:09.350008 132674956329728 database_cache.cc:327]  in 0.001s (ignored 0)
+I20261004 17:28:09.350051 132674956329728 timer.cc:90] Elapsed time: 0.000 [minutes]
+I20261004 17:28:09.350801 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.363637 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:09.363668 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:09.363708 132674956329728 incremental_pipeline.cc:429] => Relaxing the initialization constraints.
+I20261004 17:28:09.363915 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.371616 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #5 and #8
+I20261004 17:28:09.372471 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.373074 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.373568 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.376577 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #5 and #2
+I20261004 17:28:09.377344 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.377852 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.378450 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.385933 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #8 and #2
+I20261004 17:28:09.386806 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.387267 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.387746 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.391001 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #6 and #2
+I20261004 17:28:09.391841 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.392195 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.392623 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.395876 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #6 and #7
+I20261004 17:28:09.396651 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.397064 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.397494 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.400507 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #7 and #5
+I20261004 17:28:09.401191 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.401522 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.401935 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.405376 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #1 and #2
+I20261004 17:28:09.406064 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.407399 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.407847 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.413217 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #3 and #2
+I20261004 17:28:09.414542 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.415233 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.415934 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.416460 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:09.416486 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:09.416511 132674956329728 incremental_pipeline.cc:442] => Relaxing the initialization constraints.
+I20261004 17:28:09.416681 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.421182 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #5 and #6
+I20261004 17:28:09.422029 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.474252 132674956329728 incremental_pipeline.cc:88] Retriangulation and Global bundle adjustment
+I20261004 17:28:09.475163 132674956329728 incremental_pipeline.cc:826] Keeping successful reconstruction
+I20261004 17:28:09.476574 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.484904 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #8 and #2
+I20261004 17:28:09.485764 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.486272 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.486785 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.489944 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #7 and #2
+I20261004 17:28:09.490700 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.492390 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.492852 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.496453 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #1 and #2
+I20261004 17:28:09.497316 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.498621 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.499139 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.505088 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #3 and #2
+I20261004 17:28:09.506272 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.506843 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.507594 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.508249 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:09.508284 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:09.508310 132674956329728 incremental_pipeline.cc:429] => Relaxing the initialization constraints.
+I20261004 17:28:09.508477 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.515649 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #8 and #2
+I20261004 17:28:09.516486 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.516957 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.517503 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.520022 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #8 and #1
+I20261004 17:28:09.520576 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.520956 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.521398 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.524502 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #7 and #2
+I20261004 17:28:09.525243 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.526632 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.527063 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.530188 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #7 and #1
+I20261004 17:28:09.530635 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.531803 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.532219 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.537616 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #3 and #2
+I20261004 17:28:09.538772 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.539377 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.539991 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.552300 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #3 and #7
+I20261004 17:28:09.553418 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.553735 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.554383 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.556882 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #4 and #1
+I20261004 17:28:09.557240 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.558680 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.558975 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.562131 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #4 and #2
+I20261004 17:28:09.562627 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.562970 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.563404 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.563553 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:09.563580 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:09.563633 132674956329728 incremental_pipeline.cc:442] => Relaxing the initialization constraints.
+I20261004 17:28:09.563819 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.569061 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #8 and #7
+I20261004 17:28:09.569809 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.571074 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.571500 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.574481 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #8 and #2
+I20261004 17:28:09.575313 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.575725 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.576307 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.579370 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #7 and #2
+I20261004 17:28:09.580033 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.581498 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.581996 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.585334 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #1 and #2
+I20261004 17:28:09.586001 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.587461 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.587923 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.590769 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #1 and #7
+I20261004 17:28:09.591285 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.592767 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.593193 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.598503 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #3 and #2
+I20261004 17:28:09.599679 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.600283 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.600909 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.612795 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #3 and #7
+I20261004 17:28:09.613971 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.614340 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.614912 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.617276 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #4 and #1
+I20261004 17:28:09.617593 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.618909 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.619243 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.622320 132674956329728 incremental_pipeline.cc:492] Registering initial image pair #4 and #2
+I20261004 17:28:09.622928 132674956329728 incremental_pipeline.cc:510] Global bundle adjustment
+I20261004 17:28:09.623868 132674956329728 incremental_pipeline.cc:791] Discarding reconstruction due to bad initial pair
+I20261004 17:28:09.624325 132674956329728 incremental_pipeline.cc:465] Finding good initial image pair
+I20261004 17:28:09.624501 132674956329728 incremental_pipeline.cc:472] => No good initial image pair found.
+I20261004 17:28:09.624527 132674956329728 incremental_pipeline.cc:800] Discarding reconstruction due to no initial pair
+I20261004 17:28:09.624552 132674956329728 timer.cc:90] Elapsed time: 0.005 [minutes]
+INFO src.tiers.colmap_utils: COLMAP succeeded with config: relaxed, 26 points, 2 images registered
+INFO src.tiers.colmap_utils: reconstructed 2 images, 26 points
+WARNING src.tiers.colmap_utils: scale refinement skipped: neither wall lines nor a room outline found
+INFO src.tiers.colmap_utils: scale: prior vertical-extent x0.103, refinement vertical-extent x1.000
+INFO src.tiers.photo: room-1: {'scale_prior': 'vertical-extent', 'scale_prior_factor': 0.10262474323356863, 'scale_method': 'vertical-extent', 'scale_correction': 1.0, 'scale_factor': 0.10262474323356863, 'registered_images': 2, 'input_images': 8}
+WARNING floorplan: geometry failed for room-1, room dropped: neither wall lines nor a room outline found
+DEBUG matplotlib: CACHEDIR=/root/.cache/matplotlib
+DEBUG matplotlib.font_manager: Using fontManager instance from /root/.cache/matplotlib/fontlist-v390.json
+DEBUG matplotlib.pyplot: Loaded backend Agg version v2.2.
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0.
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf', name='Liberation Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf', name='Liberation Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf', name='Liberation Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/humor-sans/Humor-Sans.ttf', name='Humor Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf', name='Liberation Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf', name='Liberation Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf', name='Liberation Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0 to DejaVu Sans ('/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=12.0.
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf', name='Liberation Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf', name='Liberation Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf', name='Liberation Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/humor-sans/Humor-Sans.ttf', name='Humor Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf', name='Liberation Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf', name='Liberation Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf', name='Liberation Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=12.0 to DejaVu Sans ('/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=bold:stretch=normal:size=20.0.
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.33499999999999996
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf', name='Liberation Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf', name='Liberation Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf', name='Liberation Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/humor-sans/Humor-Sans.ttf', name='Humor Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf', name='Liberation Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf', name='Liberation Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf', name='Liberation Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf', name='Liberation Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf', name='Liberation Sans', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+DEBUG matplotlib.font_manager: findfont: score(FontEntry(fname='/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf', name='Liberation Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+DEBUG matplotlib.font_manager: findfont: Matching sans\-serif:style=normal:variant=normal:weight=bold:stretch=normal:size=20.0 to DejaVu Sans ('/usr/local/lib/python3.13/dist-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf') with score of 0.050000.
