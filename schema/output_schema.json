@@ -1,0 +1,708 @@
+{
+  "$defs": {
+    "Adjacency": {
+      "description": "Two rooms connected through a shared opening.",
+      "properties": {
+        "room_a_id": {
+          "description": "Id of the first room.",
+          "examples": [
+            "room-1"
+          ],
+          "title": "Room A Id",
+          "type": "string"
+        },
+        "room_b_id": {
+          "description": "Id of the second room.",
+          "examples": [
+            "room-2"
+          ],
+          "title": "Room B Id",
+          "type": "string"
+        },
+        "shared_opening_id": {
+          "description": "Id of the opening that connects the two rooms.",
+          "examples": [
+            "room-1/door-0"
+          ],
+          "title": "Shared Opening Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "room_a_id",
+        "room_b_id",
+        "shared_opening_id"
+      ],
+      "title": "Adjacency",
+      "type": "object"
+    },
+    "ConcealedDamageFlag": {
+      "description": "A rule-based flag for damage that is likely hidden behind a surface.",
+      "properties": {
+        "id": {
+          "description": "Unique flag id.",
+          "examples": [
+            "flag-0"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "surface_id": {
+          "description": "Surface the flag applies to.",
+          "examples": [
+            "room-1/wall-2"
+          ],
+          "title": "Surface Id",
+          "type": "string"
+        },
+        "rule_id": {
+          "description": "Id of the rule that fired.",
+          "examples": [
+            "RULE_WATER_01"
+          ],
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "rule_description": {
+          "description": "Human-readable description of the rule.",
+          "examples": [
+            "Water damage near floor junction"
+          ],
+          "title": "Rule Description",
+          "type": "string"
+        },
+        "evidence": {
+          "description": "Ids of the damage regions that triggered the rule.",
+          "examples": [
+            [
+              "damage-0"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "confidence": {
+          "description": "Flag confidence in [0, 1].",
+          "examples": [
+            0.6
+          ],
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "recommended_action": {
+          "description": "Action recommended to the adjuster.",
+          "examples": [
+            "Investigate possible concealed water damage behind surface. Check for plumbing leaks."
+          ],
+          "title": "Recommended Action",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "surface_id",
+        "rule_id",
+        "rule_description",
+        "evidence",
+        "confidence",
+        "recommended_action"
+      ],
+      "title": "ConcealedDamageFlag",
+      "type": "object"
+    },
+    "DamageRegion": {
+      "description": "A damaged region on a surface, with class and metric extent.",
+      "properties": {
+        "id": {
+          "description": "Unique damage region id.",
+          "examples": [
+            "damage-0"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "surface_id": {
+          "description": "Surface the damage lies on.",
+          "examples": [
+            "room-1/wall-2"
+          ],
+          "title": "Surface Id",
+          "type": "string"
+        },
+        "damage_class": {
+          "description": "Damage class.",
+          "enum": [
+            "crack",
+            "water_stain",
+            "mold",
+            "hole",
+            "peeling_paint"
+          ],
+          "examples": [
+            "crack",
+            "water_stain"
+          ],
+          "title": "Damage Class",
+          "type": "string"
+        },
+        "extent_width": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Horizontal extent on the surface."
+        },
+        "extent_height": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Vertical extent on the surface."
+        },
+        "area": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Damaged area on the surface, unit 'm2'."
+        },
+        "location_on_surface": {
+          "description": "Region center (u, v) in meters: along the surface from its start, and height above floor.",
+          "examples": [
+            [
+              1.2,
+              0.3
+            ]
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Location On Surface",
+          "type": "array"
+        },
+        "confidence": {
+          "description": "Detection confidence in [0, 1].",
+          "examples": [
+            0.7
+          ],
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "source_image": {
+          "description": "Path of the image the detection came from.",
+          "examples": [
+            "room-1/IMG_0001.jpg"
+          ],
+          "title": "Source Image",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "surface_id",
+        "damage_class",
+        "extent_width",
+        "extent_height",
+        "area",
+        "location_on_surface",
+        "confidence",
+        "source_image"
+      ],
+      "title": "DamageRegion",
+      "type": "object"
+    },
+    "Measurement": {
+      "description": "A scalar measurement with a confidence interval.",
+      "examples": [
+        {
+          "confidence_high": 4.04,
+          "confidence_low": 4.0,
+          "unit": "m",
+          "value": 4.02
+        }
+      ],
+      "properties": {
+        "value": {
+          "description": "Best estimate of the measured quantity, in `unit`.",
+          "examples": [
+            4.02
+          ],
+          "title": "Value",
+          "type": "number"
+        },
+        "confidence_low": {
+          "description": "Lower bound of the confidence interval, in `unit`.",
+          "examples": [
+            4.0
+          ],
+          "title": "Confidence Low",
+          "type": "number"
+        },
+        "confidence_high": {
+          "description": "Upper bound of the confidence interval, in `unit`.",
+          "examples": [
+            4.04
+          ],
+          "title": "Confidence High",
+          "type": "number"
+        },
+        "unit": {
+          "default": "m",
+          "description": "Unit of value and interval bounds: 'm' for lengths, 'm2' for areas.",
+          "examples": [
+            "m",
+            "m2"
+          ],
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "confidence_low",
+        "confidence_high"
+      ],
+      "title": "Measurement",
+      "type": "object"
+    },
+    "Opening": {
+      "description": "A door or window in a wall.",
+      "properties": {
+        "id": {
+          "description": "Unique opening id within the report.",
+          "examples": [
+            "room-1/door-0"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "description": "Opening type.",
+          "enum": [
+            "door",
+            "window"
+          ],
+          "examples": [
+            "door",
+            "window"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "wall_id": {
+          "description": "Id of the wall containing the opening.",
+          "examples": [
+            "room-1/wall-1"
+          ],
+          "title": "Wall Id",
+          "type": "string"
+        },
+        "position_along_wall": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Distance from the wall start to the opening's near edge."
+        },
+        "width": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Opening width along the wall."
+        },
+        "height": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Opening height (vertical extent)."
+        },
+        "confidence": {
+          "description": "Detection confidence in [0, 1].",
+          "examples": [
+            0.9
+          ],
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "wall_id",
+        "position_along_wall",
+        "width",
+        "height",
+        "confidence"
+      ],
+      "title": "Opening",
+      "type": "object"
+    },
+    "Room": {
+      "description": "A single room with walls, openings, ceiling height and floor area.",
+      "properties": {
+        "id": {
+          "description": "Unique room id.",
+          "examples": [
+            "room-1"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "description": "Human-readable room name.",
+          "examples": [
+            "Room 1"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "walls": {
+          "description": "Walls ordered counterclockwise around the room.",
+          "items": {
+            "$ref": "#/$defs/Wall"
+          },
+          "title": "Walls",
+          "type": "array"
+        },
+        "openings": {
+          "description": "Doors and windows in the room's walls.",
+          "items": {
+            "$ref": "#/$defs/Opening"
+          },
+          "title": "Openings",
+          "type": "array"
+        },
+        "ceiling_height": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Floor-to-ceiling height."
+        },
+        "floor_area": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Floor area, unit 'm2'."
+        },
+        "floor_polygon": {
+          "description": "Closed floor outline, counterclockwise (x, y) in meters, global frame.",
+          "examples": [
+            [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                4.0,
+                0.0
+              ],
+              [
+                4.0,
+                3.0
+              ],
+              [
+                0.0,
+                3.0
+              ]
+            ]
+          ],
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Floor Polygon",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "walls",
+        "openings",
+        "ceiling_height",
+        "floor_area",
+        "floor_polygon"
+      ],
+      "title": "Room",
+      "type": "object"
+    },
+    "ScopeLineItem": {
+      "description": "A repair scope line item keyed to a surface.",
+      "properties": {
+        "id": {
+          "description": "Unique scope line item id.",
+          "examples": [
+            "scope-0"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "surface_id": {
+          "description": "Surface the work applies to.",
+          "examples": [
+            "room-1/wall-2"
+          ],
+          "title": "Surface Id",
+          "type": "string"
+        },
+        "damage_region_id": {
+          "description": "Damage region (or flag) this item addresses.",
+          "examples": [
+            "damage-0"
+          ],
+          "title": "Damage Region Id",
+          "type": "string"
+        },
+        "description": {
+          "description": "Work description.",
+          "examples": [
+            "Patch, fill, and repaint. Estimated area: 0.05 m\u00b2"
+          ],
+          "title": "Description",
+          "type": "string"
+        },
+        "estimated_area": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Estimated work area, unit 'm2'."
+        },
+        "priority": {
+          "description": "Repair priority.",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "examples": [
+            "high"
+          ],
+          "title": "Priority",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "surface_id",
+        "damage_region_id",
+        "description",
+        "estimated_area",
+        "priority"
+      ],
+      "title": "ScopeLineItem",
+      "type": "object"
+    },
+    "Wall": {
+      "description": "One wall segment of a room, in the property's global 2D frame.",
+      "properties": {
+        "id": {
+          "description": "Unique wall id within the report.",
+          "examples": [
+            "room-1/wall-0"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "start": {
+          "description": "Wall start point (x, y) in meters, global frame.",
+          "examples": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Start",
+          "type": "array"
+        },
+        "end": {
+          "description": "Wall end point (x, y) in meters, global frame.",
+          "examples": [
+            [
+              4.0,
+              0.0
+            ]
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "End",
+          "type": "array"
+        },
+        "length": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Wall length along the floor line."
+        },
+        "height": {
+          "$ref": "#/$defs/Measurement",
+          "description": "Wall height, floor to ceiling."
+        },
+        "surface_id": {
+          "description": "Surface id that damage regions and scope items refer to.",
+          "examples": [
+            "room-1/wall-0"
+          ],
+          "title": "Surface Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "start",
+        "end",
+        "length",
+        "height",
+        "surface_id"
+      ],
+      "title": "Wall",
+      "type": "object"
+    }
+  },
+  "description": "Full per-capture report: plan, damage, concealed flags and scope.",
+  "properties": {
+    "capture_id": {
+      "description": "Unique capture id.",
+      "examples": [
+        "capture-2026-10-04-001"
+      ],
+      "title": "Capture Id",
+      "type": "string"
+    },
+    "capture_tier": {
+      "description": "Input tier the report was produced from.",
+      "enum": [
+        "photo",
+        "video",
+        "lidar"
+      ],
+      "examples": [
+        "lidar"
+      ],
+      "title": "Capture Tier",
+      "type": "string"
+    },
+    "capture_timestamp": {
+      "description": "Capture time, ISO 8601.",
+      "examples": [
+        "2026-10-04T11:30:00Z"
+      ],
+      "format": "date-time",
+      "title": "Capture Timestamp",
+      "type": "string"
+    },
+    "device": {
+      "description": "Capture device.",
+      "examples": [
+        "iPhone 15 Pro"
+      ],
+      "title": "Device",
+      "type": "string"
+    },
+    "rooms": {
+      "description": "Rooms with dimensioned plans.",
+      "items": {
+        "$ref": "#/$defs/Room"
+      },
+      "title": "Rooms",
+      "type": "array"
+    },
+    "adjacencies": {
+      "description": "Room connectivity.",
+      "items": {
+        "$ref": "#/$defs/Adjacency"
+      },
+      "title": "Adjacencies",
+      "type": "array"
+    },
+    "damage_regions": {
+      "description": "Detected damage regions.",
+      "items": {
+        "$ref": "#/$defs/DamageRegion"
+      },
+      "title": "Damage Regions",
+      "type": "array"
+    },
+    "concealed_damage_flags": {
+      "description": "Concealed-damage flags, each with the rule that fired.",
+      "items": {
+        "$ref": "#/$defs/ConcealedDamageFlag"
+      },
+      "title": "Concealed Damage Flags",
+      "type": "array"
+    },
+    "scope_line_items": {
+      "description": "Scope line items keyed to surfaces.",
+      "items": {
+        "$ref": "#/$defs/ScopeLineItem"
+      },
+      "title": "Scope Line Items",
+      "type": "array"
+    },
+    "total_floor_area": {
+      "$ref": "#/$defs/Measurement",
+      "description": "Whole-property floor area (sum over rooms), unit 'm2'."
+    },
+    "room_count": {
+      "description": "Number of rooms in the report.",
+      "examples": [
+        3
+      ],
+      "minimum": 0,
+      "title": "Room Count",
+      "type": "integer"
+    },
+    "processing_time_seconds": {
+      "default": 0.0,
+      "description": "Wall-clock pipeline time in seconds.",
+      "examples": [
+        42.5
+      ],
+      "minimum": 0.0,
+      "title": "Processing Time Seconds",
+      "type": "number"
+    },
+    "pipeline_version": {
+      "default": "0.1.0",
+      "description": "Version of the pipeline that produced the report.",
+      "examples": [
+        "0.1.0"
+      ],
+      "title": "Pipeline Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "capture_id",
+    "capture_tier",
+    "capture_timestamp",
+    "device",
+    "rooms",
+    "adjacencies",
+    "damage_regions",
+    "concealed_damage_flags",
+    "scope_line_items",
+    "total_floor_area",
+    "room_count"
+  ],
+  "title": "PropertyReport",
+  "type": "object"
+}

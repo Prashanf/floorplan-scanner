@@ -18,6 +18,9 @@ MAX_LINES = 16
 SNAP_TOLERANCE = np.deg2rad(15.0)  # lines further than this from the dominant grid stay unsnapped
 MERGE_OFFSET = 0.05  # snapped parallel lines closer than this are one wall
 MIN_WALL_LENGTH = 0.3
+COVERAGE_BIN = 0.1  # meters along a line
+MIN_BIN_POINTS = 3
+MIN_COVERAGE = 0.3  # share of bins along a wall's extent that must hold points; rejects sparse strays
 SEED = 0  # fixed: same room in, same plan out
 
 
@@ -90,6 +93,21 @@ def _ransac_line(points: np.ndarray, rng: np.random.Generator) -> _Line | None:
     return _Line(center=center, angle=angle, points=inliers)
 
 
+def _coverage(line: _Line) -> float:
+    """Share of 0.1 m bins along the line's extent that contain inliers.
+
+    A real wall (even with a door in it) is mostly covered; stray points scattered
+    along a line, such as a few jamb-edge points, are not.
+    """
+    t = (line.points - line.center) @ line.direction
+    extent = float(t.max() - t.min())
+    if extent < 1e-6:
+        return 0.0
+    n_bins = max(1, int(np.ceil(extent / COVERAGE_BIN)))
+    counts = np.bincount(np.minimum(((t - t.min()) / COVERAGE_BIN).astype(int), n_bins - 1), minlength=n_bins)
+    return float((counts >= MIN_BIN_POINTS).sum() / n_bins)
+
+
 def _fit_lines(xy: np.ndarray) -> list[_Line]:
     """Iterative RANSAC: fit a line, remove its inliers, repeat until support runs out."""
     rng = np.random.default_rng(SEED)
@@ -99,7 +117,8 @@ def _fit_lines(xy: np.ndarray) -> list[_Line]:
         line = _ransac_line(remaining, rng)
         if line is None or len(line.points) < MIN_INLIERS:
             break
-        lines.append(line)
+        if _coverage(line) >= MIN_COVERAGE:
+            lines.append(line)
         normal = line.normal
         remaining = remaining[np.abs((remaining - line.center) @ normal) >= INLIER_THRESHOLD]
     return lines
