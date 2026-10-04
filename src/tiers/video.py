@@ -89,8 +89,10 @@ def _assign_poses(rooms: list[RoomIR], poses: list[CameraPose], frames: dict[str
         inside = [i for i, (lo, hi) in enumerate(boxes) if np.all(xy >= lo) and np.all(xy <= hi)]
         pool = inside or range(len(rooms))
         target = min(pool, key=lambda i: np.linalg.norm(xy - (boxes[i][0] + boxes[i][1]) / 2))
+        frame = frames[Path(pose.image_path).name]
+        pose.image_path = frame  # same convention as the photo tier: poses name the image by path
         rooms[target].camera_poses.append(pose)
-        rooms[target].images.append(frames[Path(pose.image_path).name])
+        rooms[target].images.append(frame)
 
 
 def process_video(capture_dir: str) -> PropertyIR:

@@ -10,11 +10,15 @@ from pathlib import Path
 import numpy as np
 
 from src import __version__
+from src.damage.concealed_rules import check_concealed_damage
+from src.damage.detection import detect_damage
+from src.damage.scope import area_measurement, generate_scope
+from src.damage.surface_projection import project_damage_to_surfaces
 from src.geometry.ceiling import detect_ceiling_height
 from src.geometry.floor_area import compute_floor_area
 from src.geometry.openings import detect_openings
 from src.geometry.wall_fitting import fit_walls
-from src.models import Adjacency, Measurement, Opening, PropertyReport, Room, Wall
+from src.models import (Adjacency, DamageRegion, Measurement, Opening, PropertyReport, Room, Wall)
 from src.output.json_writer import write_output
 from src.output.renderer import render_floor_plan
 from src.room_ir import PropertyIR, RoomIR
@@ -28,7 +32,7 @@ log = logging.getLogger("floorplan")
 
 # Basic calibration (replaced by src/calibration/confidence.py once benchmark data exists).
 TIER_MULTIPLIER = {"lidar": 1.0, "video": 2.5, "photo": 5.0}
-BASE_ERROR = {"wall": 0.01, "ceiling": 0.01, "opening": 0.02}  # meters
+BASE_ERROR = {"wall": 0.01, "ceiling": 0.01, "opening": 0.02, "damage": 0.05}  # meters
 
 # RANSAC wall-line inlier distance per tier: SfM clouds are noisier than LiDAR.
 WALL_INLIER_THRESHOLD = {"lidar": 0.03, "video": 0.06, "photo": 0.06}
@@ -89,6 +93,19 @@ def _build_room(room: RoomIR, tier: str, transform: tuple[float, float, float]) 
         id=room.room_id, name=room.room_id.replace("-", " ").title(), walls=walls, openings=openings,
         ceiling_height=height, floor_area=_measurement(area, 0.0, tier, unit="m2", half_width=area_half),
         floor_polygon=polygon)
+
+
+def _build_damage_region(d, tier: str) -> DamageRegion:
+    """ProjectedDamage -> output DamageRegion; the extent interval widens with the tier."""
+    err = BASE_ERROR["damage"] * TIER_MULTIPLIER[tier]
+    return DamageRegion(
+        id=d.id, surface_id=d.surface_id, damage_class=d.damage_detection.damage_class,
+        extent_width=_measurement(d.extent_width, 0.0, tier, half_width=err),
+        extent_height=_measurement(d.extent_height, 0.0, tier, half_width=err),
+        area=area_measurement(d.extent_width, d.extent_height, err),
+        location_on_surface=(float(d.location_on_surface[0]), float(d.location_on_surface[1])),
+        confidence=float(min(1.0, max(0.0, d.damage_detection.confidence))),
+        source_image=d.damage_detection.image_path)
 
 
 def run_pipeline(
@@ -159,8 +176,22 @@ def run_pipeline(
          f"drift_correction={drift_correction}")
     timed("stitch", t)
 
-    # 5-7. damage detection, concealed-damage rules, scope: not implemented yet.
-    _say("Step damage detection, concealed damage, scope not yet implemented")
+    # 5-7. damage detection, concealed-damage rules, scope. Rooms are still in their own
+    # frames here, so surface ids and (u, v) positions match the walls written to the report.
+    t = time.perf_counter()
+    images = list(dict.fromkeys(img for r in property_ir.rooms for img in r.images))
+    extent_error = BASE_ERROR["damage"] * TIER_MULTIPLIER[tier]
+    if images:
+        detections = detect_damage(images)
+        projected = project_damage_to_surfaces(detections, property_ir.rooms)
+    else:
+        detections, projected = [], []
+    flags = check_concealed_damage(property_ir.rooms, projected)
+    scope_items = generate_scope(projected, flags, extent_error=extent_error)
+    damage_regions = [_build_damage_region(d, tier) for d in projected]
+    _say(f"Damage: {len(detections)} detection(s), {len(projected)} placed on walls, "
+         f"{len(flags)} concealed flag(s), {len(scope_items)} scope item(s)")
+    timed("damage + scope", t)
 
     # 8-9. calibration (per-tier multiplier) happens while building the report
     t = time.perf_counter()
@@ -176,9 +207,9 @@ def run_pipeline(
         device="unknown",
         rooms=rooms,
         adjacencies=adjacencies,
-        damage_regions=[],
-        concealed_damage_flags=[],
-        scope_line_items=[],
+        damage_regions=damage_regions,
+        concealed_damage_flags=flags,
+        scope_line_items=scope_items,
         total_floor_area=_measurement(sum(r.floor_area.value for r in rooms), 0.0, tier, unit="m2",
                                       half_width=total_half),
         room_count=len(rooms),
