@@ -9,7 +9,7 @@ Ceiling 2.5 m everywhere, doors 0.86 m wide x 2.1 m tall centered on each
 shared wall. Noise sigma 0.005 m. Writes <out-dir>/apartment.ply and
 <out-dir>/ground_truth.yaml.
 
-    python tests/create_test_ply.py [--out-dir test_data] [--density 1500] [--seed 0]
+    python tests/create_test_ply.py [--out-dir test_data] [--density 1500] [--seed 0] [--drift DX DY]
 """
 
 from __future__ import annotations
@@ -78,10 +78,21 @@ def space_points(space: Space, rng: np.random.Generator, density: float) -> np.n
     return np.vstack(chunks)
 
 
-def make_apartment(seed: int = 0, density: float = 1500.0) -> np.ndarray:
-    """All spaces as one N x 3 array of noisy points."""
+def make_apartment(seed: int = 0, density: float = 1500.0,
+                   drift: tuple[float, float] = (0.0, 0.0)) -> np.ndarray:
+    """All spaces as one N x 3 array of noisy points.
+
+    drift = (dx, dy) metres of pose drift added per space walked: space k is shifted by
+    k * drift while the ground truth stays put, so it models accumulated tracking drift.
+    """
     rng = np.random.default_rng(seed)
-    points = np.vstack([space_points(s, rng, density) for s in layout()])
+    chunks = []
+    for k, space in enumerate(layout()):
+        pts = space_points(space, rng, density)
+        pts[:, 0] += k * drift[0]
+        pts[:, 1] += k * drift[1]
+        chunks.append(pts)
+    points = np.vstack(chunks)
     return points + rng.normal(0.0, NOISE, points.shape)
 
 
@@ -136,10 +147,12 @@ def main() -> None:
     parser.add_argument("--out-dir", default="test_data", type=Path)
     parser.add_argument("--density", default=1500.0, type=float, help="points per m2 of surface")
     parser.add_argument("--seed", default=0, type=int)
+    parser.add_argument("--drift", default=(0.0, 0.0), type=float, nargs=2, metavar=("DX", "DY"),
+                        help="pose drift in metres added per space walked (ablation input)")
     args = parser.parse_args()
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    points = make_apartment(args.seed, args.density)
+    points = make_apartment(args.seed, args.density, tuple(args.drift))
     write_ply(args.out_dir / "apartment.ply", points)
     with open(args.out_dir / "ground_truth.yaml", "w") as f:
         yaml.safe_dump(ground_truth(), f, sort_keys=False)
