@@ -88,10 +88,12 @@ def _draw_room(ax, room: Room, color: str) -> None:
         angle = np.degrees(np.arctan2(direction[1], direction[0]))
         if angle > 90 or angle <= -90:
             angle += 180
-        ax.text(pos[0], pos[1], f"{wall.length.value:.2f} m", ha="center", va="center",
+        text = f"~{wall.length.value:.1f} m (±50%)" if room.rough_estimate else f"{wall.length.value:.2f} m"
+        ax.text(pos[0], pos[1], text, ha="center", va="center",
                 rotation=angle, fontsize=7, color="#222222", zorder=4)
     cx, cy = _centroid(room.floor_polygon) if room.floor_polygon else (0.0, 0.0)
-    ax.text(cx, cy, f"{room.name}\n{room.floor_area.value:.1f} m²", ha="center", va="center",
+    label = f"{room.name}\n{room.floor_area.value:.1f} m²" + ("\n(rough estimate)" if room.rough_estimate else "")
+    ax.text(cx, cy, label, ha="center", va="center",
             fontsize=9, fontweight="bold", zorder=5)
 
 
@@ -120,6 +122,25 @@ def _scale_bar_length(span: float) -> float:
     return float(min((m * mag for m in (1, 2, 5, 10)), key=lambda v: abs(v - target)))
 
 
+def _render_failure(report: PropertyReport, output_dir: str, plt) -> str:
+    """Blank plan for a capture with no rooms: a centred message and the first warning."""
+    import textwrap
+
+    fig, ax = plt.subplots(figsize=(10, 7), facecolor="white")
+    ax.axis("off")
+    ax.text(0.5, 0.55, "Reconstruction failed — insufficient data", ha="center", va="center",
+            fontsize=20, fontweight="bold", color="#8e0000", transform=ax.transAxes)
+    detail = report.warnings[0] if report.warnings else "No rooms could be reconstructed from this capture."
+    ax.text(0.5, 0.40, "\n".join(textwrap.wrap(detail, 90)[:5]), ha="center", va="top", fontsize=10,
+            color="#444444", transform=ax.transAxes)
+    ax.set_title(f"Floor Plan — {report.capture_tier} tier")
+    path = Path(output_dir) / "floor_plan.png"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, dpi=150, facecolor="white", bbox_inches="tight")
+    plt.close(fig)
+    return str(path)
+
+
 def render_floor_plan(report: PropertyReport, output_dir: str) -> str:
     """Draw rooms (one colour each), walls with lengths, doors and windows, damage markers,
     labels, legend, north arrow and scale bar with matplotlib; save output_dir/floor_plan.png
@@ -129,6 +150,9 @@ def render_floor_plan(report: PropertyReport, output_dir: str) -> str:
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+
+    if not report.rooms:  # nothing was reconstructed: say so on a blank plan
+        return _render_failure(report, output_dir, plt)
 
     fig, ax = plt.subplots(figsize=(10, 7), facecolor="white")
     ax.set_facecolor("white")

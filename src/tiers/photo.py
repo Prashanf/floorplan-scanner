@@ -12,6 +12,7 @@ from pathlib import Path
 from src.room_ir import PropertyIR, RoomIR
 from src.tiers.colmap_utils import ColmapError, make_metric_point_cloud, run_colmap_reconstruction
 from src.tiers.preprocessing import CONVERT_IMAGE_EXTS, list_room_images, stage_upright_copy
+from src.tiers.single_image import estimate_room_from_images
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +53,9 @@ def process_photos(capture_dir: str) -> PropertyIR:
     Per room: run SfM, rotate to Z-up, scale to meters (floor/ceiling prior, then a
     0.86 m door if one is found), and create a RoomIR with tier "photo". Rooms are
     reconstructed independently, so each has its own coordinate frame until stitching.
-    A room whose reconstruction fails is skipped with a warning, not fatal.
+    A room whose reconstruction fails gets a rough single-image estimate when its best image looks
+    like a room (flagged, +/-50 %), otherwise it is skipped with a warning. Never raises for bad images:
+    with no rooms at all the pipeline writes a report with room_count 0 and the warnings.
     """
     root = Path(capture_dir)
     room_dirs = sorted((p for p in root.iterdir() if p.is_dir() and not p.name.startswith(".")),
@@ -60,19 +63,35 @@ def process_photos(capture_dir: str) -> PropertyIR:
     keep = bool(os.environ.get("FLOORPLAN_KEEP_WORKSPACE"))
     work_root = Path(tempfile.mkdtemp(prefix="floorplan-colmap-"))
     rooms: list[RoomIR] = []
+    warnings: list[str] = []
     try:
         for room_dir in room_dirs:
             try:
                 rooms.append(_reconstruct_room(room_dir, work_root / room_dir.name))
                 logger.info("%s: %s", room_dir.name, rooms[-1].metadata)
+                continue
             except (ColmapError, ValueError) as exc:
-                logger.warning("skipping %s: %s", room_dir.name, exc)
-                print(f"warning: skipping {room_dir.name}: {exc}", flush=True)
+                reason = str(exc)
+                logger.warning("reconstruction failed for %s: %s", room_dir.name, reason)
+                print(f"warning: reconstruction failed for {room_dir.name}: {reason}", flush=True)
+            # Last resort: a rough single-image estimate, only if the image looks like a room.
+            fallback = estimate_room_from_images(_usable_images(room_dir), room_dir.name)
+            if fallback is not None:
+                logger.warning("Fallback: single-image room estimate for %s", room_dir.name)
+                print(f"warning: Fallback: single-image room estimate for {room_dir.name}", flush=True)
+                rooms.append(fallback)
+                warnings.append(
+                    f"{room_dir.name}: COLMAP reconstruction failed (insufficient feature matches between "
+                    "images); a rough single-image estimate with typical-room dimensions was used instead "
+                    "(about +/-50% intervals). It is not a measurement.")
+            else:
+                warnings.append(
+                    f"{room_dir.name}: COLMAP reconstruction failed (insufficient feature matches between "
+                    "images, capture may have too little visual overlap) and no image looked like a room, "
+                    "so the room is missing from the plan.")
     finally:
         if keep:
             logger.info("COLMAP workspaces kept in %s", work_root)
         else:
             shutil.rmtree(work_root, ignore_errors=True)
-    if not rooms:
-        raise RuntimeError("no room could be reconstructed; check photo overlap and lighting")
-    return PropertyIR(rooms=rooms, tier="photo", capture_dir=str(capture_dir))
+    return PropertyIR(rooms=rooms, tier="photo", capture_dir=str(capture_dir), warnings=warnings)

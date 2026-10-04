@@ -80,6 +80,21 @@ def _is_hidden(path: Path, root: Path) -> bool:
     return any(part.startswith(".") for part in parts)
 
 
+def count_portrait_images(paths: list[str]) -> int:
+    """Number of images that are portrait (height > width) once their EXIF orientation is applied."""
+    from PIL import Image, ImageOps
+
+    count = 0
+    for path in paths:
+        try:
+            with Image.open(path) as img:
+                width, height = ImageOps.exif_transpose(img).size
+            count += height > width
+        except Exception:
+            continue
+    return count
+
+
 def _files_with_ext(root: Path, exts: set[str]) -> list[Path]:
     """Files under root (recursive, extension match is case-insensitive), sorted, ignoring hidden files."""
     if not root.is_dir():
@@ -279,6 +294,12 @@ def normalize_capture_dir(capture_dir: str) -> dict[str, list[str]]:
         else:
             failed.append(str(video))
 
+    portrait = count_portrait_images(list(images))
+    if portrait:
+        # Not rotated: SIFT matching does not care, and the SfM stage reads "up" from the camera
+        # orientation, so a sideways image would break the gravity alignment. EXIF orientation is
+        # already applied when images are staged for COLMAP (stage_upright_copy).
+        logger.info("%d of %d images are portrait (height > width); kept upright", portrait, len(images))
     return {"images": list(images), "videos": list(videos), "converted": converted, "failed": failed}
 
 

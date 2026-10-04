@@ -1,0 +1,160 @@
+{
+  "capture_id": "single_room-20261004T161547Z",
+  "capture_tier": "photo",
+  "capture_timestamp": "2026-10-04T16:15:47.547292Z",
+  "device": "unknown",
+  "rooms": [
+    {
+      "id": "room-1",
+      "name": "Room 1",
+      "walls": [
+        {
+          "id": "room-1/wall-0",
+          "start": [
+            8.152059953081547e-05,
+            2.9988936080571342
+          ],
+          "end": [
+            -7.915348308206727e-05,
+            0.0010410473948128107
+          ],
+          "length": {
+            "value": 2.997852564968097,
+            "confidence_low": 1.4989262824840486,
+            "confidence_high": 4.496778847452146,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.4993733810925436,
+            "confidence_low": 1.2496866905462718,
+            "confidence_high": 3.7490600716388154,
+            "unit": "m"
+          },
+          "surface_id": "room-1/wall-0"
+        },
+        {
+          "id": "room-1/wall-1",
+          "start": [
+            -7.915348308206727e-05,
+            0.0010410473948128107
+          ],
+          "end": [
+            3.599918607141685,
+            0.0008481005016977033
+          ],
+          "length": {
+            "value": 3.5999977657953957,
+            "confidence_low": 1.7999988828976978,
+            "confidence_high": 5.399996648693094,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.4993733810925436,
+            "confidence_low": 1.2496866905462718,
+            "confidence_high": 3.7490600716388154,
+            "unit": "m"
+          },
+          "surface_id": "room-1/wall-1"
+        },
+        {
+          "id": "room-1/wall-2",
+          "start": [
+            3.599918607141685,
+            0.0008481005016977033
+          ],
+          "end": [
+            3.6000792812242977,
+            2.9987006611640186
+          ],
+          "length": {
+            "value": 2.9978525649680967,
+            "confidence_low": 1.4989262824840484,
+            "confidence_high": 4.496778847452145,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.4993733810925436,
+            "confidence_low": 1.2496866905462718,
+            "confidence_high": 3.7490600716388154,
+            "unit": "m"
+          },
+          "surface_id": "room-1/wall-2"
+        },
+        {
+          "id": "room-1/wall-3",
+          "start": [
+            3.6000792812242977,
+            2.9987006611640186
+          ],
+          "end": [
+            8.152059953081547e-05,
+            2.9988936080571342
+          ],
+          "length": {
+            "value": 3.5999977657953957,
+            "confidence_low": 1.7999988828976978,
+            "confidence_high": 5.399996648693094,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.4993733810925436,
+            "confidence_low": 1.2496866905462718,
+            "confidence_high": 3.7490600716388154,
+            "unit": "m"
+          },
+          "surface_id": "room-1/wall-3"
+        }
+      ],
+      "openings": [],
+      "ceiling_height": {
+        "value": 2.4993733810925436,
+        "confidence_low": 1.2496866905462718,
+        "confidence_high": 3.7490600716388154,
+        "unit": "m"
+      },
+      "ceiling_observed": true,
+      "rough_estimate": true,
+      "floor_area": {
+        "value": 10.792262536069146,
+        "confidence_low": 2.6980656340172864,
+        "confidence_high": 24.282590706155577,
+        "unit": "m2"
+      },
+      "floor_polygon": [
+        [
+          -7.915348308206727e-05,
+          0.0010410473948128107
+        ],
+        [
+          3.599918607141685,
+          0.0008481005016977033
+        ],
+        [
+          3.6000792812242977,
+          2.9987006611640186
+        ],
+        [
+          8.152059953081547e-05,
+          2.9988936080571342
+        ]
+      ]
+    }
+  ],
+  "adjacencies": [],
+  "damage_regions": [],
+  "concealed_damage_flags": [],
+  "scope_line_items": [],
+  "total_floor_area": {
+    "value": 10.792262536069146,
+    "confidence_low": 2.6980656340172864,
+    "confidence_high": 24.282590706155577,
+    "unit": "m2"
+  },
+  "room_count": 1,
+  "processing_time_seconds": 58.287,
+  "pipeline_version": "0.1.0",
+  "warnings": [
+    "room-1: COLMAP reconstruction failed (insufficient feature matches between images); a rough single-image estimate with typical-room dimensions was used instead (about +/-50% intervals). It is not a measurement.",
+    "Damage analysis was skipped for rooms that are rough single-image estimates: their walls are not measured, so damage cannot be placed on them."
+  ]
+}

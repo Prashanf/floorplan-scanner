@@ -57,3 +57,4 @@ class PropertyIR:
     capture_dir: str
     room_transforms: Optional[dict] = None  # room_id -> (dx, dy, rotation)
     adjacencies: Optional[list] = None
+    warnings: list = field(default_factory=list)  # human-readable notes from the front-end (skipped rooms, fallbacks)

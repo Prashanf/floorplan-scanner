@@ -29,9 +29,92 @@ def find_videos(capture_dir: str) -> list[Path]:
 
 
 def extract_keyframes(video_path: str, out_dir: str, prefix: str = "frame",
-                      target: int = TARGET_KEYFRAMES) -> list[str]:
-    """Save sharp, evenly spaced JPEG keyframes of a video (about one per KEYFRAME_SECONDS,
-    at most `target`); return their paths.
+                      target: int = TARGET_KEYFRAMES, mode: str = "windowed", step: int | None = None) -> list[str]:
+    """Save sharp keyframes of a video as JPEG and return their paths.
+
+    mode "windowed" (default): evenly spaced, about one per KEYFRAME_SECONDS, at most `target`;
+    `step` fixes the spacing in frames instead (the retry after a failed reconstruction uses 5).
+    mode "motion": a keyframe whenever the view has changed enough (see _extract_motion).
+    """
+    if mode == "motion":
+        return _extract_motion(video_path, out_dir, prefix, target)
+    return _extract_windowed(video_path, out_dir, prefix, target, step)
+
+
+def _extract_motion(video_path: str, out_dir: str, prefix: str, target: int) -> list[str]:
+    """Motion-based keyframes: a new keyframe when the tracked features have moved by
+    KEYFRAME_MOTION_FRACTION of the frame width since the last one (so each keyframe is a new
+    viewpoint), never closer than KEYFRAME_MIN_GAP frames and never further than KEYFRAME_MAX_GAP.
+    Features are tracked with Lucas-Kanade optical flow on a 320 px wide copy; the sharpest frame
+    since the previous keyframe is kept. More than `target` keyframes are thinned evenly.
+    """
+    import cv2
+
+    cap = cv2.VideoCapture(str(video_path))
+    if not cap.isOpened():
+        raise ColmapError(f"cannot open video {video_path}")
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    saved: list[Path] = []
+    ref_gray, ref_pts = None, None
+    best_frame, best_score, since, index = None, -1.0, 0, 0
+
+    def flush() -> None:
+        nonlocal best_frame, best_score, since
+        if best_frame is None:
+            return
+        h, w = best_frame.shape[:2]
+        if max(h, w) > MAX_LONG_EDGE:
+            s = MAX_LONG_EDGE / max(h, w)
+            best_frame = cv2.resize(best_frame, (round(w * s), round(h * s)), interpolation=cv2.INTER_AREA)
+        path = out / f"{prefix}_{len(saved):04d}.jpg"
+        cv2.imwrite(str(path), best_frame, [cv2.IMWRITE_JPEG_QUALITY, 95])
+        saved.append(path)
+        best_frame, best_score, since = None, -1.0, 0
+
+    while True:
+        ok, frame = cap.read()
+        if not ok:
+            break
+        scale = 320.0 / frame.shape[1]
+        gray = cv2.cvtColor(cv2.resize(frame, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA),
+                            cv2.COLOR_BGR2GRAY)
+        score = float(cv2.Laplacian(gray, cv2.CV_64F).var())
+        if score > best_score:
+            best_frame, best_score = frame, score
+        since += 1
+        index += 1
+
+        moved = False
+        if ref_pts is not None and len(ref_pts) >= 8:
+            nxt, status, _ = cv2.calcOpticalFlowPyrLK(ref_gray, gray, ref_pts, None)
+            good = status[:, 0] == 1
+            if good.sum() < 8:
+                moved = True  # lost the features: the view changed completely
+            else:
+                shift = np.linalg.norm((nxt[good] - ref_pts[good]).reshape(-1, 2), axis=1)
+                moved = float(np.median(shift)) >= cfg.KEYFRAME_MOTION_FRACTION * gray.shape[1]
+        elif ref_pts is not None:
+            moved = True
+        if ref_gray is None or (since >= cfg.KEYFRAME_MIN_GAP and (moved or since >= cfg.KEYFRAME_MAX_GAP)):
+            if ref_gray is not None:
+                flush()
+            ref_gray = gray
+            ref_pts = cv2.goodFeaturesToTrack(gray, maxCorners=150, qualityLevel=0.01, minDistance=7)
+    flush()
+    cap.release()
+    if len(saved) > target:  # thin evenly: keep `target` of them
+        keep = set(np.linspace(0, len(saved) - 1, target).round().astype(int).tolist())
+        for i, path in enumerate(saved):
+            if i not in keep:
+                path.unlink()
+        saved = [p for i, p in enumerate(saved) if i in keep]
+    logger.info("%s: %d frames -> %d motion keyframes", Path(video_path).name, index, len(saved))
+    return [str(p) for p in saved]
+
+
+def _extract_windowed(video_path: str, out_dir: str, prefix: str, target: int, step_override: int | None) -> list[str]:
+    """Evenly spaced keyframes (see extract_keyframes).
 
     The video is cut into equal windows and the sharpest frame (variance of the Laplacian)
     of each window is kept, which avoids motion-blurred frames that SfM cannot match.
@@ -48,6 +131,8 @@ def extract_keyframes(video_path: str, out_dir: str, prefix: str = "frame",
         step = max(by_time, round(total / target))  # never more than `target` keyframes
     else:
         step = FALLBACK_STEP
+    if step_override:
+        step = step_override
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -127,6 +212,16 @@ def _camera_prior(video: Path, frame_path: str) -> tuple[float, float, float] | 
         return None
 
 
+def _frame_count(video: Path) -> int:
+    import cv2
+
+    cap = cv2.VideoCapture(str(video))
+    try:
+        return max(0, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
+    finally:
+        cap.release()
+
+
 def process_video(capture_dir: str) -> PropertyIR:
     """Extract keyframes from the walkthrough, reconstruct with COLMAP, split into rooms.
 
@@ -141,17 +236,32 @@ def process_video(capture_dir: str) -> PropertyIR:
     work = Path(tempfile.mkdtemp(prefix="floorplan-colmap-"))
     try:
         frame_dir = work / "images"
-        for i, video in enumerate(videos):
-            extract_keyframes(str(video), str(frame_dir), prefix=f"v{i}")
-        frames = {Path(p).name: p for p in map(str, sorted(frame_dir.iterdir()))}
-        if len(frames) < 3:
-            raise ColmapError(f"only {len(frames)} keyframes extracted; is the video empty?")
-
-        prior = _camera_prior(videos[0], next(iter(frames.values()))) if len(videos) == 1 else None
-        if prior:
-            logger.info("using the intrinsics logged beside the video: f=%.0f px", prior[0])
-        points, poses = run_colmap_reconstruction(str(frame_dir), str(work), matcher="sequential",
-                                                  camera_prior=prior)
+        total_frames = sum(_frame_count(v) for v in videos)
+        retry_step = max(cfg.VIDEO_RETRY_STEP, -(-total_frames // cfg.VIDEO_RETRY_MAX_FRAMES))
+        attempts = [("motion-based keyframes", {"mode": "motion"}),
+                    (f"every {retry_step}th frame (more overlap)", {"mode": "windowed", "step": retry_step})]
+        last_error: Exception | None = None
+        for label, options in attempts:
+            shutil.rmtree(frame_dir, ignore_errors=True)
+            for i, video in enumerate(videos):
+                extract_keyframes(str(video), str(frame_dir), prefix=f"v{i}", **options)
+            frames = {Path(p).name: p for p in map(str, sorted(frame_dir.iterdir()))}
+            if len(frames) < 3:
+                last_error = ColmapError(f"only {len(frames)} keyframes extracted; is the video empty?")
+                continue
+            prior = _camera_prior(videos[0], next(iter(frames.values()))) if len(videos) == 1 else None
+            if prior:
+                logger.info("using the intrinsics logged beside the video: f=%.0f px", prior[0])
+            logger.info("reconstructing from %d keyframes (%s)", len(frames), label)
+            try:
+                points, poses = run_colmap_reconstruction(str(frame_dir), str(work), matcher="sequential",
+                                                          camera_prior=prior)
+                break
+            except ColmapError as exc:
+                last_error = exc
+                logger.warning("reconstruction from %s failed: %s", label, exc)
+        else:
+            raise last_error or ColmapError("video reconstruction failed")
         cloud, poses, meta = make_metric_point_cloud(points, poses)
 
         # Keep the frames after the temp workspace goes away.
