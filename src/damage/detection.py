@@ -13,7 +13,8 @@ from src import config as cfg
 log = logging.getLogger("floorplan.damage")
 
 WORK_SIZE = 1280  # long image side used for detection; thresholds below are at this scale
-MAX_AREA_FRACTION = 0.4  # a "stain" covering most of the frame is a wall or floor color, not damage
+MAX_AREA_FRACTION = cfg.MAX_DETECTION_AREA_FRACTION  # a detection covering this much of the frame is a wall or object, not damage
+MAX_PER_IMAGE = cfg.MAX_DETECTIONS_PER_IMAGE
 
 CRACK_MIN_LENGTH = cfg.CRACK_EDGE_MIN_LENGTH
 CRACK_MIN_ASPECT = 4.0
@@ -185,18 +186,60 @@ def _detect_one(image_path: str) -> list[DamageDetection]:
             damage_class=damage_class, confidence=float(confidence),
             pixel_area=int(round(area * inv * inv)), image_size=(width, height),
             angle_deg=angle, thickness_px=None if thickness is None else float(thickness * inv)))
-    return _merge_overlaps(detections)
+    # a box covering more than MAX_AREA_FRACTION of the image is a wall or large object (cracks and thin
+    # regions can have a small pixel area but a huge box)
+    detections = [d for d in detections
+                  if (d.bbox[2] - d.bbox[0]) * (d.bbox[3] - d.bbox[1]) <= MAX_AREA_FRACTION * width * height]
+    merged = sorted(_merge_overlaps(detections), key=lambda d: (-d.confidence, d.bbox))
+    return merged[:MAX_PER_IMAGE]  # the strongest few only
 
 
-def detect_damage(images: list[str]) -> list[DamageDetection]:
+def drop_persistent(per_image: list[list[DamageDetection]], limit: int, iou: float) -> list[list[DamageDetection]]:
+    """Drop detections that sit at the same image position in more than `limit` consecutive frames.
+
+    A real stain moves across the frame as the camera moves; a box that stays put over many frames is
+    a lens mark, an overlay or a fixed pattern, not damage. per_image is in frame order. Caveat: this works
+    on image position, so a persistent feature that moves with the camera motion is not caught by it.
+    """
+    runs: list[list[tuple[int, int]]] = []  # each run: (image index, detection index) pairs
+    active: dict[int, list[tuple[int, int]]] = {}  # detection index in the previous image -> its run
+    for i, detections in enumerate(per_image):
+        nxt: dict[int, list[tuple[int, int]]] = {}
+        for k, d in enumerate(detections):
+            best, best_iou = None, iou
+            for prev_k in active:  # the best still-unclaimed detection of the previous frame
+                prev = per_image[i - 1][prev_k]
+                overlap = _iou(prev.bbox, d.bbox)
+                if prev.damage_class == d.damage_class and overlap >= best_iou:
+                    best, best_iou = prev_k, overlap
+            if best is not None:
+                run = active.pop(best)
+                run.append((i, k))
+            else:
+                run = [(i, k)]
+                runs.append(run)
+            nxt[k] = run
+        active = nxt
+    drop = {pair for run in runs if len(run) > limit for pair in run}
+    return [[d for k, d in enumerate(detections) if (i, k) not in drop] for i, detections in enumerate(per_image)]
+
+
+def detect_damage(images: list[str], persistent_frames: int = 0) -> list[DamageDetection]:
     """Detect visible damage in each image with OpenCV heuristics.
 
     Canny + contrast for cracks, HSV ranges for water stains and mold,
     Laplacian energy for peeling paint, dark circular regions for holes;
     overlapping same-class boxes are merged by non-maximum suppression.
+    At most MAX_PER_IMAGE detections (the strongest) are kept per image, and none that cover more than
+    MAX_AREA_FRACTION of it. persistent_frames > 0 (video keyframes, in time order) also drops detections that
+    stay at the same position in more than that many consecutive frames.
     Output order is deterministic: image order, then descending confidence.
     """
-    detections: list[DamageDetection] = []
-    for path in images:
-        detections.extend(sorted(_detect_one(path), key=lambda d: (-d.confidence, d.bbox)))
-    return detections
+    per_image = [sorted(_detect_one(path), key=lambda d: (-d.confidence, d.bbox)) for path in images]
+    if persistent_frames > 0:
+        before = sum(map(len, per_image))
+        per_image = drop_persistent(per_image, persistent_frames, cfg.PERSISTENT_IOU)
+        removed = before - sum(map(len, per_image))
+        if removed:
+            log.info("dropped %d detection(s) that stay in place over more than %d frames", removed, persistent_frames)
+    return [d for detections in per_image for d in detections]

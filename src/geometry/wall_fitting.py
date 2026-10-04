@@ -130,6 +130,33 @@ def _angle_residual(angle: float, reference: float) -> float:
     return float((angle - reference + np.pi / 4) % (np.pi / 2) - np.pi / 4)
 
 
+def _extent_length(line: _Line) -> float:
+    """Length of the stretch of a line covered by its supporting points."""
+    return float(np.linalg.norm(np.subtract(*line.extent())))
+
+
+def dominant_wall_angle(point_cloud: PointCloud, inlier_threshold: float = INLIER_THRESHOLD) -> float | None:
+    """Direction (radians, modulo pi) of the longest wall line in the wall-height slice, or None if no wall is found.
+
+    Rooms are usually longest along one axis, and that wall's direction is the room's dominant direction.
+    A reconstruction from photos or video has an arbitrary orientation, so callers rotate the cloud by
+    minus this angle to make the floor plan axis-aligned.
+    """
+    pts = point_cloud.points
+    try:
+        levels = find_floor_and_ceiling(pts[:, 2])
+    except ValueError:
+        return None
+    band = (pts[:, 2] >= levels.floor_z + WALL_BAND[0]) & (pts[:, 2] <= levels.floor_z + WALL_BAND[1])
+    xy = pts[band, :2]
+    if len(xy) < MIN_INLIERS:
+        return None
+    lines = _fit_lines(xy, inlier_threshold)
+    if not lines:
+        return None
+    return float(max(lines, key=_extent_length).angle)
+
+
 def _snap_and_merge(lines: list[_Line], merge_offset: float = MERGE_OFFSET,
                     reference_angle: float | None = None) -> list[_Line]:
     """Snap lines to a 90 degree grid; merge duplicates of one wall.
@@ -137,7 +164,7 @@ def _snap_and_merge(lines: list[_Line], merge_offset: float = MERGE_OFFSET,
     The grid follows the longest-supported line unless reference_angle (radians) is given,
     e.g. 0 for a cloud that was already rotated onto the axes.
     """
-    dominant = max(lines, key=lambda ln: len(ln.points)).angle if reference_angle is None else reference_angle
+    dominant = max(lines, key=_extent_length).angle if reference_angle is None else reference_angle
     snapped: list[_Line] = []
     for ln in lines:
         residual = _angle_residual(ln.angle, dominant)
