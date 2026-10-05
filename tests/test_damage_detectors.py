@@ -33,6 +33,15 @@ def test_heuristic_is_the_default_and_unchanged(tmp_path):
     assert any(d.damage_class == "water_stain" for d in default)
 
 
+def test_opencv_is_the_cli_default_and_an_alias_of_the_heuristic(tmp_path):
+    import run
+    option = next(p for p in run.main.params if p.name == "damage_detector")
+    assert option.default == "opencv" and "--damage-model" in option.opts
+    path = _stain_image(tmp_path / "wall.png")
+    assert [(d.bbox, d.damage_class) for d in detect_damage([path], detector="opencv")] == \
+        [(d.bbox, d.damage_class) for d in detect_damage([path])]
+
+
 def test_unknown_detector_and_stray_options_are_errors(tmp_path):
     path = _stain_image(tmp_path / "wall.png")
     with pytest.raises(ValueError, match="unknown damage detector"):
@@ -170,4 +179,4 @@ def test_compare_detectors_runs_both_and_scores(monkeypatch):
 def test_cli_rejects_model_options_with_the_heuristic_detector(tmp_path):
     import run
     result = CliRunner().invoke(run.main, [str(tmp_path), "--tier", "photo", "--damage-threshold", "0.2"])
-    assert result.exit_code != 0 and "--damage-detector mobilesam" in result.output
+    assert result.exit_code != 0 and "--damage-model mobilesam" in result.output

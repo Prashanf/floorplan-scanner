@@ -44,14 +44,14 @@ On macOS, Open3D also needs `brew install libusb`.
 
 ## Damage detectors (two modes)
 
-`--damage-detector heuristic` (default) uses the OpenCV rules: cracks, stains, mold, peeling paint and holes from edges and colour ranges. No extra install.
+`--damage-model opencv` (default; `--damage-detector` and the value `heuristic` are the same thing) uses the OpenCV rules: cracks, stains, mold, peeling paint and holes from edges and colour ranges. No extra install.
 
-`--damage-detector mobilesam` uses OWLv2 text prompts for boxes and MobileSAM for masks (mask area, crack angle and thickness). Setup:
+`--damage-model mobilesam` uses OWLv2 text prompts for boxes and MobileSAM for masks (mask area, crack angle and thickness). Setup:
 
 ```bash
 pip install -r requirements-damage-model.txt
 python tools/download_mobile_sam.py          # weights/mobile_sam.pt, about 40 MB (without it, box areas are used)
-python run.py <capture_dir> --tier photo --damage-detector mobilesam [--damage-threshold 0.3] [--owl-model google/owlvit-base-patch32]
+python run.py <capture_dir> --tier photo --damage-model mobilesam [--damage-threshold 0.3] [--owl-model google/owlvit-base-patch32]
 ```
 
 To see which one does better on your images, run both on the same files:
