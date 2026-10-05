@@ -42,6 +42,26 @@ python run.py ./test_video/ --tier video # about 3 minutes (COLMAP runs single-t
 `pytest` runs the fast tests; `pytest -m slow` also runs COLMAP on rendered rooms.
 On macOS, Open3D also needs `brew install libusb`.
 
+## Damage detectors (two modes)
+
+`--damage-detector heuristic` (default) uses the OpenCV rules: cracks, stains, mold, peeling paint and holes from edges and colour ranges. No extra install.
+
+`--damage-detector mobilesam` uses OWLv2 text prompts for boxes and MobileSAM for masks (mask area, crack angle and thickness). Setup:
+
+```bash
+pip install -r requirements-damage-model.txt
+python tools/download_mobile_sam.py          # weights/mobile_sam.pt, about 40 MB (without it, box areas are used)
+python run.py <capture_dir> --tier photo --damage-detector mobilesam [--damage-threshold 0.3] [--owl-model google/owlvit-base-patch32]
+```
+
+To see which one does better on your images, run both on the same files:
+
+```bash
+python tools/compare_damage_detectors.py <images or folders> --out output/damage_compare [--labels labels.json]
+```
+
+It writes `comparison.md` / `comparison.json` (counts per class, agreement, speed) and `overlays/` (blue = heuristic, red = model). With hand labels (`{"IMG.jpg": [{"class": "crack", "bbox": [x1, y1, x2, y2]}], "clean.jpg": []}`) it also reports precision and recall per detector. The model threshold (`MODEL_DAMAGE_THRESHOLD` in `src/config.py`) is provisional until it is tuned on labelled captures.
+
 ## Output
 In `--output-dir`:
 - `report.json`: `PropertyReport` (see `src/models.py`); JSON Schema published at `schema/output_schema.json`.

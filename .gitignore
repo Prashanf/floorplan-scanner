@@ -21,3 +21,6 @@ output/_run_*.txt
 benchmark/captures/**/*.mp4
 benchmark/results/
 
+
+# MobileSAM checkpoint (python tools/download_mobile_sam.py)
+weights/

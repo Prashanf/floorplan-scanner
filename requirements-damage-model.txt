@@ -1,0 +1,7 @@
+# Optional: MobileSAM + OWL-ViT damage detector (python run.py ... --damage-detector mobilesam)
+torch>=2.0
+torchvision>=0.15
+transformers>=4.40
+timm>=0.9
+mobile_sam @ git+https://github.com/ChaoningZhang/MobileSAM.git
+# then: python tools/download_mobile_sam.py

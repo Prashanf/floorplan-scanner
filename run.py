@@ -26,25 +26,36 @@ from src.tiers.preprocessing import CaptureValidationError
 @click.option("--damage-detector", "--damage-model", "damage_detector", default="heuristic",
               type=click.Choice(["heuristic", "mobilesam", "model", "nanoowl"], case_sensitive=False),
               show_default=True,
-              help="Damage detection method: 'heuristic' (OpenCV rules) or 'mobilesam' (MobileSAM + NanoOWL).")
+              help="Damage detection method: 'heuristic' (OpenCV rules) or 'mobilesam' (OWLv2 boxes + MobileSAM masks; see requirements-damage-model.txt).")
+@click.option("--damage-threshold", type=float, default=None,
+              help="mobilesam only: OWL score above which a box is kept (default from src/config.py).")
+@click.option("--owl-model", default=None,
+              help="mobilesam only: Hugging Face OWL model, e.g. google/owlvit-base-patch32 for v1 (default from src/config.py).")
 @click.option("--no-drift-correction", "no_drift_correction", is_flag=True,
               help="Ablation: skip drift correction when stitching rooms.")
 @click.option("--render/--no-render", default=True, show_default=True, help="Render the floor plan PNG.")
 @click.option("--verbose", is_flag=True, help="Debug logging.")
-def main(capture_dir: Path, tier: str, output_dir: Path, damage_detector: str,
-         no_drift_correction: bool, render: bool, verbose: bool) -> None:
+def main(capture_dir: Path, tier: str, output_dir: Path, damage_detector: str, damage_threshold: float | None,
+         owl_model: str | None, no_drift_correction: bool, render: bool, verbose: bool) -> None:
     """Process CAPTURE_DIR into a dimensioned, stitched property report."""
     logging.basicConfig(level=logging.DEBUG if verbose else logging.WARNING,
                         format="%(levelname)s %(name)s: %(message)s")
     # If the user specified a filename (e.g. output/floor_plan.png), use its parent directory
     actual_output_dir = output_dir.parent if output_dir.suffix.lower() in (".png", ".json", ".jpg") else output_dir
+    damage_options = {}
+    if damage_threshold is not None:
+        damage_options["confidence_threshold"] = damage_threshold
+    if owl_model:
+        damage_options["owl_model_name"] = owl_model
+    if damage_options and damage_detector.lower() == "heuristic":
+        raise click.ClickException("--damage-threshold and --owl-model need --damage-detector mobilesam")
     try:
         report = run_pipeline(str(capture_dir), tier, str(actual_output_dir),
                               drift_correction=not no_drift_correction, render=render,
-                              damage_detector=damage_detector.lower())
+                              damage_detector=damage_detector.lower(), damage_options=damage_options)
     except CaptureValidationError as exc:
         raise click.ClickException(f"Invalid capture for tier '{tier}': {exc}")
-    except NotImplementedError as exc:
+    except (NotImplementedError, ImportError) as exc:
         raise click.ClickException(str(exc))
     except (RuntimeError, ValueError, FileNotFoundError) as exc:  # reconstruction or geometry gave nothing usable
         if verbose:

@@ -109,3 +109,7 @@ ROOM_DETECTION_CAP = 20  # more detections than this in one room: assume false p
 ROOM_DETECTION_KEEP = 10  # ... and keep only the strongest this many
 WATER_STAIN_HSV = {"lo": (15, 30, 100), "hi": (35, 150, 220)}  # H, S, V
 MOLD_HSV = {"lo": (35, 20, 0), "hi": (85, 100, 100)}
+
+# --- Model damage detection (src/damage/model_detection.py) ------------------------------------
+MODEL_DAMAGE_THRESHOLD = 0.3  # OWL score above which a box is kept. Provisional: set from 9 photos, tune on labelled captures
+MODEL_OWL_NAME = "google/owlv2-base-patch16-ensemble"  # "google/owlvit-base-patch32" (v1, scores much lower) also works
