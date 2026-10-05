@@ -31,12 +31,14 @@ from src.tiers.preprocessing import CaptureValidationError
               help="mobilesam only: OWL score above which a box is kept (default from src/config.py).")
 @click.option("--owl-model", default=None,
               help="mobilesam only: Hugging Face OWL model, e.g. google/owlvit-base-patch32 for v1 (default from src/config.py).")
+@click.option("--ceiling-height", type=click.FloatRange(min=1.0, max=10.0), default=None,
+              help="Known ceiling height in meters for scale recovery (photo and video). Skips auto-detection.")
 @click.option("--no-drift-correction", "no_drift_correction", is_flag=True,
               help="Ablation: skip drift correction when stitching rooms.")
 @click.option("--render/--no-render", default=True, show_default=True, help="Render the floor plan PNG.")
 @click.option("--verbose", is_flag=True, help="Debug logging.")
 def main(capture_dir: Path, tier: str, output_dir: Path, damage_detector: str, damage_threshold: float | None,
-         owl_model: str | None, no_drift_correction: bool, render: bool, verbose: bool) -> None:
+         owl_model: str | None, ceiling_height: float | None, no_drift_correction: bool, render: bool, verbose: bool) -> None:
     """Process CAPTURE_DIR into a dimensioned, stitched property report."""
     logging.basicConfig(level=logging.DEBUG if verbose else logging.WARNING,
                         format="%(levelname)s %(name)s: %(message)s")
@@ -52,7 +54,8 @@ def main(capture_dir: Path, tier: str, output_dir: Path, damage_detector: str, d
     try:
         report = run_pipeline(str(capture_dir), tier, str(actual_output_dir),
                               drift_correction=not no_drift_correction, render=render,
-                              damage_detector=damage_detector.lower(), damage_options=damage_options)
+                              damage_detector=damage_detector.lower(), damage_options=damage_options,
+                              ceiling_height=ceiling_height)
     except CaptureValidationError as exc:
         raise click.ClickException(f"Invalid capture for tier '{tier}': {exc}")
     except (NotImplementedError, ImportError) as exc:

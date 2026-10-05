@@ -744,11 +744,12 @@ SCALE_METHODS = (
 
 
 def make_metric_point_cloud(
-    points: np.ndarray, poses: list[CameraPose]
+    points: np.ndarray, poses: list[CameraPose], ceiling_height: Optional[float] = None
 ) -> tuple[PointCloud, list[CameraPose], dict]:
     """COLMAP output -> Z-up, wall-aligned point cloud in meters.
 
-    Scale recovery tries SCALE_METHODS in order and uses the first whose confidence is above
+    With `ceiling_height` (metres, user-provided) all auto-detection is skipped: scale = ceiling_height / the
+    vertical extent of the cloud (1st to 99th percentile of Z). Otherwise scale recovery tries SCALE_METHODS in order and uses the first whose confidence is above
     cfg.MIN_SCALE_CONFIDENCE (0.5):
     1. floor tiles: a square tile grid on the floor (0.30, 0.45, 0.60 or 0.80 m) measured in the images;
     2. door: the widest floor-level gap of 0.6 to 1.2 m is a 0.86 m door (confidence drops when the room
@@ -779,14 +780,24 @@ def make_metric_point_cloud(
 
     tried: list[ScaleResult] = []
     chosen: Optional[ScaleResult] = None
-    for _, method in SCALE_METHODS:
-        result = method(ctx)
-        if result is None:
-            continue
-        tried.append(result)
-        if result.confidence > cfg.MIN_SCALE_CONFIDENCE:
-            chosen = result
-            break
+    if ceiling_height is not None:
+        low, high = np.percentile(aligned[:, 2], [1, 99])
+        extent = float(high - low)
+        if extent <= 1e-6:
+            raise ColmapError("degenerate reconstruction: no vertical extent to scale from the ceiling height")
+        chosen = ScaleResult("user-ceiling-height", ceiling_height / extent, 1.0,
+                             f"vertical extent {extent:.3f} units -> {ceiling_height} m (user-provided)",
+                             label="user-provided ceiling height", summary=f"{ceiling_height}m")
+        logger.info("Scale from user-provided ceiling height: %sm", ceiling_height)
+    else:
+        for _, method in SCALE_METHODS:
+            result = method(ctx)
+            if result is None:
+                continue
+            tried.append(result)
+            if result.confidence > cfg.MIN_SCALE_CONFIDENCE:
+                chosen = result
+                break
     if chosen is None and tried:
         last = tried[-1]
         chosen = last if last.method == "longest-wall-prior" else max(
@@ -804,8 +815,9 @@ def make_metric_point_cloud(
     meta["scale_unreliable"] = bool(area < cfg.MIN_ROOM_AREA_WARN or area > cfg.MAX_ROOM_AREA_WARN)
     if meta["scale_unreliable"]:
         logger.warning("scale recovery may be unreliable: reconstruction area %.1f m2 after the %s step", area, method)
-    logger.info("Scale recovered from %s (%s, confidence %.2f)", chosen.label or method,
-                chosen.summary or chosen.detail, chosen.confidence)
+    if ceiling_height is None:
+        logger.info("Scale recovered from %s (%s, confidence %.2f)", chosen.label or method,
+                    chosen.summary or chosen.detail, chosen.confidence)
     if chosen.confidence <= cfg.MIN_SCALE_CONFIDENCE:
         logger.warning("scale confidence %.2f is low: no method was confident (tried %s)", chosen.confidence,
                        ", ".join(f"{r.method} {r.confidence:.2f}" for r in tried) or "none")

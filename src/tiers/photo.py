@@ -27,7 +27,7 @@ def _usable_images(room_dir: Path) -> list[str]:
     return [p for p in list_room_images(str(room_dir)) if Path(p).suffix.lower() not in CONVERT_IMAGE_EXTS]
 
 
-def _reconstruct_room(room_dir: Path, workspace: Path) -> RoomIR:
+def _reconstruct_room(room_dir: Path, workspace: Path, ceiling_height: float | None = None) -> RoomIR:
     images = _usable_images(room_dir)
     if len(images) < 2:
         raise ColmapError(f"only {len(images)} usable image(s)")
@@ -45,7 +45,7 @@ def _reconstruct_room(room_dir: Path, workspace: Path) -> RoomIR:
         pose.rotation, pose.translation, pose.intrinsics = restore_pose(
             pose.rotation, pose.translation, pose.intrinsics, item)
         pose.image_path = item.source
-    cloud, poses, meta = make_metric_point_cloud(points, poses)
+    cloud, poses, meta = make_metric_point_cloud(points, poses, ceiling_height=ceiling_height)
     extent = cloud.points.max(axis=0) - cloud.points.min(axis=0)
     room = RoomIR(
         room_id=room_dir.name, point_cloud=cloud, camera_poses=poses, images=images, tier="photo",
@@ -54,7 +54,7 @@ def _reconstruct_room(room_dir: Path, workspace: Path) -> RoomIR:
     return room
 
 
-def process_photos(capture_dir: str) -> PropertyIR:
+def process_photos(capture_dir: str, ceiling_height: float | None = None) -> PropertyIR:
     """Reconstruct each room-N/ folder with COLMAP and build a PropertyIR.
 
     Per room: run SfM, rotate to Z-up, scale to meters (floor/ceiling prior, then a
@@ -74,7 +74,7 @@ def process_photos(capture_dir: str) -> PropertyIR:
     try:
         for room_dir in room_dirs:
             try:
-                rooms.append(_reconstruct_room(room_dir, work_root / room_dir.name))
+                rooms.append(_reconstruct_room(room_dir, work_root / room_dir.name, ceiling_height))
                 logger.info("%s: %s", room_dir.name, rooms[-1].metadata)
                 continue
             except Exception as exc:  # COLMAP failures, a model too small to align, unreadable images

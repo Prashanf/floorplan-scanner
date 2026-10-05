@@ -231,7 +231,7 @@ def _frame_count(video: Path) -> int:
         cap.release()
 
 
-def process_video(capture_dir: str) -> PropertyIR:
+def process_video(capture_dir: str, ceiling_height: float | None = None) -> PropertyIR:
     """Extract keyframes from the walkthrough, reconstruct with COLMAP, split into rooms.
 
     Keyframes (~100 per video) go through the same COLMAP helpers as the photo tier
@@ -291,7 +291,7 @@ def process_video(capture_dir: str) -> PropertyIR:
             break
         else:
             raise last_error or ColmapError("video reconstruction failed")
-        cloud, poses, meta = make_metric_point_cloud(points, poses)
+        cloud, poses, meta = make_metric_point_cloud(points, poses, ceiling_height=ceiling_height)
 
         # Keep the frames after the temp workspace goes away.
         persistent = Path(tempfile.mkdtemp(prefix="floorplan-frames-")) if not keep else frame_dir
