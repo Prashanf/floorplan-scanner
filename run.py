@@ -21,20 +21,27 @@ from src.tiers.preprocessing import CaptureValidationError
 @click.option("--tier", required=True, type=click.Choice(["photo", "video", "lidar"]),
               help="Input tier of the capture.")
 @click.option("--output-dir", default="./output/", show_default=True,
-              type=click.Path(file_okay=False, path_type=Path),
-              help="Where report.json and floor_plan.png go.")
+              type=click.Path(path_type=Path),
+              help="Where report.json and floor_plan.png go (directory or path to target file).")
+@click.option("--damage-detector", "--damage-model", "damage_detector", default="heuristic",
+              type=click.Choice(["heuristic", "mobilesam", "model", "nanoowl"], case_sensitive=False),
+              show_default=True,
+              help="Damage detection method: 'heuristic' (OpenCV rules) or 'mobilesam' (MobileSAM + NanoOWL).")
 @click.option("--no-drift-correction", "no_drift_correction", is_flag=True,
               help="Ablation: skip drift correction when stitching rooms.")
 @click.option("--render/--no-render", default=True, show_default=True, help="Render the floor plan PNG.")
 @click.option("--verbose", is_flag=True, help="Debug logging.")
-def main(capture_dir: Path, tier: str, output_dir: Path, no_drift_correction: bool,
-         render: bool, verbose: bool) -> None:
+def main(capture_dir: Path, tier: str, output_dir: Path, damage_detector: str,
+         no_drift_correction: bool, render: bool, verbose: bool) -> None:
     """Process CAPTURE_DIR into a dimensioned, stitched property report."""
     logging.basicConfig(level=logging.DEBUG if verbose else logging.WARNING,
                         format="%(levelname)s %(name)s: %(message)s")
+    # If the user specified a filename (e.g. output/floor_plan.png), use its parent directory
+    actual_output_dir = output_dir.parent if output_dir.suffix.lower() in (".png", ".json", ".jpg") else output_dir
     try:
-        report = run_pipeline(str(capture_dir), tier, str(output_dir),
-                              drift_correction=not no_drift_correction, render=render)
+        report = run_pipeline(str(capture_dir), tier, str(actual_output_dir),
+                              drift_correction=not no_drift_correction, render=render,
+                              damage_detector=damage_detector.lower())
     except CaptureValidationError as exc:
         raise click.ClickException(f"Invalid capture for tier '{tier}': {exc}")
     except NotImplementedError as exc:

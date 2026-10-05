@@ -15,3 +15,9 @@ sample_data_run/video/
 sample_data_run/photos/
 output/*_log.txt
 output/_run_*.txt
+
+# Large video assets and benchmark run artifacts
+*.mp4
+benchmark/captures/**/*.mp4
+benchmark/results/
+
