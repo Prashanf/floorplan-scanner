@@ -1,0 +1,15 @@
+room_id: "room-1"
+name: "bedroom"
+source: "tape measure, 2026-10-05"
+note: "both bedrooms are identical dimensions"
+walls:
+  - id: "wall-length"
+    length_m: 4.06
+  - id: "wall-breadth"
+    length_m: 3.16
+  - id: "wall-length-2"
+    length_m: 4.06
+  - id: "wall-breadth-2"
+    length_m: 3.16
+ceiling_height_m: 3.15
+floor_area_m2: 12.83
