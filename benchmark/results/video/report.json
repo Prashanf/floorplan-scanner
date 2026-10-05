@@ -1,9 +1,241 @@
 {
-  "capture_id": "video-20261004T202245Z",
+  "capture_id": "cap1-20261005T092039Z",
   "capture_tier": "video",
-  "capture_timestamp": "2026-10-04T20:22:45.187912Z",
+  "capture_timestamp": "2026-10-05T09:20:39.802901Z",
   "device": "unknown",
   "rooms": [
+    {
+      "id": "room-1",
+      "name": "Room 1",
+      "walls": [
+        {
+          "id": "room-1/wall-0",
+          "start": [
+            -2.1088152721087146,
+            -2.8394054521987018
+          ],
+          "end": [
+            -1.2390236054420478,
+            -2.8394054521987018
+          ],
+          "length": {
+            "value": 0.8697916666666667,
+            "confidence_low": 0.8397916666666667,
+            "confidence_high": 0.8997916666666668,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.5667239441991185,
+            "confidence_low": 2.5667239441991185,
+            "confidence_high": 3.5667239441991185,
+            "unit": "m"
+          },
+          "surface_id": "room-1/wall-0"
+        },
+        {
+          "id": "room-1/wall-1",
+          "start": [
+            -1.2390236054420478,
+            -2.8394054521987018
+          ],
+          "end": [
+            -1.2390236054420478,
+            -1.6872315391552237
+          ],
+          "length": {
+            "value": 1.152173913043478,
+            "confidence_low": 1.122173913043478,
+            "confidence_high": 1.182173913043478,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.5667239441991185,
+            "confidence_low": 2.5667239441991185,
+            "confidence_high": 3.5667239441991185,
+            "unit": "m"
+          },
+          "surface_id": "room-1/wall-1"
+        },
+        {
+          "id": "room-1/wall-2",
+          "start": [
+            -1.2390236054420478,
+            -1.6872315391552237
+          ],
+          "end": [
+            -2.1088152721087146,
+            -1.6872315391552237
+          ],
+          "length": {
+            "value": 0.8697916666666667,
+            "confidence_low": 0.8397916666666667,
+            "confidence_high": 0.8997916666666668,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.5667239441991185,
+            "confidence_low": 2.5667239441991185,
+            "confidence_high": 3.5667239441991185,
+            "unit": "m"
+          },
+          "surface_id": "room-1/wall-2"
+        },
+        {
+          "id": "room-1/wall-3",
+          "start": [
+            -2.1088152721087146,
+            -1.6872315391552237
+          ],
+          "end": [
+            -2.1088152721087146,
+            -2.8394054521987018
+          ],
+          "length": {
+            "value": 1.152173913043478,
+            "confidence_low": 1.122173913043478,
+            "confidence_high": 1.182173913043478,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.5667239441991185,
+            "confidence_low": 2.5667239441991185,
+            "confidence_high": 3.5667239441991185,
+            "unit": "m"
+          },
+          "surface_id": "room-1/wall-3"
+        }
+      ],
+      "openings": [
+        {
+          "id": "room-1/door-0",
+          "type": "door",
+          "wall_id": "room-1/wall-0",
+          "position_along_wall": {
+            "value": 0.0,
+            "confidence_low": -0.06,
+            "confidence_high": 0.06,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.8697916666666667,
+            "confidence_low": 0.8097916666666667,
+            "confidence_high": 0.9297916666666668,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.8732194540465055,
+            "confidence_low": 1.8132194540465054,
+            "confidence_high": 1.9332194540465055,
+            "unit": "m"
+          },
+          "confidence": 1.0
+        },
+        {
+          "id": "room-1/door-1",
+          "type": "door",
+          "wall_id": "room-1/wall-1",
+          "position_along_wall": {
+            "value": 0.0,
+            "confidence_low": -0.06,
+            "confidence_high": 0.06,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.152173913043478,
+            "confidence_low": 1.092173913043478,
+            "confidence_high": 1.212173913043478,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.8732194540465055,
+            "confidence_low": 1.8132194540465054,
+            "confidence_high": 1.9332194540465055,
+            "unit": "m"
+          },
+          "confidence": 0.932
+        },
+        {
+          "id": "room-1/door-2",
+          "type": "door",
+          "wall_id": "room-1/wall-2",
+          "position_along_wall": {
+            "value": 0.0,
+            "confidence_low": -0.06,
+            "confidence_high": 0.06,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.8697916666666667,
+            "confidence_low": 0.8097916666666667,
+            "confidence_high": 0.9297916666666668,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.8732194540465055,
+            "confidence_low": 1.8132194540465054,
+            "confidence_high": 1.9332194540465055,
+            "unit": "m"
+          },
+          "confidence": 1.0
+        },
+        {
+          "id": "room-1/door-3",
+          "type": "door",
+          "wall_id": "room-1/wall-3",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.1,
+            "confidence_low": 1.04,
+            "confidence_high": 1.1600000000000001,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.8732194540465055,
+            "confidence_low": 1.8132194540465054,
+            "confidence_high": 1.9332194540465055,
+            "unit": "m"
+          },
+          "confidence": 0.795
+        }
+      ],
+      "ceiling_height": {
+        "value": 2.5667239441991185,
+        "confidence_low": 2.5667239441991185,
+        "confidence_high": 3.5667239441991185,
+        "unit": "m"
+      },
+      "ceiling_observed": false,
+      "rough_estimate": false,
+      "floor_area": {
+        "value": 1.002151268115942,
+        "confidence_low": 0.7021512681159419,
+        "confidence_high": 1.302151268115942,
+        "unit": "m2"
+      },
+      "floor_polygon": [
+        [
+          -2.1088152721087146,
+          -2.8394054521987018
+        ],
+        [
+          -1.2390236054420478,
+          -2.8394054521987018
+        ],
+        [
+          -1.2390236054420478,
+          -1.6872315391552237
+        ],
+        [
+          -2.1088152721087146,
+          -1.6872315391552237
+        ]
+      ]
+    },
     {
       "id": "room-3",
       "name": "Room 3",
@@ -11,23 +243,23 @@
         {
           "id": "room-3/wall-0",
           "start": [
-            -0.9417513676683961,
-            4.0396267489136255
+            -2.536002848198169,
+            3.894115062558035
           ],
           "end": [
-            -0.9417513676683961,
-            3.336215598973396
+            -0.46503510626268507,
+            3.894115062558035
           ],
           "length": {
-            "value": 0.7034111499402296,
-            "confidence_low": 0.6734111499402295,
-            "confidence_high": 0.7334111499402296,
+            "value": 2.0709677419354837,
+            "confidence_low": 2.040967741935484,
+            "confidence_high": 2.1009677419354835,
             "unit": "m"
           },
           "height": {
-            "value": 2.103446345171517,
-            "confidence_low": 2.103446345171517,
-            "confidence_high": 3.103446345171517,
+            "value": 2.4395456273199505,
+            "confidence_low": 2.4095456273199507,
+            "confidence_high": 2.4695456273199503,
             "unit": "m"
           },
           "surface_id": "room-3/wall-0"
@@ -35,23 +267,23 @@
         {
           "id": "room-3/wall-1",
           "start": [
-            -0.9417513676683961,
-            3.336215598973396
+            -0.46503510626268507,
+            3.894115062558035
           ],
           "end": [
-            1.2832486323316041,
-            3.336215598973396
+            -0.46503510626268507,
+            4.89649529098009
           ],
           "length": {
-            "value": 2.225,
-            "confidence_low": 2.1950000000000003,
-            "confidence_high": 2.255,
+            "value": 1.0023802284220547,
+            "confidence_low": 0.9723802284220546,
+            "confidence_high": 1.0323802284220547,
             "unit": "m"
           },
           "height": {
-            "value": 2.103446345171517,
-            "confidence_low": 2.103446345171517,
-            "confidence_high": 3.103446345171517,
+            "value": 2.4395456273199505,
+            "confidence_low": 2.4095456273199507,
+            "confidence_high": 2.4695456273199503,
             "unit": "m"
           },
           "surface_id": "room-3/wall-1"
@@ -59,23 +291,23 @@
         {
           "id": "room-3/wall-2",
           "start": [
-            1.2832486323316041,
-            3.336215598973396
+            -0.46503510626268507,
+            4.89649529098009
           ],
           "end": [
-            1.2832486323316041,
-            4.0396267489136255
+            -2.536002848198169,
+            4.89649529098009
           ],
           "length": {
-            "value": 0.7034111499402296,
-            "confidence_low": 0.6734111499402295,
-            "confidence_high": 0.7334111499402296,
+            "value": 2.0709677419354837,
+            "confidence_low": 2.040967741935484,
+            "confidence_high": 2.1009677419354835,
             "unit": "m"
           },
           "height": {
-            "value": 2.103446345171517,
-            "confidence_low": 2.103446345171517,
-            "confidence_high": 3.103446345171517,
+            "value": 2.4395456273199505,
+            "confidence_low": 2.4095456273199507,
+            "confidence_high": 2.4695456273199503,
             "unit": "m"
           },
           "surface_id": "room-3/wall-2"
@@ -83,23 +315,23 @@
         {
           "id": "room-3/wall-3",
           "start": [
-            1.2832486323316041,
-            4.0396267489136255
+            -2.536002848198169,
+            4.89649529098009
           ],
           "end": [
-            -0.9417513676683961,
-            4.0396267489136255
+            -2.536002848198169,
+            3.894115062558035
           ],
           "length": {
-            "value": 2.225,
-            "confidence_low": 2.1950000000000003,
-            "confidence_high": 2.255,
+            "value": 1.0023802284220547,
+            "confidence_low": 0.9723802284220546,
+            "confidence_high": 1.0323802284220547,
             "unit": "m"
           },
           "height": {
-            "value": 2.103446345171517,
-            "confidence_low": 2.103446345171517,
-            "confidence_high": 3.103446345171517,
+            "value": 2.4395456273199505,
+            "confidence_low": 2.4095456273199507,
+            "confidence_high": 2.4695456273199503,
             "unit": "m"
           },
           "surface_id": "room-3/wall-3"
@@ -117,18 +349,18 @@
             "unit": "m"
           },
           "width": {
-            "value": 0.7034111499402296,
-            "confidence_low": 0.6434111499402295,
-            "confidence_high": 0.7634111499402296,
+            "value": 2.0709677419354837,
+            "confidence_low": 2.0109677419354837,
+            "confidence_high": 2.1309677419354838,
             "unit": "m"
           },
           "height": {
-            "value": 1.9240229831278506,
-            "confidence_low": 1.8640229831278505,
-            "confidence_high": 1.9840229831278506,
+            "value": 2.4395456273199505,
+            "confidence_low": 2.3795456273199505,
+            "confidence_high": 2.4995456273199506,
             "unit": "m"
           },
-          "confidence": 1.0
+          "confidence": 0.988
         },
         {
           "id": "room-3/door-1",
@@ -141,15 +373,15 @@
             "unit": "m"
           },
           "width": {
-            "value": 2.225,
-            "confidence_low": 2.165,
-            "confidence_high": 2.285,
+            "value": 1.0023802284220547,
+            "confidence_low": 0.9423802284220546,
+            "confidence_high": 1.0623802284220547,
             "unit": "m"
           },
           "height": {
-            "value": 1.9240229831278506,
-            "confidence_low": 1.8640229831278505,
-            "confidence_high": 1.9840229831278506,
+            "value": 2.4395456273199505,
+            "confidence_low": 2.3795456273199505,
+            "confidence_high": 2.4995456273199506,
             "unit": "m"
           },
           "confidence": 1.0
@@ -159,429 +391,390 @@
           "type": "door",
           "wall_id": "room-3/wall-2",
           "position_along_wall": {
-            "value": 0.0,
-            "confidence_low": -0.06,
-            "confidence_high": 0.06,
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
             "unit": "m"
           },
           "width": {
-            "value": 0.5798441635624187,
-            "confidence_low": 0.5198441635624187,
-            "confidence_high": 0.6398441635624188,
+            "value": 2.0000000000000004,
+            "confidence_low": 1.9400000000000004,
+            "confidence_high": 2.0600000000000005,
             "unit": "m"
           },
           "height": {
-            "value": 1.9240229831278506,
-            "confidence_low": 1.8640229831278505,
-            "confidence_high": 1.9840229831278506,
+            "value": 2.382154024965021,
+            "confidence_low": 2.322154024965021,
+            "confidence_high": 2.442154024965021,
             "unit": "m"
           },
-          "confidence": 0.846
+          "confidence": 0.662
         },
         {
           "id": "room-3/door-3",
           "type": "door",
           "wall_id": "room-3/wall-3",
           "position_along_wall": {
-            "value": 0.05,
-            "confidence_low": -0.009999999999999995,
-            "confidence_high": 0.11,
-            "unit": "m"
-          },
-          "width": {
-            "value": 2.1500000000000004,
-            "confidence_low": 2.0900000000000003,
-            "confidence_high": 2.2100000000000004,
-            "unit": "m"
-          },
-          "height": {
-            "value": 1.6095323071661947,
-            "confidence_low": 1.5495323071661946,
-            "confidence_high": 1.6695323071661947,
-            "unit": "m"
-          },
-          "confidence": 0.537
-        }
-      ],
-      "ceiling_height": {
-        "value": 2.103446345171517,
-        "confidence_low": 2.103446345171517,
-        "confidence_high": 3.103446345171517,
-        "unit": "m"
-      },
-      "ceiling_observed": false,
-      "rough_estimate": false,
-      "floor_area": {
-        "value": 1.5650898086170109,
-        "confidence_low": 1.2650898086170108,
-        "confidence_high": 1.865089808617011,
-        "unit": "m2"
-      },
-      "floor_polygon": [
-        [
-          -0.9417513676683961,
-          4.0396267489136255
-        ],
-        [
-          -0.9417513676683961,
-          3.336215598973396
-        ],
-        [
-          1.2832486323316041,
-          3.336215598973396
-        ],
-        [
-          1.2832486323316041,
-          4.0396267489136255
-        ]
-      ]
-    },
-    {
-      "id": "room-4",
-      "name": "Room 4",
-      "walls": [
-        {
-          "id": "room-4/wall-0",
-          "start": [
-            1.2522010471908083,
-            2.448081100985021
-          ],
-          "end": [
-            1.5622010471908079,
-            2.448081100985021
-          ],
-          "length": {
-            "value": 0.3099999999999996,
-            "confidence_low": 0.2799999999999996,
-            "confidence_high": 0.33999999999999964,
-            "unit": "m"
-          },
-          "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.114235842715189,
-            "confidence_high": 2.1742358427151887,
-            "unit": "m"
-          },
-          "surface_id": "room-4/wall-0"
-        },
-        {
-          "id": "room-4/wall-1",
-          "start": [
-            1.5622010471908079,
-            2.448081100985021
-          ],
-          "end": [
-            1.5622010471908079,
-            1.6447011294924112
-          ],
-          "length": {
-            "value": 0.8033799714926098,
-            "confidence_low": 0.7733799714926097,
-            "confidence_high": 0.8333799714926098,
-            "unit": "m"
-          },
-          "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.114235842715189,
-            "confidence_high": 2.1742358427151887,
-            "unit": "m"
-          },
-          "surface_id": "room-4/wall-1"
-        },
-        {
-          "id": "room-4/wall-2",
-          "start": [
-            1.5622010471908079,
-            1.6447011294924112
-          ],
-          "end": [
-            2.127201047190808,
-            1.6447011294924112
-          ],
-          "length": {
-            "value": 0.5650000000000002,
-            "confidence_low": 0.5350000000000001,
-            "confidence_high": 0.5950000000000002,
-            "unit": "m"
-          },
-          "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.114235842715189,
-            "confidence_high": 2.1742358427151887,
-            "unit": "m"
-          },
-          "surface_id": "room-4/wall-2"
-        },
-        {
-          "id": "room-4/wall-3",
-          "start": [
-            2.127201047190808,
-            1.6447011294924112
-          ],
-          "end": [
-            2.127201047190808,
-            2.598081100985021
-          ],
-          "length": {
-            "value": 0.9533799714926097,
-            "confidence_low": 0.9233799714926096,
-            "confidence_high": 0.9833799714926097,
-            "unit": "m"
-          },
-          "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.114235842715189,
-            "confidence_high": 2.1742358427151887,
-            "unit": "m"
-          },
-          "surface_id": "room-4/wall-3"
-        },
-        {
-          "id": "room-4/wall-4",
-          "start": [
-            2.127201047190808,
-            2.598081100985021
-          ],
-          "end": [
-            1.7390044702042085,
-            2.598081100985021
-          ],
-          "length": {
-            "value": 0.3881965769865996,
-            "confidence_low": 0.35819657698659957,
-            "confidence_high": 0.4181965769865996,
-            "unit": "m"
-          },
-          "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.114235842715189,
-            "confidence_high": 2.1742358427151887,
-            "unit": "m"
-          },
-          "surface_id": "room-4/wall-4"
-        },
-        {
-          "id": "room-4/wall-5",
-          "start": [
-            1.7390044702042085,
-            2.598081100985021
-          ],
-          "end": [
-            1.7390044702042085,
-            3.598081100985021
-          ],
-          "length": {
-            "value": 1.0,
-            "confidence_low": 0.97,
-            "confidence_high": 1.03,
-            "unit": "m"
-          },
-          "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.114235842715189,
-            "confidence_high": 2.1742358427151887,
-            "unit": "m"
-          },
-          "surface_id": "room-4/wall-5"
-        },
-        {
-          "id": "room-4/wall-6",
-          "start": [
-            1.7390044702042085,
-            3.598081100985021
-          ],
-          "end": [
-            1.2522010471908083,
-            3.598081100985021
-          ],
-          "length": {
-            "value": 0.4868034230134002,
-            "confidence_low": 0.45680342301340016,
-            "confidence_high": 0.5168034230134002,
-            "unit": "m"
-          },
-          "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.114235842715189,
-            "confidence_high": 2.1742358427151887,
-            "unit": "m"
-          },
-          "surface_id": "room-4/wall-6"
-        },
-        {
-          "id": "room-4/wall-7",
-          "start": [
-            1.2522010471908083,
-            3.598081100985021
-          ],
-          "end": [
-            1.2522010471908083,
-            2.448081100985021
-          ],
-          "length": {
-            "value": 1.15,
-            "confidence_low": 1.1199999999999999,
-            "confidence_high": 1.18,
-            "unit": "m"
-          },
-          "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.114235842715189,
-            "confidence_high": 2.1742358427151887,
-            "unit": "m"
-          },
-          "surface_id": "room-4/wall-7"
-        }
-      ],
-      "openings": [
-        {
-          "id": "room-4/door-0",
-          "type": "door",
-          "wall_id": "room-4/wall-1",
-          "position_along_wall": {
             "value": 0.0,
             "confidence_low": -0.06,
             "confidence_high": 0.06,
             "unit": "m"
           },
           "width": {
-            "value": 0.6993547116289476,
-            "confidence_low": 0.6393547116289475,
-            "confidence_high": 0.7593547116289476,
+            "value": 1.0023802284220547,
+            "confidence_low": 0.9423802284220546,
+            "confidence_high": 1.0623802284220547,
             "unit": "m"
           },
           "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.084235842715189,
-            "confidence_high": 2.204235842715189,
+            "value": 2.4395456273199505,
+            "confidence_low": 2.3795456273199505,
+            "confidence_high": 2.4995456273199506,
             "unit": "m"
           },
-          "confidence": 0.933
-        },
-        {
-          "id": "room-4/door-1",
-          "type": "door",
-          "wall_id": "room-4/wall-3",
-          "position_along_wall": {
-            "value": 0.05,
-            "confidence_low": -0.009999999999999995,
-            "confidence_high": 0.11,
-            "unit": "m"
-          },
-          "width": {
-            "value": 0.9,
-            "confidence_low": 0.8400000000000001,
-            "confidence_high": 0.96,
-            "unit": "m"
-          },
-          "height": {
-            "value": 1.9791134637739882,
-            "confidence_low": 1.9191134637739882,
-            "confidence_high": 2.039113463773988,
-            "unit": "m"
-          },
-          "confidence": 0.556
-        },
-        {
-          "id": "room-4/door-2",
-          "type": "door",
-          "wall_id": "room-4/wall-6",
-          "position_along_wall": {
-            "value": 0.0,
-            "confidence_low": -0.06,
-            "confidence_high": 0.06,
-            "unit": "m"
-          },
-          "width": {
-            "value": 0.4868034230134002,
-            "confidence_low": 0.4268034230134002,
-            "confidence_high": 0.5468034230134002,
-            "unit": "m"
-          },
-          "height": {
-            "value": 2.144235842715189,
-            "confidence_low": 2.084235842715189,
-            "confidence_high": 2.204235842715189,
-            "unit": "m"
-          },
-          "confidence": 0.875
+          "confidence": 1.0
         }
       ],
       "ceiling_height": {
-        "value": 2.144235842715189,
-        "confidence_low": 2.114235842715189,
-        "confidence_high": 2.1742358427151887,
+        "value": 2.4395456273199505,
+        "confidence_low": 2.4095456273199507,
+        "confidence_high": 2.4695456273199503,
         "unit": "m"
       },
       "ceiling_observed": true,
       "rough_estimate": false,
       "floor_area": {
-        "value": 1.0719631069067246,
-        "confidence_low": 0.7719631069067245,
-        "confidence_high": 1.3719631069067246,
+        "value": 2.075897118215997,
+        "confidence_low": 1.7758971182159968,
+        "confidence_high": 2.375897118215997,
         "unit": "m2"
       },
       "floor_polygon": [
         [
-          1.2522010471908083,
-          2.448081100985021
+          -2.536002848198169,
+          3.894115062558035
         ],
         [
-          1.5622010471908079,
-          2.448081100985021
+          -0.46503510626268507,
+          3.894115062558035
         ],
         [
-          1.5622010471908079,
-          1.6447011294924112
+          -0.46503510626268507,
+          4.89649529098009
         ],
         [
-          2.127201047190808,
-          1.6447011294924112
+          -2.536002848198169,
+          4.89649529098009
+        ]
+      ]
+    },
+    {
+      "id": "room-5",
+      "name": "Room 5",
+      "walls": [
+        {
+          "id": "room-5/wall-0",
+          "start": [
+            1.9194767799391979,
+            3.148865190774279
+          ],
+          "end": [
+            1.9194767799391979,
+            3.78497630188539
+          ],
+          "length": {
+            "value": 0.6361111111111111,
+            "confidence_low": 0.606111111111111,
+            "confidence_high": 0.6661111111111111,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.700150896997321,
+            "confidence_low": 2.6701508969973213,
+            "confidence_high": 2.730150896997321,
+            "unit": "m"
+          },
+          "surface_id": "room-5/wall-0"
+        },
+        {
+          "id": "room-5/wall-1",
+          "start": [
+            1.9194767799391979,
+            3.78497630188539
+          ],
+          "end": [
+            1.0274244782736124,
+            3.78497630188539
+          ],
+          "length": {
+            "value": 0.8920523016655855,
+            "confidence_low": 0.8620523016655854,
+            "confidence_high": 0.9220523016655855,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.700150896997321,
+            "confidence_low": 2.6701508969973213,
+            "confidence_high": 2.730150896997321,
+            "unit": "m"
+          },
+          "surface_id": "room-5/wall-1"
+        },
+        {
+          "id": "room-5/wall-2",
+          "start": [
+            1.0274244782736124,
+            3.78497630188539
+          ],
+          "end": [
+            1.0274244782736124,
+            4.849976301885389
+          ],
+          "length": {
+            "value": 1.0649999999999995,
+            "confidence_low": 1.0349999999999995,
+            "confidence_high": 1.0949999999999995,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.700150896997321,
+            "confidence_low": 2.6701508969973213,
+            "confidence_high": 2.730150896997321,
+            "unit": "m"
+          },
+          "surface_id": "room-5/wall-2"
+        },
+        {
+          "id": "room-5/wall-3",
+          "start": [
+            1.0274244782736124,
+            4.849976301885389
+          ],
+          "end": [
+            0.49697677993919775,
+            4.849976301885389
+          ],
+          "length": {
+            "value": 0.5304476983344146,
+            "confidence_low": 0.5004476983344146,
+            "confidence_high": 0.5604476983344147,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.700150896997321,
+            "confidence_low": 2.6701508969973213,
+            "confidence_high": 2.730150896997321,
+            "unit": "m"
+          },
+          "surface_id": "room-5/wall-3"
+        },
+        {
+          "id": "room-5/wall-4",
+          "start": [
+            0.49697677993919775,
+            4.849976301885389
+          ],
+          "end": [
+            0.49697677993919775,
+            3.148865190774279
+          ],
+          "length": {
+            "value": 1.7011111111111106,
+            "confidence_low": 1.6711111111111105,
+            "confidence_high": 1.7311111111111106,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.700150896997321,
+            "confidence_low": 2.6701508969973213,
+            "confidence_high": 2.730150896997321,
+            "unit": "m"
+          },
+          "surface_id": "room-5/wall-4"
+        },
+        {
+          "id": "room-5/wall-5",
+          "start": [
+            0.49697677993919775,
+            3.148865190774279
+          ],
+          "end": [
+            1.9194767799391979,
+            3.148865190774279
+          ],
+          "length": {
+            "value": 1.4225,
+            "confidence_low": 1.3925,
+            "confidence_high": 1.4525000000000001,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.700150896997321,
+            "confidence_low": 2.6701508969973213,
+            "confidence_high": 2.730150896997321,
+            "unit": "m"
+          },
+          "surface_id": "room-5/wall-5"
+        }
+      ],
+      "openings": [
+        {
+          "id": "room-5/door-0",
+          "type": "door",
+          "wall_id": "room-5/wall-1",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.8,
+            "confidence_low": 0.74,
+            "confidence_high": 0.8600000000000001,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.373595816803728,
+            "confidence_low": 2.313595816803728,
+            "confidence_high": 2.433595816803728,
+            "unit": "m"
+          },
+          "confidence": 0.5
+        },
+        {
+          "id": "room-5/door-1",
+          "type": "door",
+          "wall_id": "room-5/wall-3",
+          "position_along_wall": {
+            "value": 0.11819830015356458,
+            "confidence_low": 0.058198300153564586,
+            "confidence_high": 0.17819830015356458,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.41224939818085005,
+            "confidence_low": 0.35224939818085005,
+            "confidence_high": 0.47224939818085004,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.700150896997321,
+            "confidence_low": 2.640150896997321,
+            "confidence_high": 2.760150896997321,
+            "unit": "m"
+          },
+          "confidence": 0.778
+        },
+        {
+          "id": "room-5/door-2",
+          "type": "door",
+          "wall_id": "room-5/wall-4",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.6500000000000001,
+            "confidence_low": 1.59,
+            "confidence_high": 1.7100000000000002,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.700150896997321,
+            "confidence_low": 2.640150896997321,
+            "confidence_high": 2.760150896997321,
+            "unit": "m"
+          },
+          "confidence": 0.758
+        },
+        {
+          "id": "room-5/door-3",
+          "type": "door",
+          "wall_id": "room-5/wall-5",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.35,
+            "confidence_low": 1.29,
+            "confidence_high": 1.4100000000000001,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.700150896997321,
+            "confidence_low": 2.640150896997321,
+            "confidence_high": 2.760150896997321,
+            "unit": "m"
+          },
+          "confidence": 0.889
+        }
+      ],
+      "ceiling_height": {
+        "value": 2.700150896997321,
+        "confidence_low": 2.6701508969973213,
+        "confidence_high": 2.730150896997321,
+        "unit": "m"
+      },
+      "ceiling_observed": true,
+      "rough_estimate": false,
+      "floor_area": {
+        "value": 1.469794854281707,
+        "confidence_low": 1.169794854281707,
+        "confidence_high": 1.769794854281707,
+        "unit": "m2"
+      },
+      "floor_polygon": [
+        [
+          1.9194767799391979,
+          3.148865190774279
         ],
         [
-          2.127201047190808,
-          2.598081100985021
+          1.9194767799391979,
+          3.78497630188539
         ],
         [
-          1.7390044702042085,
-          2.598081100985021
+          1.0274244782736124,
+          3.78497630188539
         ],
         [
-          1.7390044702042085,
-          3.598081100985021
+          1.0274244782736124,
+          4.849976301885389
         ],
         [
-          1.2522010471908083,
-          3.598081100985021
+          0.49697677993919775,
+          4.849976301885389
+        ],
+        [
+          0.49697677993919775,
+          3.148865190774279
         ]
       ]
     }
   ],
-  "adjacencies": [
-    {
-      "room_a_id": "room-3",
-      "room_b_id": "room-4",
-      "shared_opening_id": "room-3/door-2"
-    }
-  ],
+  "adjacencies": [],
   "damage_regions": [],
   "concealed_damage_flags": [],
   "scope_line_items": [],
   "total_floor_area": {
-    "value": 2.6370529155237357,
-    "confidence_low": 2.337052915523736,
-    "confidence_high": 2.9370529155237355,
+    "value": 4.547843240613646,
+    "confidence_low": 4.247843240613646,
+    "confidence_high": 4.847843240613646,
     "unit": "m2"
   },
-  "room_count": 2,
-  "processing_time_seconds": 494.714,
+  "room_count": 3,
+  "processing_time_seconds": 497.247,
   "pipeline_version": "0.1.0",
   "warnings": [
-    "room-1: the ceiling was not scanned; ceiling_height is the highest observed point (2.04 m), a lower bound.",
-    "room-1: no room geometry could be fitted (degenerate fit (4 walls, 0.89 m2)); the room is not in the plan.",
-    "room-2: no room geometry could be fitted (degenerate fit (3 walls, 0.35 m2)); the room is not in the plan.",
-    "room-3: the ceiling was not scanned; ceiling_height is the highest observed point (2.10 m), a lower bound.",
-    "room-3: scale recovery may be unreliable (room area 1.6 m2, scale from the ceiling-height-prior step).",
-    "room-4: scale recovery may be unreliable (room area 1.1 m2, scale from the ceiling-height-prior step)."
+    "room-1: the ceiling was not scanned; ceiling_height is the highest observed point (2.57 m), a lower bound.",
+    "room-2: no room geometry could be fitted (degenerate fit (4 walls, 0.80 m2)); the room is not in the plan.",
+    "room-4: no room geometry could be fitted (degenerate fit (4 walls, 0.04 m2)); the room is not in the plan.",
+    "room-1: scale recovery may be unreliable (room area 1.0 m2, scale from the user-ceiling-height step).",
+    "room-5: scale recovery may be unreliable (room area 1.5 m2, scale from the user-ceiling-height step)."
   ]
 }
