@@ -1,0 +1,24 @@
+{
+  "connections": [
+    {
+      "room_a": "room1",
+      "room_b": "room4",
+      "shared_opening": "hallway"
+    },
+    {
+      "room_a": "room2",
+      "room_b": "room4",
+      "shared_opening": "hallway"
+    },
+    {
+      "room_a": "room3",
+      "room_b": "room4",
+      "shared_opening": "hallway"
+    },
+    {
+      "room_a": "room1",
+      "room_b": "room2",
+      "shared_opening": "interior_door"
+    }
+  ]
+}

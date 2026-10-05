@@ -121,6 +121,10 @@ def run_pipeline(
     damage_detector: str = "heuristic",
     damage_options: dict | None = None,
     ceiling_height: float | None = None,
+    photo_stitcher: str = "classical",
+    vlm_model: str = "qwen2-vl-2b",
+    vlm_adjacency: dict | str | None = None,
+    vlm_options: dict | None = None,
 ) -> PropertyReport:
     """Run preprocess -> tier front-end -> geometry -> stitch -> damage -> scope ->
     calibrate -> write JSON -> render, and return the PropertyReport.
@@ -228,11 +232,28 @@ def run_pipeline(
     # 4. stitching
     t = time.perf_counter()
     known_notes = len(property_ir.warnings)
-    property_ir = stitch_rooms(property_ir, drift_correction=drift_correction)
+
+    resolved_vlm_adj = vlm_adjacency
+    if isinstance(resolved_vlm_adj, (str, Path)) and Path(resolved_vlm_adj).is_file():
+        import json
+        with open(resolved_vlm_adj) as f:
+            resolved_vlm_adj = json.load(f)
+
+    vlm_opts = dict(vlm_options or {})
+    if "model_name" not in vlm_opts:
+        vlm_opts["model_name"] = vlm_model
+
+    property_ir = stitch_rooms(
+        property_ir,
+        drift_correction=drift_correction,
+        photo_stitcher=photo_stitcher,
+        vlm_adjacency=resolved_vlm_adj,
+        vlm_options=vlm_opts,
+    )
     warnings += list(property_ir.warnings[known_notes:])  # notes added while stitching (merged rooms)
     _say(f"Stitched {len(property_ir.rooms)} room(s), "
          f"{len(property_ir.adjacencies or [])} adjacency link(s), "
-         f"drift_correction={drift_correction}")
+         f"drift_correction={drift_correction}, photo_stitcher={photo_stitcher}")
     timed("stitch", t)
 
     # 5-7. damage detection, concealed-damage rules, scope. Rooms are still in their own

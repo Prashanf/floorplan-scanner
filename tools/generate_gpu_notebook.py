@@ -44,7 +44,7 @@ Mapping (bundle adjustment) runs on the CPU by design: it is single-threaded so 
 cells.append(md(r"""## Step 0: Settings"""))
 
 cells.append(code(r"""REPO_URL = "https://github.com/Prashanf/floorplan-scanner.git"
-BRANCH = "dev"                    # branch that gets cloned (fresh clone every time the clone cell runs)
+BRANCH = "dev-vlm"                # branch that gets cloned (dev-vlm has VLM spatial reasoning & metric snapping)
 
 # Videos are found under /kaggle/input by a piece of the file name. Set a full path to override the search.
 LANDSCAPE_MATCH = "ldscp"         # test-video3-ldscp.mp4
@@ -54,6 +54,12 @@ VIDEO_PORTRAIT = None
 
 CEILING_HEIGHT = None             # known ceiling height in metres (e.g. 3.15); None = automatic scale recovery
 DAMAGE_MODEL = "opencv"           # "opencv" (default) or "mobilesam"
+
+# --- Multi-Room Photo Tier & VLM Reasoning Settings ---
+PHOTO_CAPTURE_DIR = None          # None = auto-detect under REPO_DIR/benchmark/captures/photos/real_capture or /kaggle/input
+PHOTO_STITCHER = "vlm"            # "vlm" (Step 1 Qwen2-VL + Step 2 metric snapping) or "classical"
+VLM_MODEL = "qwen2-vl-2b"         # "qwen2-vl-2b" (fast) or "qwen2-vl-7b" (high accuracy)
+VLM_4BIT = True                   # 4-bit NF4 quantization on CUDA (recommended for 7B on 16GB GPUs)
 """))
 
 cells.append(md(r"""## Step 1: Clone the repository (always fresh)
@@ -97,10 +103,11 @@ print("GPU:", torch.cuda.get_device_name(0), "|", round(torch.cuda.get_device_pr
 """))
 
 cells.append(md(r"""## Step 3: Install dependencies and configure COLMAP for the GPU
-`pycolmap-cuda12` replaces the CPU `pycolmap` (both provide `import pycolmap`, so the CPU one is removed first)."""))
+`pycolmap-cuda12` replaces the CPU `pycolmap` (both provide `import pycolmap`, so the CPU one is removed first). Also installs `accelerate`, `qwen-vl-utils`, and `transformers` for VLM reasoning."""))
 
 cells.append(code(r"""!grep -vi "^pycolmap" requirements.txt > /tmp/requirements_base.txt
 !pip install -q -r /tmp/requirements_base.txt tqdm ipywidgets
+!pip install -q accelerate qwen-vl-utils networkx "transformers>=4.45.0"
 !pip uninstall -y -q pycolmap
 !pip install -q pycolmap-cuda12
 # only needed with DAMAGE_MODEL = "mobilesam":
@@ -447,6 +454,174 @@ for r in (result_landscape, result_portrait):
                  "rooms": rep.get("rooms"), "area m2": rep.get("total_floor_area_m2"), "damage": rep.get("damage_regions")})
 display(pd.DataFrame(rows))
 print("Wrote", shutil.make_archive(str(WORK_ROOT / "video_results"), "zip", RESULTS_ROOT))
+"""))
+
+# --- PART 2: PHOTO TIER (VLM REASONING + METRIC SNAPPING) ---
+
+cells.append(md(r"""# Part 2: Multi-Room Photo Tier with Qwen2-VL Spatial Reasoning & Metric Snapping
+
+Stitches independent multi-room photo captures taken according to the capture protocol:
+1. **Entry door photo** looking into the room.
+2. **Corner landscape shots** (4 photos).
+3. **Exit photo** standing in the doorway looking out into the hallway / exit scene.
+4. **Hallway shots** connecting other room doors.
+
+### The 2-Step Architecture:
+- **Step 1 (Vision Reasoning):** Protocol photos are fed to Qwen2-VL (`qwen2-vl-2b` or `qwen2-vl-7b`). The model examines door frames, trim, flooring transitions, and visible sightlines to produce a clean JSON adjacency map:
+  ```json
+  {
+    "connections": [
+      {"room_a": "room1", "room_b": "room2", "shared_opening": "interior_door"},
+      {"room_a": "room2", "room_b": "room3", "shared_opening": "hallway"}
+    ]
+  }
+  ```
+- **Step 2 (Metric Snapping):** The adjacency graph is fed into `src/stitching/photo_stitch.py` to calculate exact rigid alignment $[R \mid t]$ of room polygons and output `floor_plan.png` + `report.json`.
+"""))
+
+cells.append(md(r"""## Step 9: Locate Photo Capture and Inspect Protocol Images"""))
+
+cells.append(code(r"""import cv2
+from PIL import Image
+
+def find_photo_capture(override):
+    if override:
+        p = Path(override)
+        if p.is_dir():
+            return p
+    roots = [REPO_DIR / "benchmark" / "captures" / "photos" / "real_capture",
+             Path("/kaggle/input"), Path("/content"), Path.home() / "Desktop"]
+    for r in roots:
+        if r.is_dir():
+            if (r / "room1").is_dir():
+                return r
+            hits = list(r.rglob("real_capture"))
+            if hits and (hits[0] / "room1").is_dir():
+                return hits[0]
+            rooms = [d for d in r.glob("room*") if d.is_dir()]
+            if len(rooms) >= 2:
+                return r
+    raise SystemExit("No multi-room photo capture found with room1, room2... Add it as a dataset or set PHOTO_CAPTURE_DIR.")
+
+PHOTO_DIR = find_photo_capture(PHOTO_CAPTURE_DIR)
+print("Photo capture directory:", PHOTO_DIR)
+room_folders = sorted([d for d in PHOTO_DIR.iterdir() if d.is_dir() and not d.name.startswith(".")])
+print(f"Found {len(room_folders)} room folders:")
+for rf in room_folders:
+    imgs = list(rf.glob("*.jpg")) + list(rf.glob("*.png")) + list(rf.glob("*.jpeg"))
+    print(f"  • {rf.name}: {len(imgs)} photos")
+"""))
+
+cells.append(md(r"""## Step 10: Step 1 (Vision Reasoning) with Qwen2-VL
+Selects protocol photos (entry door + exit hallway sightline per room) and prompts Qwen2-VL to identify shared doorways and hallway sightlines, returning a clean JSON adjacency map."""))
+
+cells.append(code(r"""import json
+import networkx as nx
+import matplotlib.pyplot as plt
+from src.stitching.vlm_adjacency import infer_room_adjacency_vlm, select_protocol_photos
+
+PHOTO_OUT_DIR = RESULTS_ROOT / "photo_vlm"
+PHOTO_OUT_DIR.mkdir(parents=True, exist_ok=True)
+vlm_cache_file = PHOTO_OUT_DIR / "vlm_adjacency.json"
+
+room_images_dict = {
+    rf.name: sorted([str(p) for p in rf.glob("*") if p.suffix.lower() in (".jpg", ".jpeg", ".png")])
+    for rf in room_folders
+}
+
+# Display protocol picks
+protocol_picks = select_protocol_photos(room_images_dict)
+print(f"Protocol photos selected for {len(protocol_picks)} rooms:")
+for rid, picks in protocol_picks.items():
+    print(f"  [{rid}]: {', '.join(role for _, role in picks)}")
+
+# Run Step 1 Vision Reasoning
+print(f"\n--- Running Step 1 Vision Reasoning: {VLM_MODEL} (4bit={VLM_4BIT}) ---")
+vlm_adjacency_result = infer_room_adjacency_vlm(
+    room_images=room_images_dict,
+    model_name=VLM_MODEL,
+    device="auto",
+    load_in_4bit=VLM_4BIT,
+    cache_path=vlm_cache_file,
+)
+
+print("\n--- Step 1 Output: Clean JSON Adjacency Map ---")
+print(json.dumps(vlm_adjacency_result, indent=2))
+
+# Plot Connectivity Graph
+if vlm_adjacency_result.get("connections"):
+    G = nx.Graph()
+    for rid in room_images_dict.keys():
+        G.add_node(rid)
+    for conn in vlm_adjacency_result["connections"]:
+        G.add_edge(conn["room_a"], conn["room_b"], label=conn.get("shared_opening", "door"))
+    
+    plt.figure(figsize=(7, 5))
+    pos = nx.spring_layout(G, seed=42)
+    nx.draw_networkx_nodes(G, pos, node_color="#2E7D32", node_size=2200, alpha=0.9)
+    nx.draw_networkx_labels(G, pos, font_size=11, font_color="white", font_weight="bold")
+    nx.draw_networkx_edges(G, pos, width=2.5, edge_color="#424242")
+    edge_labels = nx.get_edge_attributes(G, "label")
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color="#C62828", font_size=10)
+    plt.title(f"Step 1: Inferred Room Adjacency Graph ({VLM_MODEL})", fontsize=12)
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+"""))
+
+cells.append(md(r"""## Step 11: Step 2 (Metric Snapping) via CLI
+Executes `python run.py` on the multi-room photo capture with `--photo-stitcher vlm` and the adjacency map from Step 1.
+The metric snapping step rigidly aligns room polygons along shared openings and outputs `floor_plan.png` + `report.json`."""))
+
+cells.append(code(r"""# CLI execution with VLM photo stitcher
+cli_cmd = [
+    "python", "run.py", str(PHOTO_DIR),
+    "--tier", "photo",
+    "--photo-stitcher", "vlm",
+    "--vlm-model", VLM_MODEL,
+    "--vlm-adjacency", str(vlm_cache_file),
+    "--output-dir", str(PHOTO_OUT_DIR),
+]
+
+print("Running command:")
+print(" ".join(cli_cmd))
+!{" ".join(cli_cmd)}
+"""))
+
+cells.append(md(r"""## Step 12: Display Multi-Room Stitched Floor Plan & Verification
+Visualizes the generated `floor_plan.png` and summarizes per-room dimensions and adjacency links."""))
+
+cells.append(code(r"""plan_path = PHOTO_OUT_DIR / "floor_plan.png"
+report_path = PHOTO_OUT_DIR / "report.json"
+
+if plan_path.is_file():
+    plt.figure(figsize=(13, 10))
+    plt.imshow(Image.open(plan_path))
+    plt.title("Step 2 Result: Metric Snapped Multi-Room Floor Plan", fontsize=14)
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+else:
+    print("Warning: floor_plan.png was not generated. Check CLI output above.")
+
+if report_path.is_file():
+    rep = json.loads(report_path.read_text())
+    print("\n--- Property Report Summary ---")
+    print(f"Tier: {rep.get('capture_tier')} | Rooms: {rep.get('room_count')} | Processing Time: {rep.get('processing_time_seconds', 0):.1f}s")
+    total_area = rep.get("total_floor_area", {})
+    print(f"Total Floor Area: {total_area.get('value', 0):.2f} m² [{total_area.get('confidence_low', 0):.2f}, {total_area.get('confidence_high', 0):.2f}]")
+    print("\nIndividual Rooms:")
+    for rm in rep.get("rooms", []):
+        fa = rm.get("floor_area", {}).get("value", 0)
+        ch = rm.get("ceiling_height", {}).get("value", 0)
+        print(f"  • {rm.get('id')}: {fa:.2f} m², ceiling {ch:.2f} m, {len(rm.get('walls', []))} walls, {len(rm.get('openings', []))} openings")
+    print("\nAdjacency Connections:")
+    for adj in rep.get("adjacencies", []):
+        print(f"  • {adj.get('room_a_id')} <---> {adj.get('room_b_id')} (shared opening: {adj.get('shared_opening_id')})")
+    if rep.get("warnings"):
+        print("\nWarnings:")
+        for w in rep["warnings"]:
+            print(f"  ! {w}")
 """))
 
 notebook = {

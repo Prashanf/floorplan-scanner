@@ -172,24 +172,94 @@ class _Edge:
     door_a: object = None
     door_b: object = None
     pose_tf: Optional[Transform] = None  # transform of room b into room a's frame
+    opening_type: str = "door"
 
 
-def _build_edges(rooms: list[RoomIR]) -> list[_Edge]:
-    """Edges for every room pair that can be joined; walk-order pairs first, then the rest by distance in the order."""
+def _build_edges(rooms: list[RoomIR], vlm_adjacency: dict | None = None) -> list[_Edge]:
+    """Edges for room pairs: prioritized by VLM adjacency map when supplied, then walk-order and classical matching."""
     used: set[int] = set()
     n = len(rooms)
+    edges: list[_Edge] = []
+    id_to_idx = {r.room_id: i for i, r in enumerate(rooms)}
 
     def free_doors(room: RoomIR) -> list:
         return [o for o in _door_openings(room) if id(o) not in used]
 
+    def ensure_door(room: RoomIR):
+        doors = free_doors(room)
+        if doors:
+            return doors[0]
+        if room.wall_segments:
+            seg = room.wall_segments[0]
+            pos = max(0.0, (seg.length - 0.86) / 2.0)
+            from src.geometry.openings import OpeningDetection
+            return OpeningDetection(
+                wall_index=0,
+                type="door",
+                position_along_wall=pos,
+                width=min(0.86, seg.length if seg.length > 0 else 0.86),
+                height=2.0,
+                confidence=0.5,
+            )
+        return None
+
+    seen_pairs: set[tuple[int, int]] = set()
+
+    # Step 1: Prioritize connections identified by VLM reasoning
+    if vlm_adjacency and "connections" in vlm_adjacency:
+        for conn in vlm_adjacency["connections"]:
+            ra = conn.get("room_a")
+            rb = conn.get("room_b")
+            opening_type = conn.get("shared_opening", "interior_door")
+            if ra in id_to_idx and rb in id_to_idx:
+                i, j = sorted([id_to_idx[ra], id_to_idx[rb]])
+                if (i, j) in seen_pairs:
+                    continue
+                seen_pairs.add((i, j))
+
+                # Shared doorway camera pose
+                pose = pose_relative_transform(rooms[i], rooms[j])
+
+                # Exact door match
+                match = find_best_door_match(free_doors(rooms[i]), free_doors(rooms[j]))
+                if match:
+                    door_a, door_b = match
+                    used.update((id(door_a), id(door_b)))
+                else:
+                    # Relaxed door matching under VLM constraint: pair closest available doors
+                    di, dj = free_doors(rooms[i]), free_doors(rooms[j])
+                    if di and dj:
+                        best_pair = min(
+                            ((abs(a.width - b.width), (a, b)) for a in di for b in dj),
+                            key=lambda x: x[0],
+                        )[1]
+                        door_a, door_b = best_pair
+                        used.update((id(door_a), id(door_b)))
+                    else:
+                        door_a = ensure_door(rooms[i])
+                        door_b = ensure_door(rooms[j])
+
+                edges.append(_Edge(i, j, door_a, door_b, pose, opening_type=opening_type))
+                log.info(
+                    "VLM edge: %s <-> %s via %s (doors=%s, pose=%s)",
+                    rooms[i].room_id,
+                    rooms[j].room_id,
+                    opening_type,
+                    bool(door_a and door_b),
+                    bool(pose),
+                )
+
+    # Step 2: Classical pairs for any remaining unconnected rooms or gaps
     pairs = [(i, i + 1) for i in range(n - 1)] + [(i, i + gap) for gap in range(2, n) for i in range(n - gap)]
-    edges: list[_Edge] = []
     for i, j in pairs:
+        if (i, j) in seen_pairs:
+            continue
         pose = pose_relative_transform(rooms[i], rooms[j]) if j == i + 1 else None
         match = find_best_door_match(free_doors(rooms[i]), free_doors(rooms[j]))
         if match:
             used.update((id(match[0]), id(match[1])))
         if match or pose:
+            seen_pairs.add((i, j))
             edges.append(_Edge(i, j, match[0] if match else None, match[1] if match else None, pose))
     return edges
 
@@ -199,7 +269,21 @@ def _place_via_edge(rooms, transforms, edge: _Edge, placed: int, new: int) -> Tr
     if edge.pose_tf is not None:
         return compose(tf_placed, edge.pose_tf if placed == edge.a else invert(edge.pose_tf))
     door_placed, door_new = (edge.door_a, edge.door_b) if placed == edge.a else (edge.door_b, edge.door_a)
-    return _compute_placement(rooms[placed], door_placed, tf_placed, rooms[new], door_new)
+    if (
+        door_placed is not None
+        and door_new is not None
+        and len(rooms[placed].wall_segments) > 0
+        and len(rooms[new].wall_segments) > 0
+    ):
+        door_placed.wall_index = min(door_placed.wall_index, len(rooms[placed].wall_segments) - 1)
+        door_new.wall_index = min(door_new.wall_index, len(rooms[new].wall_segments) - 1)
+        return _compute_placement(rooms[placed], door_placed, tf_placed, rooms[new], door_new)
+
+    poly_placed = _room_polygon(rooms[placed], tf_placed)
+    if not poly_placed.is_empty:
+        bounds = poly_placed.bounds
+        return (bounds[2] + 0.5, tf_placed[1], tf_placed[2])
+    return (tf_placed[0] + 2.0, tf_placed[1], tf_placed[2])
 
 
 def _nudge_if_overlap(rooms: list[RoomIR], transforms: dict[str, Transform], idx: int) -> None:
@@ -229,16 +313,21 @@ def _nudge_if_overlap(rooms: list[RoomIR], transforms: dict[str, Transform], idx
     log.warning("could not fully resolve overlap for %s after %d nudges", rid, MAX_NUDGE)
 
 
-def stitch_photos(rooms: list[RoomIR]) -> tuple[dict[str, Transform], list[dict]]:
+def stitch_photos(
+    rooms: list[RoomIR],
+    vlm_adjacency: dict | None = None,
+) -> tuple[dict[str, Transform], list[dict]]:
     """Return (room_transforms, adjacencies) for rooms with no shared frame.
 
-    Rooms arrive in walk order. All pairs are tried for an edge (see module docstring); rooms are placed by BFS
-    from the first room, over pose edges and walk-order edges first. A room no edge reaches is put to the right
-    of everything placed so far. Overlaps are nudged apart and warned about.
+    Rooms arrive in walk order. When vlm_adjacency is provided, edges are seeded directly
+    from Step 1 VLM vision reasoning (door/hallway connectivity) and metric-snapped.
+    Rooms are placed by BFS from the first room over pose edges and VLM/walk-order edges.
+    A room no edge reaches is put to the right of everything placed so far.
+    Overlaps are nudged apart and warned about.
     """
     if not rooms:
         return {}, []
-    edges = _build_edges(rooms)
+    edges = _build_edges(rooms, vlm_adjacency=vlm_adjacency)
     neighbours: dict[int, list[_Edge]] = {i: [] for i in range(len(rooms))}
     for e in edges:
         neighbours[e.a].append(e)

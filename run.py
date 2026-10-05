@@ -33,12 +33,25 @@ from src.tiers.preprocessing import CaptureValidationError
               help="mobilesam only: Hugging Face OWL model, e.g. google/owlvit-base-patch32 for v1 (default from src/config.py).")
 @click.option("--ceiling-height", type=click.FloatRange(min=1.0, max=10.0), default=None,
               help="Known ceiling height in meters for scale recovery (photo and video). Skips auto-detection.")
+@click.option("--photo-stitcher", type=click.Choice(["classical", "vlm"], case_sensitive=False),
+              default="classical", show_default=True,
+              help="Photo tier stitching method: 'classical' (CV door matching/camera poses) or 'vlm' (Qwen2-VL spatial reasoning + metric snapping).")
+@click.option("--vlm-model", default="qwen2-vl-2b", show_default=True,
+              help="VLM model variant: 'qwen2-vl-2b' (fast), 'qwen2-vl-7b' (high accuracy), or Hugging Face repo ID.")
+@click.option("--vlm-adjacency", type=click.Path(exists=True, dir_okay=False, path_type=Path), default=None,
+              help="Optional path to precomputed VLM adjacency JSON file.")
+@click.option("--vlm-device", type=click.Choice(["auto", "cuda", "mps", "cpu"]), default="auto", show_default=True,
+              help="Device for VLM inference.")
+@click.option("--vlm-4bit", is_flag=True,
+              help="Use 4-bit quantization (NF4) for 7B VLM on CUDA.")
 @click.option("--no-drift-correction", "no_drift_correction", is_flag=True,
               help="Ablation: skip drift correction when stitching rooms.")
 @click.option("--render/--no-render", default=True, show_default=True, help="Render the floor plan PNG.")
 @click.option("--verbose", is_flag=True, help="Debug logging.")
 def main(capture_dir: Path, tier: str, output_dir: Path, damage_detector: str, damage_threshold: float | None,
-         owl_model: str | None, ceiling_height: float | None, no_drift_correction: bool, render: bool, verbose: bool) -> None:
+         owl_model: str | None, ceiling_height: float | None, photo_stitcher: str, vlm_model: str,
+         vlm_adjacency: Path | None, vlm_device: str, vlm_4bit: bool,
+         no_drift_correction: bool, render: bool, verbose: bool) -> None:
     """Process CAPTURE_DIR into a dimensioned, stitched property report."""
     logging.basicConfig(level=logging.DEBUG if verbose else logging.WARNING,
                         format="%(levelname)s %(name)s: %(message)s")
@@ -51,11 +64,20 @@ def main(capture_dir: Path, tier: str, output_dir: Path, damage_detector: str, d
         damage_options["owl_model_name"] = owl_model
     if damage_options and damage_detector.lower() in ("opencv", "heuristic"):
         raise click.ClickException("--damage-threshold and --owl-model need --damage-model mobilesam")
+    vlm_options = {
+        "model_name": vlm_model,
+        "device": vlm_device,
+        "load_in_4bit": vlm_4bit,
+    }
     try:
         report = run_pipeline(str(capture_dir), tier, str(actual_output_dir),
                               drift_correction=not no_drift_correction, render=render,
                               damage_detector=damage_detector.lower(), damage_options=damage_options,
-                              ceiling_height=ceiling_height)
+                              ceiling_height=ceiling_height,
+                              photo_stitcher=photo_stitcher.lower(),
+                              vlm_model=vlm_model,
+                              vlm_adjacency=str(vlm_adjacency) if vlm_adjacency else None,
+                              vlm_options=vlm_options)
     except CaptureValidationError as exc:
         raise click.ClickException(f"Invalid capture for tier '{tier}': {exc}")
     except (NotImplementedError, ImportError) as exc:
