@@ -23,10 +23,10 @@ from src.tiers.preprocessing import CaptureValidationError
 @click.option("--output-dir", default="./output/", show_default=True,
               type=click.Path(path_type=Path),
               help="Where report.json and floor_plan.png go (directory or path to target file).")
-@click.option("--damage-detector", "--damage-model", "damage_detector", default="heuristic",
-              type=click.Choice(["heuristic", "mobilesam", "model", "nanoowl"], case_sensitive=False),
+@click.option("--damage-model", "--damage-detector", "damage_detector", default="opencv",
+              type=click.Choice(["opencv", "mobilesam", "heuristic", "model", "nanoowl"], case_sensitive=False),
               show_default=True,
-              help="Damage detection method: 'heuristic' (OpenCV rules) or 'mobilesam' (OWLv2 boxes + MobileSAM masks; see requirements-damage-model.txt).")
+              help="Damage detection method: 'opencv' (OpenCV rules, default; 'heuristic' is the same) or 'mobilesam' (OWLv2 boxes + MobileSAM masks; see requirements-damage-model.txt).")
 @click.option("--damage-threshold", type=float, default=None,
               help="mobilesam only: OWL score above which a box is kept (default from src/config.py).")
 @click.option("--owl-model", default=None,
@@ -49,8 +49,8 @@ def main(capture_dir: Path, tier: str, output_dir: Path, damage_detector: str, d
         damage_options["confidence_threshold"] = damage_threshold
     if owl_model:
         damage_options["owl_model_name"] = owl_model
-    if damage_options and damage_detector.lower() == "heuristic":
-        raise click.ClickException("--damage-threshold and --owl-model need --damage-detector mobilesam")
+    if damage_options and damage_detector.lower() in ("opencv", "heuristic"):
+        raise click.ClickException("--damage-threshold and --owl-model need --damage-model mobilesam")
     try:
         report = run_pipeline(str(capture_dir), tier, str(actual_output_dir),
                               drift_correction=not no_drift_correction, render=render,

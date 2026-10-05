@@ -229,7 +229,7 @@ def drop_persistent(per_image: list[list[DamageDetection]], limit: int, iou: flo
 
 
 DETECTORS = ("heuristic", "mobilesam")
-DETECTOR_ALIASES = {"model": "mobilesam", "nanoowl": "mobilesam"}
+DETECTOR_ALIASES = {"opencv": "heuristic", "model": "mobilesam", "nanoowl": "mobilesam"}
 
 
 def detect_damage(
@@ -240,7 +240,7 @@ def detect_damage(
 ) -> list[DamageDetection]:
     """Detect visible damage in each image with the chosen detector.
 
-    detector="heuristic" (default): OpenCV rules. Canny + contrast for cracks, HSV ranges for water stains
+    detector="heuristic" ("opencv" is an alias; the default): OpenCV rules. Canny + contrast for cracks, HSV ranges for water stains
     and mold, Laplacian energy for peeling paint, dark circular regions for holes; overlapping same-class
     boxes are merged by non-maximum suppression. At most MAX_PER_IMAGE detections (the strongest) are kept
     per image, and none that cover more than MAX_AREA_FRACTION of it.

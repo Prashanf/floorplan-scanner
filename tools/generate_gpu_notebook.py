@@ -36,7 +36,7 @@ cells.append(md("""# Floor Plan Scanner: end-to-end GPU run (CLI)
 
 Runs `python run.py` on a walkthrough video with the GPU doing the heavy work:
 - **COLMAP** feature extraction and matching on CUDA (`pycolmap-cuda12`).
-- **Damage detection** with OWLv2 + MobileSAM on CUDA (`--damage-detector mobilesam`), or the OpenCV heuristic.
+- **Damage detection**: OpenCV rules by default (`--damage-model opencv`), or OWLv2 + MobileSAM on CUDA (`--damage-model mobilesam`).
 
 **Kaggle setup:** Settings -> Accelerator -> **GPU** (T4 or P100), Internet **On**. Add your video as a dataset (or set `VIDEO_PATH` below).
 Mapping (incremental bundle adjustment) runs on the CPU by design: it is single-threaded so repeated runs give the same model.
@@ -51,7 +51,7 @@ BRANCH = "dev"                  # branch to clone / update
 VIDEO_PATH = None               # e.g. "/kaggle/input/my-videos/floorscanner_test2.mp4"; None = search for a video
 VIDEO_NAME_CONTAINS = ""        # when searching: only videos whose file name contains this text
 CEILING_HEIGHT = None           # known ceiling height in metres (e.g. 3.15); None = automatic scale recovery
-DAMAGE_DETECTOR = "mobilesam"   # "mobilesam" (GPU model) or "heuristic" (OpenCV rules)
+DAMAGE_DETECTOR = "opencv"       # "opencv" (OpenCV rules, default) or "mobilesam" (GPU model)
 RUN_HEURISTIC_COMPARISON = False  # also run the other detector (repeats the whole COLMAP step)
 RUN_TESTS = True                # run the unit tests first (about 30 s)
 RUN_OPTIONAL_TIERS = False      # also run the synthetic LiDAR and photo tiers
@@ -181,10 +181,10 @@ cells.append(code("""ceiling_flag = f"--ceiling-height {CEILING_HEIGHT}" if CEIL
 OUT_MAIN = f"output/video_{DAMAGE_DETECTOR}"
 LOG_MAIN = f"{OUT_MAIN}.log"
 os.makedirs("output", exist_ok=True)
-print(f"python run.py {CAPTURE_DIR} --tier video --damage-detector {DAMAGE_DETECTOR} {ceiling_flag} --output-dir {OUT_MAIN}")
+print(f"python run.py {CAPTURE_DIR} --tier video --damage-model {DAMAGE_DETECTOR} {ceiling_flag} --output-dir {OUT_MAIN}")
 """))
 
-cells.append(code("""!python run.py {CAPTURE_DIR} --tier video --damage-detector {DAMAGE_DETECTOR} {ceiling_flag} --output-dir {OUT_MAIN} --verbose > {LOG_MAIN} 2>&1
+cells.append(code("""!python run.py {CAPTURE_DIR} --tier video --damage-model {DAMAGE_DETECTOR} {ceiling_flag} --output-dir {OUT_MAIN} --verbose > {LOG_MAIN} 2>&1
 print("exit code ok" if Path(OUT_MAIN, "report.json").is_file() else "NO report.json: see the log below")
 """))
 
@@ -208,10 +208,10 @@ if DAMAGE_DETECTOR == "mobilesam":
 cells.append(md("""### Optional: run the other damage detector for comparison
 Repeats the whole run (including COLMAP), so it is off by default (`RUN_HEURISTIC_COMPARISON`)."""))
 
-cells.append(code("""OTHER = "heuristic" if DAMAGE_DETECTOR == "mobilesam" else "mobilesam"
+cells.append(code("""OTHER = "opencv" if DAMAGE_DETECTOR == "mobilesam" else "mobilesam"
 OUT_OTHER = f"output/video_{OTHER}"
 if RUN_HEURISTIC_COMPARISON:
-    !python run.py {CAPTURE_DIR} --tier video --damage-detector {OTHER} {ceiling_flag} --output-dir {OUT_OTHER} --verbose > {OUT_OTHER}.log 2>&1
+    !python run.py {CAPTURE_DIR} --tier video --damage-model {OTHER} {ceiling_flag} --output-dir {OUT_OTHER} --verbose > {OUT_OTHER}.log 2>&1
     print("done:", OUT_OTHER)
 else:
     print("RUN_HEURISTIC_COMPARISON is False: skipped")
@@ -277,7 +277,7 @@ cells.append(code("""if RUN_OPTIONAL_TIERS:
     !python tests/create_test_ply.py
     !python run.py test_data --tier lidar --output-dir output/lidar_test
     !python tests/create_test_photos.py
-    !python run.py test_photos --tier photo --damage-detector {DAMAGE_DETECTOR} --output-dir output/photo_test
+    !python run.py test_photos --tier photo --damage-model {DAMAGE_DETECTOR} --output-dir output/photo_test
 else:
     print("RUN_OPTIONAL_TIERS is False: skipped")
 """))
