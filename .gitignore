@@ -24,3 +24,12 @@ benchmark/results/
 
 # MobileSAM checkpoint (python tools/download_mobile_sam.py)
 weights/
+
+# Videos of any format never go to git
+*.mov
+*.MOV
+*.mkv
+*.avi
+*.webm
+*.m4v
+*.MP4
