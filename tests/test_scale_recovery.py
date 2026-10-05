@@ -199,3 +199,45 @@ def test_end_to_end_tiled_floor_through_the_chain(tmp_path):
     assert meta["scale_method"] == "floor-tiles", meta
     assert meta["scale_factor"] * units == pytest.approx(1.0, rel=0.06)  # metres per unit, relative to the truth
     assert np.ptp(np.percentile(out.points[:, 2], [1, 99])) == pytest.approx(2.5, rel=0.08)  # tiles never saw the ceiling
+
+
+# ---------------------------------------------------------------- user-provided ceiling height
+
+@pytest.mark.parametrize("units_per_meter", [0.05, 2.7, 25.0])
+def test_user_ceiling_height_sets_the_scale_and_skips_auto_detection(monkeypatch, caplog, units_per_meter):
+    from test_sfm_helpers import sfm_like_scene
+    pts, poses, _ = sfm_like_scene(unit_per_meter=units_per_meter)
+
+    def boom(ctx):
+        raise AssertionError("auto-detection must not run")
+
+    monkeypatch.setattr(cu, "SCALE_METHODS", (("floor-tiles", boom), ("door", boom)))
+    monkeypatch.setattr(cu, "recover_scale_from_tiles", lambda *a, **k: boom(None))
+    with caplog.at_level("INFO", logger="src.tiers.colmap_utils"):
+        cloud, _, meta = cu.make_metric_point_cloud(pts, poses, ceiling_height=3.15)
+    assert np.ptp(np.percentile(cloud.points[:, 2], [1, 99])) == pytest.approx(3.15, rel=0.01)
+    assert meta["scale_method"] == "user-ceiling-height" and meta["scale_confidence"] == 1.0
+    assert "Scale from user-provided ceiling height: 3.15m" in caplog.text
+
+
+def test_cli_ceiling_height_reaches_the_pipeline(monkeypatch, tmp_path):
+    import run
+    from click.testing import CliRunner
+    seen = {}
+    monkeypatch.setattr(run, "run_pipeline", lambda *a, **k: seen.update(k) or (_ for _ in ()).throw(RuntimeError("stop")))
+    CliRunner().invoke(run.main, [str(tmp_path), "--tier", "video", "--ceiling-height", "3.15"])
+    assert seen["ceiling_height"] == 3.15
+    bad = CliRunner().invoke(run.main, [str(tmp_path), "--tier", "video", "--ceiling-height", "-2"])
+    assert bad.exit_code != 0
+
+
+def test_pipeline_passes_ceiling_height_to_photo_and_video_only(monkeypatch, tmp_path):
+    from src import pipeline
+    calls = []
+    monkeypatch.setattr(pipeline, "normalize_capture_dir", lambda *a, **k: {"images": [], "videos": [], "converted": [], "failed": []})
+    for tier in ("photo", "video"):
+        monkeypatch.setitem(pipeline.FRONT_ENDS, tier,
+                            lambda d, _t=tier, **k: calls.append((_t, k)) or (_ for _ in ()).throw(RuntimeError("x")))
+        monkeypatch.setattr(pipeline, "validate_capture_dir", lambda *a, **k: [])
+        pipeline.run_pipeline(str(tmp_path), tier, str(tmp_path / "o"), render=False, ceiling_height=3.15)
+    assert calls == [("photo", {"ceiling_height": 3.15}), ("video", {"ceiling_height": 3.15})]

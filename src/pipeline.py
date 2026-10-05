@@ -119,12 +119,15 @@ def run_pipeline(
     render: bool = True,
     damage_detector: str = "heuristic",
     damage_options: dict | None = None,
+    ceiling_height: float | None = None,
 ) -> PropertyReport:
     """Run preprocess -> tier front-end -> geometry -> stitch -> damage -> scope ->
     calibrate -> write JSON -> render, and return the PropertyReport.
     drift_correction=False is the ablation switch (--no-drift-correction).
     damage_detector='heuristic' (default) or 'mobilesam' / 'model'; damage_options are passed to the model
     detector (confidence_threshold, owl_model_name, device, mobile_sam_weights).
+    ceiling_height (metres): photo and video scale every room from this known height instead of auto-detection;
+    the LiDAR tier is already metric and ignores it (with a warning).
     """
     t_start = time.perf_counter()
     timings: dict[str, float] = {}
@@ -151,7 +154,12 @@ def run_pipeline(
     t = time.perf_counter()
     warnings: list[str] = []
     try:
-        property_ir: PropertyIR = FRONT_ENDS[tier](capture_dir)
+        if ceiling_height is not None and tier != "lidar":
+            property_ir: PropertyIR = FRONT_ENDS[tier](capture_dir, ceiling_height=ceiling_height)
+        else:
+            property_ir = FRONT_ENDS[tier](capture_dir)
+        if ceiling_height is not None and tier == "lidar":
+            warnings.append("--ceiling-height ignored: the LiDAR tier is already metric.")
     except NotImplementedError:
         raise NotImplementedError(f"Step {tier} front-end not yet implemented") from None
     except Exception as exc:  # reconstruction failures (COLMAP, empty cloud, unreadable data)
