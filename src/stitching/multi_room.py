@@ -132,8 +132,10 @@ def stitch_rooms(property_ir: PropertyIR, drift_correction: bool = True) -> Prop
         if not drift_correction:
             log.info("drift correction disabled (ablation mode)")
 
-    _validate_no_overlap(rooms, transforms)
-
     property_ir.room_transforms = transforms
     property_ir.adjacencies = adjacencies
+    if property_ir.tier == "video":  # segmentation can cut one room (a hallway) into fragments; LiDAR is left alone
+        from src.stitching.room_merge import merge_oversegmented_rooms
+        property_ir.warnings.extend(merge_oversegmented_rooms(property_ir))
+    _validate_no_overlap(property_ir.rooms, property_ir.room_transforms)
     return property_ir

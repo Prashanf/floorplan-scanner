@@ -19,6 +19,7 @@ from src.damage.surface_projection import project_damage_to_surfaces
 from src.geometry.ceiling import detect_ceiling_height, is_ceiling_observed, observed_top_height
 from src.geometry.floor_area import compute_floor_area
 from src.geometry.openings import detect_openings
+from src.geometry.rectangle_fit import fit_rectangle
 from src.geometry.wall_fitting import fit_walls
 from src.models import (Adjacency, DamageRegion, Measurement, Opening, PropertyReport, Room, Wall)
 from src.output.json_writer import write_output
@@ -179,6 +180,14 @@ def run_pipeline(
             room.wall_segments, room.floor_polygon = fit_walls(
                 room.point_cloud, inlier_threshold=WALL_INLIER_THRESHOLD[tier],
                 reference_angle=0.0 if (tier == "lidar" or room.metadata.get("aligned_to_walls")) else None)  # clouds rotated onto the axes
+            if tier != "lidar":  # noisy SfM fits: a box-shaped room with 7+ wall fragments becomes a rectangle
+                rectangle = fit_rectangle(room.point_cloud, len(room.wall_segments))
+                if rectangle is not None:
+                    _say(f"{room.room_id}: {len(room.wall_segments)} wall fragments replaced by a bounding rectangle")
+                    warnings.append(f"{room.room_id}: the fit had {len(room.wall_segments)} wall segments; it was "
+                                    "replaced by the bounding rectangle of the floor points (it explains most of "
+                                    "the wall points).")
+                    room.wall_segments, room.floor_polygon = rectangle
             room.ceiling_observed = is_ceiling_observed(room.point_cloud)
             if room.ceiling_observed:
                 room.ceiling_height, _ = detect_ceiling_height(room.point_cloud)
@@ -218,7 +227,9 @@ def run_pipeline(
 
     # 4. stitching
     t = time.perf_counter()
+    known_notes = len(property_ir.warnings)
     property_ir = stitch_rooms(property_ir, drift_correction=drift_correction)
+    warnings += list(property_ir.warnings[known_notes:])  # notes added while stitching (merged rooms)
     _say(f"Stitched {len(property_ir.rooms)} room(s), "
          f"{len(property_ir.adjacencies or [])} adjacency link(s), "
          f"drift_correction={drift_correction}")

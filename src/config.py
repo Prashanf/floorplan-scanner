@@ -113,3 +113,12 @@ MOLD_HSV = {"lo": (35, 20, 0), "hi": (85, 100, 100)}
 # --- Model damage detection (src/damage/model_detection.py) ------------------------------------
 MODEL_DAMAGE_THRESHOLD = 0.3  # OWL score above which a box is kept. Provisional: set from 9 photos, tune on labelled captures
 MODEL_OWL_NAME = "google/owlv2-base-patch16-ensemble"  # "google/owlvit-base-patch32" (v1, scores much lower) also works
+
+# --- Photo stitching, room merging, rectangle fallback ------------------------------------------
+DOORWAY_PHOTO_WINDOW_S = 30  # photo tier: an image taken within this many seconds of the next room's first image is the doorway photo
+DOORWAY_MAX_TILT_DEG = 10.0  # a shared-camera transform whose "up" axes differ by more than this is rejected
+DOOR_WIDTH_MATCH = 0.15  # two doors can be the same doorway when their widths differ by less than this share
+MERGE_SHARED_FRACTION = 0.8  # video tier: rooms sharing a boundary this long (vs the shorter room's facing wall) are one room
+RECT_MAX_WALLS = 6  # a room with more wall segments than this is tried against a bounding rectangle
+RECT_EDGE_TOLERANCE = 0.15  # metres: a wall point this close to a rectangle edge is explained by it
+RECT_MIN_EXPLAINED = 0.7  # share of wall points the rectangle must explain
