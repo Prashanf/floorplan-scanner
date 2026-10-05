@@ -1,0 +1,11 @@
+Reconstruction:
+	num_rigs = 1
+	num_cameras = 1
+	num_frames = 301
+	num_reg_frames = 301
+	num_images = 301
+	num_points3D = 80502
+	num_observations = 466314
+	mean_track_length = 5.79258
+	mean_observations_per_image = 1549.22
+	mean_reprojection_error = 0.635142
