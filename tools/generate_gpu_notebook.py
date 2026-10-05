@@ -479,32 +479,30 @@ Stitches independent multi-room photo captures taken according to the capture pr
 - **Step 2 (Metric Snapping):** The adjacency graph is fed into `src/stitching/photo_stitch.py` to calculate exact rigid alignment $[R \mid t]$ of room polygons and output `floor_plan.png` + `report.json`.
 """))
 
-cells.append(md(r"""## Step 9: Locate Photo Capture and Inspect Protocol Images"""))
+cells.append(md(r"""## Step 9: Set Photo Capture Directory & Inspect Images
+Set `PHOTO_DIR` directly to your directory path containing the `room1/`, `room2/`, `room3/`, `room4/` folders."""))
 
-cells.append(code(r"""import cv2
-from PIL import Image
+cells.append(code(r"""# Simply set your directory path here (the folder containing room1, room2, etc.):
+PHOTO_DIR = None   # e.g. "/kaggle/input/real-rooms" or "/kaggle/input/my-dataset/rooms"
 
-def find_photo_capture(override):
-    if override:
-        p = Path(override)
-        if p.is_dir():
-            return p
-    roots = [REPO_DIR / "benchmark" / "captures" / "photos" / "real_capture",
-             Path("/kaggle/input"), Path("/content"), Path.home() / "Desktop"]
-    for r in roots:
-        if r.is_dir():
-            if (r / "room1").is_dir():
-                return r
-            hits = list(r.rglob("real_capture"))
-            if hits and (hits[0] / "room1").is_dir():
-                return hits[0]
-            rooms = [d for d in r.glob("room*") if d.is_dir()]
-            if len(rooms) >= 2:
-                return r
-    raise SystemExit("No multi-room photo capture found with room1, room2... Add it as a dataset or set PHOTO_CAPTURE_DIR.")
+if not PHOTO_DIR or not Path(PHOTO_DIR).is_dir():
+    # Fallback to Step 0 setting or repo default
+    fallback = Path(PHOTO_CAPTURE_DIR) if PHOTO_CAPTURE_DIR else REPO_DIR / "benchmark" / "captures" / "photos" / "real_capture"
+    if fallback.is_dir():
+        PHOTO_DIR = fallback
+    else:
+        # Search Kaggle / Colab input directories for room1
+        for search_root in [Path("/kaggle/input"), Path("/content"), Path.home() / "Desktop"]:
+            hits = list(search_root.rglob("room1"))
+            if hits:
+                PHOTO_DIR = hits[0].parent
+                break
 
-PHOTO_DIR = find_photo_capture(PHOTO_CAPTURE_DIR)
-print("Photo capture directory:", PHOTO_DIR)
+PHOTO_DIR = Path(PHOTO_DIR).resolve()
+print("Using Photo capture directory:", PHOTO_DIR)
+if not PHOTO_DIR.is_dir():
+    raise SystemExit(f"Directory not found: {PHOTO_DIR}. Please set PHOTO_DIR to the folder containing room1, room2, etc.")
+
 room_folders = sorted([d for d in PHOTO_DIR.iterdir() if d.is_dir() and not d.name.startswith(".")])
 print(f"Found {len(room_folders)} room folders:")
 for rf in room_folders:
