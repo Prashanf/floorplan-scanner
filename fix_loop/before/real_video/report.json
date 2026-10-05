@@ -1,0 +1,2532 @@
+{
+  "capture_id": "video-20261004T195312Z",
+  "capture_tier": "video",
+  "capture_timestamp": "2026-10-04T19:53:12.723002Z",
+  "device": "unknown",
+  "rooms": [
+    {
+      "id": "room-2",
+      "name": "Room 2",
+      "walls": [
+        {
+          "id": "room-2/wall-0",
+          "start": [
+            -0.7167205012563392,
+            3.172800063882914
+          ],
+          "end": [
+            -1.0518847735143981,
+            2.8885176523919576
+          ],
+          "length": {
+            "value": 0.4394901351354633,
+            "confidence_low": 0.4094901351354633,
+            "confidence_high": 0.46949013513546334,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.2321737917477913,
+            "confidence_low": 2.2321737917477913,
+            "confidence_high": 3.2321737917477913,
+            "unit": "m"
+          },
+          "surface_id": "room-2/wall-0"
+        },
+        {
+          "id": "room-2/wall-1",
+          "start": [
+            -1.0518847735143981,
+            2.8885176523919576
+          ],
+          "end": [
+            -0.744632949951662,
+            2.5262728223151525
+          ],
+          "length": {
+            "value": 0.47500000000000014,
+            "confidence_low": 0.4450000000000002,
+            "confidence_high": 0.5050000000000001,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.2321737917477913,
+            "confidence_low": 2.2321737917477913,
+            "confidence_high": 3.2321737917477913,
+            "unit": "m"
+          },
+          "surface_id": "room-2/wall-1"
+        },
+        {
+          "id": "room-2/wall-2",
+          "start": [
+            -0.744632949951662,
+            2.5262728223151525
+          ],
+          "end": [
+            -1.1916134127949711,
+            2.147149227158794
+          ],
+          "length": {
+            "value": 0.586111111111111,
+            "confidence_low": 0.556111111111111,
+            "confidence_high": 0.616111111111111,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.2321737917477913,
+            "confidence_low": 2.2321737917477913,
+            "confidence_high": 3.2321737917477913,
+            "unit": "m"
+          },
+          "surface_id": "room-2/wall-2"
+        },
+        {
+          "id": "room-2/wall-3",
+          "start": [
+            -1.1916134127949711,
+            2.147149227158794
+          ],
+          "end": [
+            -0.6903078059294546,
+            1.556118188612428
+          ],
+          "length": {
+            "value": 0.775,
+            "confidence_low": 0.745,
+            "confidence_high": 0.805,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.2321737917477913,
+            "confidence_low": 2.2321737917477913,
+            "confidence_high": 3.2321737917477913,
+            "unit": "m"
+          },
+          "surface_id": "room-2/wall-3"
+        },
+        {
+          "id": "room-2/wall-4",
+          "start": [
+            -0.6903078059294546,
+            1.556118188612428
+          ],
+          "end": [
+            0.0918369291719133,
+            2.219524195259743
+          ],
+          "length": {
+            "value": 1.0256012462465742,
+            "confidence_low": 0.9956012462465742,
+            "confidence_high": 1.0556012462465743,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.2321737917477913,
+            "confidence_low": 2.2321737917477913,
+            "confidence_high": 3.2321737917477913,
+            "unit": "m"
+          },
+          "surface_id": "room-2/wall-4"
+        },
+        {
+          "id": "room-2/wall-5",
+          "start": [
+            0.0918369291719133,
+            2.219524195259743
+          ],
+          "end": [
+            -0.7167205012563392,
+            3.172800063882914
+          ],
+          "length": {
+            "value": 1.25,
+            "confidence_low": 1.22,
+            "confidence_high": 1.28,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.2321737917477913,
+            "confidence_low": 2.2321737917477913,
+            "confidence_high": 3.2321737917477913,
+            "unit": "m"
+          },
+          "surface_id": "room-2/wall-5"
+        }
+      ],
+      "openings": [
+        {
+          "id": "room-2/door-0",
+          "type": "door",
+          "wall_id": "room-2/wall-2",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.5,
+            "confidence_low": 0.44,
+            "confidence_high": 0.56,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7671961370343108,
+            "confidence_low": 1.7071961370343107,
+            "confidence_high": 1.8271961370343108,
+            "unit": "m"
+          },
+          "confidence": 0.95
+        },
+        {
+          "id": "room-2/door-1",
+          "type": "door",
+          "wall_id": "room-2/wall-3",
+          "position_along_wall": {
+            "value": 0.0,
+            "confidence_low": -0.06,
+            "confidence_high": 0.06,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.775,
+            "confidence_low": 0.7150000000000001,
+            "confidence_high": 0.835,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7671961370343108,
+            "confidence_low": 1.7071961370343107,
+            "confidence_high": 1.8271961370343108,
+            "unit": "m"
+          },
+          "confidence": 1.0
+        },
+        {
+          "id": "room-2/door-2",
+          "type": "door",
+          "wall_id": "room-2/wall-4",
+          "position_along_wall": {
+            "value": 0.0,
+            "confidence_low": -0.06,
+            "confidence_high": 0.06,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.0256012462465742,
+            "confidence_low": 0.9656012462465742,
+            "confidence_high": 1.0856012462465743,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7671961370343108,
+            "confidence_low": 1.7071961370343107,
+            "confidence_high": 1.8271961370343108,
+            "unit": "m"
+          },
+          "confidence": 1.0
+        }
+      ],
+      "ceiling_height": {
+        "value": 2.2321737917477913,
+        "confidence_low": 2.2321737917477913,
+        "confidence_high": 3.2321737917477913,
+        "unit": "m"
+      },
+      "ceiling_observed": false,
+      "rough_estimate": false,
+      "floor_area": {
+        "value": 1.00359878003044,
+        "confidence_low": 0.70359878003044,
+        "confidence_high": 1.30359878003044,
+        "unit": "m2"
+      },
+      "floor_polygon": [
+        [
+          -0.7167205012563392,
+          3.172800063882914
+        ],
+        [
+          -1.0518847735143981,
+          2.8885176523919576
+        ],
+        [
+          -0.744632949951662,
+          2.5262728223151525
+        ],
+        [
+          -1.1916134127949711,
+          2.147149227158794
+        ],
+        [
+          -0.6903078059294546,
+          1.556118188612428
+        ],
+        [
+          0.0918369291719133,
+          2.219524195259743
+        ]
+      ]
+    },
+    {
+      "id": "room-3",
+      "name": "Room 3",
+      "walls": [
+        {
+          "id": "room-3/wall-0",
+          "start": [
+            0.2655943080195725,
+            -2.7135404449509335
+          ],
+          "end": [
+            0.2655943080195725,
+            -1.380271896170644
+          ],
+          "length": {
+            "value": 1.3332685487802896,
+            "confidence_low": 1.3032685487802895,
+            "confidence_high": 1.3632685487802896,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7443522716140296,
+            "confidence_low": 1.7443522716140296,
+            "confidence_high": 2.7443522716140296,
+            "unit": "m"
+          },
+          "surface_id": "room-3/wall-0"
+        },
+        {
+          "id": "room-3/wall-1",
+          "start": [
+            0.2655943080195725,
+            -1.380271896170644
+          ],
+          "end": [
+            -1.0946621022368377,
+            -1.380271896170644
+          ],
+          "length": {
+            "value": 1.3602564102564103,
+            "confidence_low": 1.3302564102564103,
+            "confidence_high": 1.3902564102564103,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7443522716140296,
+            "confidence_low": 1.7443522716140296,
+            "confidence_high": 2.7443522716140296,
+            "unit": "m"
+          },
+          "surface_id": "room-3/wall-1"
+        },
+        {
+          "id": "room-3/wall-2",
+          "start": [
+            -1.0946621022368377,
+            -1.380271896170644
+          ],
+          "end": [
+            -1.0946621022368377,
+            -2.7135404449509335
+          ],
+          "length": {
+            "value": 1.3332685487802896,
+            "confidence_low": 1.3032685487802895,
+            "confidence_high": 1.3632685487802896,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7443522716140296,
+            "confidence_low": 1.7443522716140296,
+            "confidence_high": 2.7443522716140296,
+            "unit": "m"
+          },
+          "surface_id": "room-3/wall-2"
+        },
+        {
+          "id": "room-3/wall-3",
+          "start": [
+            -1.0946621022368377,
+            -2.7135404449509335
+          ],
+          "end": [
+            0.2655943080195725,
+            -2.7135404449509335
+          ],
+          "length": {
+            "value": 1.3602564102564103,
+            "confidence_low": 1.3302564102564103,
+            "confidence_high": 1.3902564102564103,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7443522716140296,
+            "confidence_low": 1.7443522716140296,
+            "confidence_high": 2.7443522716140296,
+            "unit": "m"
+          },
+          "surface_id": "room-3/wall-3"
+        }
+      ],
+      "openings": [
+        {
+          "id": "room-3/door-0",
+          "type": "door",
+          "wall_id": "room-3/wall-0",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.25,
+            "confidence_low": 1.19,
+            "confidence_high": 1.31,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.6375519647411034,
+            "confidence_low": 1.5775519647411034,
+            "confidence_high": 1.6975519647411035,
+            "unit": "m"
+          },
+          "confidence": 0.78
+        },
+        {
+          "id": "room-3/door-1",
+          "type": "door",
+          "wall_id": "room-3/wall-1",
+          "position_along_wall": {
+            "value": 0.0,
+            "confidence_low": -0.06,
+            "confidence_high": 0.06,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.3602564102564103,
+            "confidence_low": 1.3002564102564103,
+            "confidence_high": 1.4202564102564104,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.6375519647411034,
+            "confidence_low": 1.5775519647411034,
+            "confidence_high": 1.6975519647411035,
+            "unit": "m"
+          },
+          "confidence": 1.0
+        },
+        {
+          "id": "room-3/door-2",
+          "type": "door",
+          "wall_id": "room-3/wall-2",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.25,
+            "confidence_low": 1.19,
+            "confidence_high": 1.31,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.6375519647411034,
+            "confidence_low": 1.5775519647411034,
+            "confidence_high": 1.6975519647411035,
+            "unit": "m"
+          },
+          "confidence": 0.98
+        },
+        {
+          "id": "room-3/door-3",
+          "type": "door",
+          "wall_id": "room-3/wall-3",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.3,
+            "confidence_low": 1.24,
+            "confidence_high": 1.36,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.6375519647411034,
+            "confidence_low": 1.5775519647411034,
+            "confidence_high": 1.6975519647411035,
+            "unit": "m"
+          },
+          "confidence": 0.75
+        }
+      ],
+      "ceiling_height": {
+        "value": 1.7443522716140296,
+        "confidence_low": 1.7443522716140296,
+        "confidence_high": 2.7443522716140296,
+        "unit": "m"
+      },
+      "ceiling_observed": false,
+      "rough_estimate": false,
+      "floor_area": {
+        "value": 1.8135870900716504,
+        "confidence_low": 1.5135870900716504,
+        "confidence_high": 2.1135870900716505,
+        "unit": "m2"
+      },
+      "floor_polygon": [
+        [
+          0.2655943080195725,
+          -2.7135404449509335
+        ],
+        [
+          0.2655943080195725,
+          -1.380271896170644
+        ],
+        [
+          -1.0946621022368377,
+          -1.380271896170644
+        ],
+        [
+          -1.0946621022368377,
+          -2.7135404449509335
+        ]
+      ]
+    },
+    {
+      "id": "room-4",
+      "name": "Room 4",
+      "walls": [
+        {
+          "id": "room-4/wall-0",
+          "start": [
+            -1.0575193762181112,
+            -2.08442081082791
+          ],
+          "end": [
+            -0.032098996505749725,
+            -1.6216702896282504
+          ],
+          "length": {
+            "value": 1.125,
+            "confidence_low": 1.095,
+            "confidence_high": 1.155,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.0060440410767457,
+            "confidence_low": 2.0060440410767457,
+            "confidence_high": 3.0060440410767457,
+            "unit": "m"
+          },
+          "surface_id": "room-4/wall-0"
+        },
+        {
+          "id": "room-4/wall-1",
+          "start": [
+            -0.032098996505749725,
+            -1.6216702896282504
+          ],
+          "end": [
+            -0.23621018560361687,
+            -1.169375233351109
+          ],
+          "length": {
+            "value": 0.49621789109995607,
+            "confidence_low": 0.46621789109995604,
+            "confidence_high": 0.5262178910999561,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.0060440410767457,
+            "confidence_low": 2.0060440410767457,
+            "confidence_high": 3.0060440410767457,
+            "unit": "m"
+          },
+          "surface_id": "room-4/wall-1"
+        },
+        {
+          "id": "room-4/wall-2",
+          "start": [
+            -0.23621018560361687,
+            -1.169375233351109
+          ],
+          "end": [
+            -0.7603139352343794,
+            -1.4058921664087125
+          ],
+          "length": {
+            "value": 0.575,
+            "confidence_low": 0.5449999999999999,
+            "confidence_high": 0.605,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.0060440410767457,
+            "confidence_low": 2.0060440410767457,
+            "confidence_high": 3.0060440410767457,
+            "unit": "m"
+          },
+          "surface_id": "room-4/wall-2"
+        },
+        {
+          "id": "room-4/wall-3",
+          "start": [
+            -0.7603139352343794,
+            -1.4058921664087125
+          ],
+          "end": [
+            -1.118607321239262,
+            -0.6119409484325917
+          ],
+          "length": {
+            "value": 0.8710526315789474,
+            "confidence_low": 0.8410526315789474,
+            "confidence_high": 0.9010526315789474,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.0060440410767457,
+            "confidence_low": 2.0060440410767457,
+            "confidence_high": 3.0060440410767457,
+            "unit": "m"
+          },
+          "surface_id": "room-4/wall-3"
+        },
+        {
+          "id": "room-4/wall-4",
+          "start": [
+            -1.118607321239262,
+            -0.6119409484325917
+          ],
+          "end": [
+            -1.619923951320861,
+            -0.8381745365746476
+          ],
+          "length": {
+            "value": 0.55,
+            "confidence_low": 0.52,
+            "confidence_high": 0.5800000000000001,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.0060440410767457,
+            "confidence_low": 2.0060440410767457,
+            "confidence_high": 3.0060440410767457,
+            "unit": "m"
+          },
+          "surface_id": "room-4/wall-4"
+        },
+        {
+          "id": "room-4/wall-5",
+          "start": [
+            -1.619923951320861,
+            -0.8381745365746476
+          ],
+          "end": [
+            -1.0575193762181112,
+            -2.08442081082791
+          ],
+          "length": {
+            "value": 1.3672705226789035,
+            "confidence_low": 1.3372705226789035,
+            "confidence_high": 1.3972705226789035,
+            "unit": "m"
+          },
+          "height": {
+            "value": 2.0060440410767457,
+            "confidence_low": 2.0060440410767457,
+            "confidence_high": 3.0060440410767457,
+            "unit": "m"
+          },
+          "surface_id": "room-4/wall-5"
+        }
+      ],
+      "openings": [
+        {
+          "id": "room-4/door-0",
+          "type": "door",
+          "wall_id": "room-4/wall-0",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.05,
+            "confidence_low": 0.99,
+            "confidence_high": 1.11,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7424255692335748,
+            "confidence_low": 1.6824255692335748,
+            "confidence_high": 1.8024255692335749,
+            "unit": "m"
+          },
+          "confidence": 0.738
+        },
+        {
+          "id": "room-4/door-1",
+          "type": "door",
+          "wall_id": "room-4/wall-1",
+          "position_along_wall": {
+            "value": 0.0,
+            "confidence_low": -0.06,
+            "confidence_high": 0.06,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.49621789109995607,
+            "confidence_low": 0.43621789109995607,
+            "confidence_high": 0.556217891099956,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7424255692335748,
+            "confidence_low": 1.6824255692335748,
+            "confidence_high": 1.8024255692335749,
+            "unit": "m"
+          },
+          "confidence": 1.0
+        },
+        {
+          "id": "room-4/door-2",
+          "type": "door",
+          "wall_id": "room-4/wall-2",
+          "position_along_wall": {
+            "value": 0.0,
+            "confidence_low": -0.06,
+            "confidence_high": 0.06,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.575,
+            "confidence_low": 0.5149999999999999,
+            "confidence_high": 0.635,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7424255692335748,
+            "confidence_low": 1.6824255692335748,
+            "confidence_high": 1.8024255692335749,
+            "unit": "m"
+          },
+          "confidence": 1.0
+        },
+        {
+          "id": "room-4/door-3",
+          "type": "door",
+          "wall_id": "room-4/wall-3",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.8,
+            "confidence_low": 0.74,
+            "confidence_high": 0.8600000000000001,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7424255692335748,
+            "confidence_low": 1.6824255692335748,
+            "confidence_high": 1.8024255692335749,
+            "unit": "m"
+          },
+          "confidence": 0.938
+        },
+        {
+          "id": "room-4/door-4",
+          "type": "door",
+          "wall_id": "room-4/wall-4",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 0.45,
+            "confidence_low": 0.39,
+            "confidence_high": 0.51,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7424255692335748,
+            "confidence_low": 1.6824255692335748,
+            "confidence_high": 1.8024255692335749,
+            "unit": "m"
+          },
+          "confidence": 1.0
+        },
+        {
+          "id": "room-4/door-5",
+          "type": "door",
+          "wall_id": "room-4/wall-5",
+          "position_along_wall": {
+            "value": 0.05,
+            "confidence_low": -0.009999999999999995,
+            "confidence_high": 0.11,
+            "unit": "m"
+          },
+          "width": {
+            "value": 1.3,
+            "confidence_low": 1.24,
+            "confidence_high": 1.36,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.7424255692335748,
+            "confidence_low": 1.6824255692335748,
+            "confidence_high": 1.8024255692335749,
+            "unit": "m"
+          },
+          "confidence": 0.8
+        }
+      ],
+      "ceiling_height": {
+        "value": 2.0060440410767457,
+        "confidence_low": 2.0060440410767457,
+        "confidence_high": 3.0060440410767457,
+        "unit": "m"
+      },
+      "ceiling_observed": false,
+      "rough_estimate": false,
+      "floor_area": {
+        "value": 1.0373240748558719,
+        "confidence_low": 0.7373240748558718,
+        "confidence_high": 1.337324074855872,
+        "unit": "m2"
+      },
+      "floor_polygon": [
+        [
+          -1.0575193762181112,
+          -2.08442081082791
+        ],
+        [
+          -0.032098996505749725,
+          -1.6216702896282504
+        ],
+        [
+          -0.23621018560361687,
+          -1.169375233351109
+        ],
+        [
+          -0.7603139352343794,
+          -1.4058921664087125
+        ],
+        [
+          -1.118607321239262,
+          -0.6119409484325917
+        ],
+        [
+          -1.619923951320861,
+          -0.8381745365746476
+        ]
+      ]
+    }
+  ],
+  "adjacencies": [
+    {
+      "room_a_id": "room-3",
+      "room_b_id": "room-4",
+      "shared_opening_id": "room-3/door-1"
+    }
+  ],
+  "damage_regions": [
+    {
+      "id": "damage-0",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "hole",
+      "extent_width": {
+        "value": 0.04515459387992852,
+        "confidence_low": -0.10484540612007151,
+        "confidence_high": 0.19515459387992853,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.07304419598223733,
+        "confidence_low": -0.0769558040177627,
+        "confidence_high": 0.22304419598223735,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.003298281004863833,
+        "confidence_low": -0.14670171899513618,
+        "confidence_high": 0.15329828100486387,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.5177760331287501,
+        1.0408992250789364
+      ],
+      "confidence": 0.7280672454009297,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0167.jpg"
+    },
+    {
+      "id": "damage-1",
+      "surface_id": "room-4/wall-1",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.16897919656431787,
+        "confidence_low": 0.018979196564317846,
+        "confidence_high": 0.3189791965643179,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.7995899663514463,
+        "confidence_low": 0.6495899663514463,
+        "confidence_high": 0.9495899663514463,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.13511407009495735,
+        "confidence_low": -0.014885929905042672,
+        "confidence_high": 0.2851140700949574,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.23255241784849068,
+        0.8655462629687105
+      ],
+      "confidence": 0.6955270497798153,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0167.jpg"
+    },
+    {
+      "id": "damage-2",
+      "surface_id": "room-4/wall-1",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.24182288063918364,
+        "confidence_low": 0.09182288063918362,
+        "confidence_high": 0.3918228806391837,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.040502354392769675,
+        "confidence_low": -0.10949764560723035,
+        "confidence_high": 0.1905023543927697,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.009794396011928656,
+        "confidence_low": -0.14020560398807136,
+        "confidence_high": 0.15979439601192869,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.4253263055249262,
+        0.6187031788603171
+      ],
+      "confidence": 0.6126070251973432,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0167.jpg"
+    },
+    {
+      "id": "damage-3",
+      "surface_id": "room-4/wall-1",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.09586061546465076,
+        "confidence_low": -0.054139384535349264,
+        "confidence_high": 0.24586061546465077,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.020181182203084368,
+        "confidence_low": -0.12981881779691565,
+        "confidence_high": 0.1701811822030844,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.001934580546791924,
+        "confidence_low": -0.14806541945320809,
+        "confidence_high": 0.15193458054679196,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.4099670896269284,
+        0.43302604035934367
+      ],
+      "confidence": 0.5792533490360975,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0167.jpg"
+    },
+    {
+      "id": "damage-4",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.12345938831528416,
+        "confidence_low": -0.02654061168471586,
+        "confidence_high": 0.27345938831528416,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.08438996163323222,
+        "confidence_low": -0.0656100383667678,
+        "confidence_high": 0.23438996163323222,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.010418733043189148,
+        "confidence_low": -0.13958126695681086,
+        "confidence_high": 0.16041873304318918,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.46829681386060895,
+        0.4155023241293354
+      ],
+      "confidence": 0.5463689727463312,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0167.jpg"
+    },
+    {
+      "id": "damage-5",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.10034596777017403,
+        "confidence_low": -0.04965403222982599,
+        "confidence_high": 0.25034596777017404,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.06307460831268082,
+        "confidence_low": -0.0869253916873192,
+        "confidence_high": 0.21307460831268082,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.00632928261286062,
+        "confidence_low": -0.1436707173871394,
+        "confidence_high": 0.15632928261286064,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.6099968973589475,
+        0.5532950584917744
+      ],
+      "confidence": 0.5441334332833583,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0167.jpg"
+    },
+    {
+      "id": "damage-6",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.13824292071849725,
+        "confidence_low": -0.01175707928150277,
+        "confidence_high": 0.2882429207184973,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.09166106699813406,
+        "confidence_low": -0.05833893300186596,
+        "confidence_high": 0.24166106699813408,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.012671493617995912,
+        "confidence_low": -0.1373285063820041,
+        "confidence_high": 0.16267149361799593,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.459892883072869,
+        0.41232093955513727
+      ],
+      "confidence": 0.6898491603358656,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0168.jpg"
+    },
+    {
+      "id": "damage-7",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.05275803914950007,
+        "confidence_low": -0.09724196085049995,
+        "confidence_high": 0.20275803914950008,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.061802274432271515,
+        "confidence_low": -0.08819772556772851,
+        "confidence_high": 0.21180227443227154,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0032605668140259277,
+        "confidence_low": -0.1467394331859741,
+        "confidence_high": 0.15326056681402594,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.3853871732399707,
+        0.5346762267062669
+      ],
+      "confidence": 0.6549665861513687,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0168.jpg"
+    },
+    {
+      "id": "damage-8",
+      "surface_id": "room-4/wall-1",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.23423664871491917,
+        "confidence_low": 0.08423664871491915,
+        "confidence_high": 0.3842366487149192,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.03378413202619027,
+        "confidence_low": -0.11621586797380976,
+        "confidence_high": 0.1837841320261903,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.00791348186555718,
+        "confidence_low": -0.14208651813444284,
+        "confidence_high": 0.1579134818655572,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.4014558604201248,
+        0.633406349099632
+      ],
+      "confidence": 0.6045892101284933,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0168.jpg"
+    },
+    {
+      "id": "damage-9",
+      "surface_id": "room-4/wall-1",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.09508333305132687,
+        "confidence_low": -0.05491666694867316,
+        "confidence_high": 0.2450833330513269,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.022582291599690132,
+        "confidence_low": -0.1274177084003099,
+        "confidence_high": 0.17258229159969016,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0021471995532355175,
+        "confidence_low": -0.1478528004467645,
+        "confidence_high": 0.15214719955323555,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.3944089510787327,
+        0.4489763948379373
+      ],
+      "confidence": 0.5653413566300671,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0168.jpg"
+    },
+    {
+      "id": "damage-10",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.06485898975379445,
+        "confidence_low": -0.08514101024620557,
+        "confidence_high": 0.21485898975379447,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.03066061333815737,
+        "confidence_low": -0.11933938666184266,
+        "confidence_high": 0.1806606133381574,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0019886164063446024,
+        "confidence_low": -0.14801138359365543,
+        "confidence_high": 0.15198861640634462,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.44510368303488873,
+        1.6612844158484665
+      ],
+      "confidence": 0.5968596096096097,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0169.jpg"
+    },
+    {
+      "id": "damage-11",
+      "surface_id": "room-4/wall-1",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.08567429696898998,
+        "confidence_low": -0.06432570303101004,
+        "confidence_high": 0.23567429696899,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.02627345107049026,
+        "confidence_low": -0.12372654892950977,
+        "confidence_high": 0.17627345107049028,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0022509594494134104,
+        "confidence_low": -0.1477490405505866,
+        "confidence_high": 0.15225095944941344,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.37753066556801884,
+        0.4781360713331113
+      ],
+      "confidence": 0.5750569602165786,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0169.jpg"
+    },
+    {
+      "id": "damage-12",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.1138718449336823,
+        "confidence_low": -0.036128155066317724,
+        "confidence_high": 0.2638718449336823,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.036497386196693044,
+        "confidence_low": -0.11350261380330698,
+        "confidence_high": 0.18649738619669307,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.004156024701474547,
+        "confidence_low": -0.14584397529852547,
+        "confidence_high": 0.15415602470147458,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.35800234188352054,
+        1.3548049762509045
+      ],
+      "confidence": 0.4695505839904649,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0170.jpg"
+    },
+    {
+      "id": "damage-13",
+      "surface_id": "room-4/wall-1",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.3386971665969298,
+        "confidence_low": 0.18869716659692976,
+        "confidence_high": 0.4886971665969298,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.15709783471942704,
+        "confidence_low": 0.007097834719427015,
+        "confidence_high": 0.3070978347194271,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.05320859149798272,
+        "confidence_low": -0.09679140850201731,
+        "confidence_high": 0.20320859149798273,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.49382527271238635,
+        0.8371942682583979
+      ],
+      "confidence": 0.5691852895975209,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0171.jpg"
+    },
+    {
+      "id": "damage-14",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.42984573099042456,
+        "confidence_low": 0.27984573099042453,
+        "confidence_high": 0.5798457309904246,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.35349155509080965,
+        "confidence_low": 0.20349155509080963,
+        "confidence_high": 0.5034915550908097,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.15194683589695102,
+        "confidence_low": 0.0019468358969509936,
+        "confidence_high": 0.30194683589695104,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.17215376599098592,
+        0.41634706748262196
+      ],
+      "confidence": 0.5143615404040729,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0172.jpg"
+    },
+    {
+      "id": "damage-15",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "hole",
+      "extent_width": {
+        "value": 0.034397952236808776,
+        "confidence_low": -0.11560204776319125,
+        "confidence_high": 0.1843979522368088,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.039311945413495746,
+        "confidence_low": -0.11068805458650427,
+        "confidence_high": 0.18931194541349577,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0013522504206694606,
+        "confidence_low": -0.14864774957933055,
+        "confidence_high": 0.1513522504206695,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.3339658334390321,
+        0.8373629042701192
+      ],
+      "confidence": 0.7055217967195193,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0173.jpg"
+    },
+    {
+      "id": "damage-16",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "hole",
+      "extent_width": {
+        "value": 0.02904538246476541,
+        "confidence_low": -0.12095461753523461,
+        "confidence_high": 0.17904538246476542,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.032918100126734136,
+        "confidence_low": -0.1170818998732659,
+        "confidence_high": 0.18291810012673415,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0009561188081944358,
+        "confidence_low": -0.1490438811918056,
+        "confidence_high": 0.15095611880819446,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.3192840333482572,
+        0.8573523986052424
+      ],
+      "confidence": 0.7230555872804928,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0174.jpg"
+    },
+    {
+      "id": "damage-17",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "water_stain",
+      "extent_width": {
+        "value": 0.02014690601039595,
+        "confidence_low": -0.12985309398960407,
+        "confidence_high": 0.17014690601039598,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.16789088341996625,
+        "confidence_low": 0.017890883419966225,
+        "confidence_high": 0.3178908834199663,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0033824818482644037,
+        "confidence_low": -0.14661751815173563,
+        "confidence_high": 0.15338248184826442,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.7150079293282097,
+        1.2249250508318679
+      ],
+      "confidence": 0.6949548192771084,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0174.jpg"
+    },
+    {
+      "id": "damage-18",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.10117429409695744,
+        "confidence_low": -0.04882570590304258,
+        "confidence_high": 0.25117429409695746,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.03613367646319908,
+        "confidence_low": -0.11386632353680094,
+        "confidence_high": 0.18613367646319912,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0036557992092920125,
+        "confidence_low": -0.146344200790708,
+        "confidence_high": 0.15365579920929204,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.6451122537839908,
+        0.37231855220763577
+      ],
+      "confidence": 0.5370101647323151,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0174.jpg"
+    },
+    {
+      "id": "damage-19",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "water_stain",
+      "extent_width": {
+        "value": 0.028523796748479185,
+        "confidence_low": -0.12147620325152084,
+        "confidence_high": 0.1785237967484792,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.28880344207835174,
+        "confidence_low": 0.1388034420783517,
+        "confidence_high": 0.43880344207835176,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.008237770682104085,
+        "confidence_low": -0.14176222931789595,
+        "confidence_high": 0.1582377706821041,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.7185137665460757,
+        1.2744589550938574
+      ],
+      "confidence": 0.8231277777777778,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0175.jpg"
+    },
+    {
+      "id": "damage-20",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.04948774861308086,
+        "confidence_low": -0.10051225138691916,
+        "confidence_high": 0.19948774861308088,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.07640213820966871,
+        "confidence_low": -0.07359786179033131,
+        "confidence_high": 0.22640213820966873,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.003780969809221945,
+        "confidence_low": -0.1462190301907781,
+        "confidence_high": 0.15378096980922196,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.44057540948023416,
+        0.7367384928328039
+      ],
+      "confidence": 0.797814897413024,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0175.jpg"
+    },
+    {
+      "id": "damage-21",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "water_stain",
+      "extent_width": {
+        "value": 0.04304578488919071,
+        "confidence_low": -0.10695421511080931,
+        "confidence_high": 0.19304578488919072,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.06176134353666493,
+        "confidence_low": -0.08823865646333509,
+        "confidence_high": 0.21176134353666495,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0026585655083466875,
+        "confidence_low": -0.14734143449165332,
+        "confidence_high": 0.15265856550834672,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.5004176060752787,
+        0.878048390213539
+      ],
+      "confidence": 0.6572636363636364,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0175.jpg"
+    },
+    {
+      "id": "damage-22",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "water_stain",
+      "extent_width": {
+        "value": 0.06672376962558042,
+        "confidence_low": -0.0832762303744196,
+        "confidence_high": 0.21672376962558043,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.10898215705511469,
+        "confidence_low": -0.041017842944885335,
+        "confidence_high": 0.25898215705511474,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0072717003406442965,
+        "confidence_low": -0.14272829965935574,
+        "confidence_high": 0.1572717003406443,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.6715925589582521,
+        1.595000565538613
+      ],
+      "confidence": 0.5500653846153846,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0175.jpg"
+    },
+    {
+      "id": "damage-23",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.058308556028259156,
+        "confidence_low": -0.09169144397174087,
+        "confidence_high": 0.20830855602825918,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.06714318572951054,
+        "confidence_low": -0.08285681427048948,
+        "confidence_high": 0.21714318572951058,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.003915022207024976,
+        "confidence_low": -0.14608497779297505,
+        "confidence_high": 0.153915022207025,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.4210885066610389,
+        0.7641874269790916
+      ],
+      "confidence": 0.723114081996435,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0176.jpg"
+    },
+    {
+      "id": "damage-24",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "water_stain",
+      "extent_width": {
+        "value": 0.04368662072531567,
+        "confidence_low": -0.10631337927468434,
+        "confidence_high": 0.1936866207253157,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.06310289660323375,
+        "confidence_low": -0.08689710339676628,
+        "confidence_high": 0.21310289660323378,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.002756752310574283,
+        "confidence_low": -0.14724324768942573,
+        "confidence_high": 0.1527567523105743,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.492557767155373,
+        0.8757615634925807
+      ],
+      "confidence": 0.5962899224806202,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0176.jpg"
+    },
+    {
+      "id": "damage-25",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "water_stain",
+      "extent_width": {
+        "value": 0.06860468902142727,
+        "confidence_low": -0.08139531097857275,
+        "confidence_high": 0.2186046890214273,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.12774666231576112,
+        "confidence_low": -0.0222533376842389,
+        "confidence_high": 0.2777466623157612,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.008764020041698075,
+        "confidence_low": -0.14123597995830195,
+        "confidence_high": 0.1587640200416981,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.6736673804138482,
+        1.5986548257365771
+      ],
+      "confidence": 0.5517690058479532,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0176.jpg"
+    },
+    {
+      "id": "damage-26",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.04321208990453993,
+        "confidence_low": -0.1067879100954601,
+        "confidence_high": 0.19321208990453995,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.08930498580271584,
+        "confidence_low": -0.06069501419728418,
+        "confidence_high": 0.23930498580271586,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.003859055075430619,
+        "confidence_low": -0.14614094492456942,
+        "confidence_high": 0.15385905507543063,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.45391661742394684,
+        0.7093599712231468
+      ],
+      "confidence": 0.8744086021505377,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0177.jpg"
+    },
+    {
+      "id": "damage-27",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.04598010066560222,
+        "confidence_low": -0.1040198993343978,
+        "confidence_high": 0.19598010066560223,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.03998269623095845,
+        "confidence_low": -0.11001730376904156,
+        "confidence_high": 0.18998269623095848,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0018384083975816641,
+        "confidence_low": -0.14816159160241835,
+        "confidence_high": 0.1518384083975817,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.4846404194141424,
+        0.7007578716979255
+      ],
+      "confidence": 0.6905092592592592,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0177.jpg"
+    },
+    {
+      "id": "damage-28",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "mold",
+      "extent_width": {
+        "value": 0.029299408389760164,
+        "confidence_low": -0.12070059161023985,
+        "confidence_high": 0.1792994083897602,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.046879053423616264,
+        "confidence_low": -0.10312094657638377,
+        "confidence_high": 0.19687905342361628,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0013735285311839173,
+        "confidence_low": -0.1486264714688161,
+        "confidence_high": 0.15137352853118394,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.4448351854599493,
+        0.5794551061384529
+      ],
+      "confidence": 0.58,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0178.jpg"
+    },
+    {
+      "id": "damage-29",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "water_stain",
+      "extent_width": {
+        "value": 0.051296300862386075,
+        "confidence_low": -0.09870369913761395,
+        "confidence_high": 0.2012963008623861,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.05721510480804601,
+        "confidence_low": -0.09278489519195401,
+        "confidence_high": 0.20721510480804603,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.00293492323010648,
+        "confidence_low": -0.14706507676989355,
+        "confidence_high": 0.1529349232301065,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.4910555933803084,
+        0.8559807321801931
+      ],
+      "confidence": 0.5298944947209653,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0178.jpg"
+    },
+    {
+      "id": "damage-30",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "water_stain",
+      "extent_width": {
+        "value": 0.04054262013842688,
+        "confidence_low": -0.10945737986157314,
+        "confidence_high": 0.1905426201384269,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.05743537852943809,
+        "confidence_low": -0.09256462147056194,
+        "confidence_high": 0.2074353785294381,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.0023285807342257677,
+        "confidence_low": -0.14767141926577426,
+        "confidence_high": 0.15232858073422578,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.6304384018972691,
+        0.871905295313611
+      ],
+      "confidence": 0.5564173913043478,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0179.jpg"
+    },
+    {
+      "id": "damage-31",
+      "surface_id": "room-4/wall-3",
+      "damage_class": "crack",
+      "extent_width": {
+        "value": 0.15099228560894049,
+        "confidence_low": 0.000992285608940463,
+        "confidence_high": 0.30099228560894054,
+        "unit": "m"
+      },
+      "extent_height": {
+        "value": 0.9371934968830788,
+        "confidence_low": 0.7871934968830788,
+        "confidence_high": 1.0871934968830788,
+        "unit": "m"
+      },
+      "area": {
+        "value": 0.14150898815221152,
+        "confidence_low": -0.008491011847788499,
+        "confidence_high": 0.29150898815221155,
+        "unit": "m2"
+      },
+      "location_on_surface": [
+        0.681296336674606,
+        1.0768516280557634
+      ],
+      "confidence": 0.525826464942748,
+      "source_image": "/var/folders/6w/m9t_z9qn7ts9831trydvtj8w0000gn/T/floorplan-frames-0p1brtc7/v0_0179.jpg"
+    }
+  ],
+  "concealed_damage_flags": [
+    {
+      "id": "flag-0",
+      "surface_id": "room-4/wall-3",
+      "rule_id": "RULE_WATER_02",
+      "rule_description": "Vertical stain alignment",
+      "evidence": [
+        "damage-29",
+        "damage-24",
+        "damage-21",
+        "damage-30",
+        "damage-22",
+        "damage-25"
+      ],
+      "confidence": 0.9,
+      "recommended_action": "Multiple aligned stains suggest pipe leak path behind wall."
+    },
+    {
+      "id": "flag-1",
+      "surface_id": "room-4/wall-3",
+      "rule_id": "RULE_WATER_02",
+      "rule_description": "Vertical stain alignment",
+      "evidence": [
+        "damage-17",
+        "damage-19"
+      ],
+      "confidence": 0.8,
+      "recommended_action": "Multiple aligned stains suggest pipe leak path behind wall."
+    },
+    {
+      "id": "flag-2",
+      "surface_id": "room-4/wall-1",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-1"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-3",
+      "surface_id": "room-4/wall-1",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-2"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-4",
+      "surface_id": "room-4/wall-1",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-3"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-5",
+      "surface_id": "room-4/wall-1",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-8"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-6",
+      "surface_id": "room-4/wall-1",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-9"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-7",
+      "surface_id": "room-4/wall-1",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-11"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-8",
+      "surface_id": "room-4/wall-3",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-12"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-9",
+      "surface_id": "room-4/wall-1",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-13"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-10",
+      "surface_id": "room-4/wall-3",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-14"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-11",
+      "surface_id": "room-4/wall-3",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-18"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    },
+    {
+      "id": "flag-12",
+      "surface_id": "room-4/wall-3",
+      "rule_id": "RULE_CRACK_01",
+      "rule_description": "Structural crack pattern",
+      "evidence": [
+        "damage-31"
+      ],
+      "confidence": 0.85,
+      "recommended_action": "Crack pattern suggests possible structural movement. Recommend structural assessment."
+    }
+  ],
+  "scope_line_items": [
+    {
+      "id": "scope-0",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-0",
+      "description": "Patch drywall, finish, and repaint. Area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.003298281004863833,
+        "confidence_low": -0.14670171899513618,
+        "confidence_high": 0.15329828100486387,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-1",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-1",
+      "description": "Patch, fill, and repaint. Estimated area: 0.14 m\u00b2",
+      "estimated_area": {
+        "value": 0.13511407009495735,
+        "confidence_low": -0.014885929905042672,
+        "confidence_high": 0.2851140700949574,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-2",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-2",
+      "description": "Patch, fill, and repaint. Estimated area: 0.01 m\u00b2",
+      "estimated_area": {
+        "value": 0.009794396011928656,
+        "confidence_low": -0.14020560398807136,
+        "confidence_high": 0.15979439601192869,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-3",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-3",
+      "description": "Patch, fill, and repaint. Estimated area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.001934580546791924,
+        "confidence_low": -0.14806541945320809,
+        "confidence_high": 0.15193458054679196,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-4",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-4",
+      "description": "Professional mold remediation required. Affected area: 0.01 m\u00b2",
+      "estimated_area": {
+        "value": 0.010418733043189148,
+        "confidence_low": -0.13958126695681086,
+        "confidence_high": 0.16041873304318918,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-5",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-5",
+      "description": "Professional mold remediation required. Affected area: 0.01 m\u00b2",
+      "estimated_area": {
+        "value": 0.00632928261286062,
+        "confidence_low": -0.1436707173871394,
+        "confidence_high": 0.15632928261286064,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-6",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-6",
+      "description": "Professional mold remediation required. Affected area: 0.01 m\u00b2",
+      "estimated_area": {
+        "value": 0.012671493617995912,
+        "confidence_low": -0.1373285063820041,
+        "confidence_high": 0.16267149361799593,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-7",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-7",
+      "description": "Professional mold remediation required. Affected area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0032605668140259277,
+        "confidence_low": -0.1467394331859741,
+        "confidence_high": 0.15326056681402594,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-8",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-8",
+      "description": "Patch, fill, and repaint. Estimated area: 0.01 m\u00b2",
+      "estimated_area": {
+        "value": 0.00791348186555718,
+        "confidence_low": -0.14208651813444284,
+        "confidence_high": 0.1579134818655572,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-9",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-9",
+      "description": "Patch, fill, and repaint. Estimated area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0021471995532355175,
+        "confidence_low": -0.1478528004467645,
+        "confidence_high": 0.15214719955323555,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-10",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-10",
+      "description": "Professional mold remediation required. Affected area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0019886164063446024,
+        "confidence_low": -0.14801138359365543,
+        "confidence_high": 0.15198861640634462,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-11",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-11",
+      "description": "Patch, fill, and repaint. Estimated area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0022509594494134104,
+        "confidence_low": -0.1477490405505866,
+        "confidence_high": 0.15225095944941344,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-12",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-12",
+      "description": "Patch, fill, and repaint. Estimated area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.004156024701474547,
+        "confidence_low": -0.14584397529852547,
+        "confidence_high": 0.15415602470147458,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-13",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-13",
+      "description": "Patch, fill, and repaint. Estimated area: 0.05 m\u00b2",
+      "estimated_area": {
+        "value": 0.05320859149798272,
+        "confidence_low": -0.09679140850201731,
+        "confidence_high": 0.20320859149798273,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-14",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-14",
+      "description": "Patch, fill, and repaint. Estimated area: 0.15 m\u00b2",
+      "estimated_area": {
+        "value": 0.15194683589695102,
+        "confidence_low": 0.0019468358969509936,
+        "confidence_high": 0.30194683589695104,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-15",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-15",
+      "description": "Patch drywall, finish, and repaint. Area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0013522504206694606,
+        "confidence_low": -0.14864774957933055,
+        "confidence_high": 0.1513522504206695,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-16",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-16",
+      "description": "Patch drywall, finish, and repaint. Area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0009561188081944358,
+        "confidence_low": -0.1490438811918056,
+        "confidence_high": 0.15095611880819446,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-17",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-17",
+      "description": "Investigate moisture source. Remediate, dry, and repaint. Area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0033824818482644037,
+        "confidence_low": -0.14661751815173563,
+        "confidence_high": 0.15338248184826442,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-18",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-18",
+      "description": "Patch, fill, and repaint. Estimated area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0036557992092920125,
+        "confidence_low": -0.146344200790708,
+        "confidence_high": 0.15365579920929204,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-19",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-19",
+      "description": "Investigate moisture source. Remediate, dry, and repaint. Area: 0.01 m\u00b2",
+      "estimated_area": {
+        "value": 0.008237770682104085,
+        "confidence_low": -0.14176222931789595,
+        "confidence_high": 0.1582377706821041,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-20",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-20",
+      "description": "Professional mold remediation required. Affected area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.003780969809221945,
+        "confidence_low": -0.1462190301907781,
+        "confidence_high": 0.15378096980922196,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-21",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-21",
+      "description": "Investigate moisture source. Remediate, dry, and repaint. Area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0026585655083466875,
+        "confidence_low": -0.14734143449165332,
+        "confidence_high": 0.15265856550834672,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-22",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-22",
+      "description": "Investigate moisture source. Remediate, dry, and repaint. Area: 0.01 m\u00b2",
+      "estimated_area": {
+        "value": 0.0072717003406442965,
+        "confidence_low": -0.14272829965935574,
+        "confidence_high": 0.1572717003406443,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-23",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-23",
+      "description": "Professional mold remediation required. Affected area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.003915022207024976,
+        "confidence_low": -0.14608497779297505,
+        "confidence_high": 0.153915022207025,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-24",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-24",
+      "description": "Investigate moisture source. Remediate, dry, and repaint. Area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.002756752310574283,
+        "confidence_low": -0.14724324768942573,
+        "confidence_high": 0.1527567523105743,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-25",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-25",
+      "description": "Investigate moisture source. Remediate, dry, and repaint. Area: 0.01 m\u00b2",
+      "estimated_area": {
+        "value": 0.008764020041698075,
+        "confidence_low": -0.14123597995830195,
+        "confidence_high": 0.1587640200416981,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-26",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-26",
+      "description": "Professional mold remediation required. Affected area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.003859055075430619,
+        "confidence_low": -0.14614094492456942,
+        "confidence_high": 0.15385905507543063,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-27",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-27",
+      "description": "Professional mold remediation required. Affected area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0018384083975816641,
+        "confidence_low": -0.14816159160241835,
+        "confidence_high": 0.1518384083975817,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-28",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-28",
+      "description": "Professional mold remediation required. Affected area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0013735285311839173,
+        "confidence_low": -0.1486264714688161,
+        "confidence_high": 0.15137352853118394,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-29",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-29",
+      "description": "Investigate moisture source. Remediate, dry, and repaint. Area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.00293492323010648,
+        "confidence_low": -0.14706507676989355,
+        "confidence_high": 0.1529349232301065,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-30",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-30",
+      "description": "Investigate moisture source. Remediate, dry, and repaint. Area: 0.00 m\u00b2",
+      "estimated_area": {
+        "value": 0.0023285807342257677,
+        "confidence_low": -0.14767141926577426,
+        "confidence_high": 0.15232858073422578,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-31",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-31",
+      "description": "Patch, fill, and repaint. Estimated area: 0.14 m\u00b2",
+      "estimated_area": {
+        "value": 0.14150898815221152,
+        "confidence_low": -0.008491011847788499,
+        "confidence_high": 0.29150898815221155,
+        "unit": "m2"
+      },
+      "priority": "medium"
+    },
+    {
+      "id": "scope-32",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-29",
+      "description": "Further investigation recommended: Multiple aligned stains suggest pipe leak path behind wall.",
+      "estimated_area": {
+        "value": 0.026714542165595587,
+        "confidence_low": -0.12328545783440444,
+        "confidence_high": 0.17671454216559562,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-33",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-17",
+      "description": "Further investigation recommended: Multiple aligned stains suggest pipe leak path behind wall.",
+      "estimated_area": {
+        "value": 0.01162025253036849,
+        "confidence_low": -0.13837974746963153,
+        "confidence_high": 0.16162025253036852,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-34",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-1",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.13511407009495735,
+        "confidence_low": -0.014885929905042672,
+        "confidence_high": 0.2851140700949574,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-35",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-2",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.009794396011928656,
+        "confidence_low": -0.14020560398807136,
+        "confidence_high": 0.15979439601192869,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-36",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-3",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.001934580546791924,
+        "confidence_low": -0.14806541945320809,
+        "confidence_high": 0.15193458054679196,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-37",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-8",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.00791348186555718,
+        "confidence_low": -0.14208651813444284,
+        "confidence_high": 0.1579134818655572,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-38",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-9",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.0021471995532355175,
+        "confidence_low": -0.1478528004467645,
+        "confidence_high": 0.15214719955323555,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-39",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-11",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.0022509594494134104,
+        "confidence_low": -0.1477490405505866,
+        "confidence_high": 0.15225095944941344,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-40",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-12",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.004156024701474547,
+        "confidence_low": -0.14584397529852547,
+        "confidence_high": 0.15415602470147458,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-41",
+      "surface_id": "room-4/wall-1",
+      "damage_region_id": "damage-13",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.05320859149798272,
+        "confidence_low": -0.09679140850201731,
+        "confidence_high": 0.20320859149798273,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-42",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-14",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.15194683589695102,
+        "confidence_low": 0.0019468358969509936,
+        "confidence_high": 0.30194683589695104,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-43",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-18",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.0036557992092920125,
+        "confidence_low": -0.146344200790708,
+        "confidence_high": 0.15365579920929204,
+        "unit": "m2"
+      },
+      "priority": "high"
+    },
+    {
+      "id": "scope-44",
+      "surface_id": "room-4/wall-3",
+      "damage_region_id": "damage-31",
+      "description": "Further investigation recommended: Crack pattern suggests possible structural movement. Recommend structural assessment.",
+      "estimated_area": {
+        "value": 0.14150898815221152,
+        "confidence_low": -0.008491011847788499,
+        "confidence_high": 0.29150898815221155,
+        "unit": "m2"
+      },
+      "priority": "high"
+    }
+  ],
+  "total_floor_area": {
+    "value": 3.854509944957962,
+    "confidence_low": 3.554509944957962,
+    "confidence_high": 4.154509944957962,
+    "unit": "m2"
+  },
+  "room_count": 3,
+  "processing_time_seconds": 500.108,
+  "pipeline_version": "0.1.0",
+  "warnings": [
+    "room-1: the ceiling was not scanned; ceiling_height is the highest observed point (1.75 m), a lower bound.",
+    "room-1: no room geometry could be fitted (degenerate fit (4 walls, 0.68 m2)); the room is not in the plan.",
+    "room-2: the ceiling was not scanned; ceiling_height is the highest observed point (2.23 m), a lower bound.",
+    "room-3: the ceiling was not scanned; ceiling_height is the highest observed point (1.74 m), a lower bound.",
+    "room-4: the ceiling was not scanned; ceiling_height is the highest observed point (2.01 m), a lower bound.",
+    "room-5: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan."
+  ]
+}

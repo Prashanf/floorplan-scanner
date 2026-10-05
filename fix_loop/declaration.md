@@ -58,3 +58,30 @@ Prediction:
   3. The video keyframe cascade also only triggers when COLMAP fails, not when it registers a small share of the keyframes (24 of 143, 32 of 400, 11 of 400), so the denser keyframe sets were never tried.
 - Diff: `git diff d65568f 57c22eb`.
 - To regenerate: run `notebooks/floorplan_scanner_kaggle.ipynb` on Kaggle at each commit (or `tools/run_sample_data.sh photo video` locally).
+
+## Follow-up: real video (added after the fact)
+
+This second loop was not declared in advance. It was written from `docs/progress.md` and the saved runs, so it has no prior prediction to compare against. It is not a controlled comparison.
+
+**Before** (`before/real_video/`): the first real walkthrough, `Floorplan_test.mp4`, run before commit `519708b`. 3 rooms of 1.00, 1.81 and 1.04 m² (3.85 m² in total), rotated at odd angles, 32 damage detections, 13 concealed flags, 45 scope items, 500 s. Rooms of about 1 m² in a normal home show a scale error of roughly three times.
+
+**Causes found** (`docs/progress.md`):
+1. Scale came from a door prior only. With no door in view, or a poor one, the whole room was mis-sized.
+2. The walls were not aligned to the axes, so the plan was rotated.
+3. The damage heuristics fired on almost everything (32 detections in a room without staged damage).
+4. The vertical extent of the sparse cloud excludes the ceiling when it is not reconstructed, so a ceiling-based scale is wrong.
+
+**Fixes shipped**
+- `519708b` (`main`): a scale chain (door, then ceiling-height prior, then longest wall, with a flag when the area is outside 2 to 100 m²); wall alignment to the longest wall; damage filters (minimum sizes, per-image cap, persistence across keyframes, per-room cap).
+- `dev`: floor-tile scale recovery, and a `--ceiling-height M` flag that scales the cloud so its vertical extent equals the given height.
+
+**After** (`after/real_video/`): the re-recorded landscape video (`test-video3-ldscp.mp4`), run on Kaggle with a GPU COLMAP and `--ceiling-height 3.15`. 2 rooms of 7.50 and 4.01 m² (11.51 m² in total), 24 damage regions, 16 flags, 40 scope items, 504 s. The run's own log and COLMAP summary are in `after/real_video/colmap_summary.json` and `benchmark/results_saved/video_test3/landscape/run.log`.
+
+**Measured against tape** (`benchmark/ground_truth/room-1.yaml`: 4.06 m × 3.16 m, 12.83 m², ceiling 3.15 m). The first room is 2.63 m × 2.85 m (7.50 m²): area −41%, walls −35% and −10%, ceiling reported 2.54 m (−0.61 m). The total area interval, 11.21 to 11.81 m², does not contain 12.83 m². Which plan room matches the measured room was not recorded.
+
+**Honest assessment**
+- The gate did not pass. The output moved from three fragments to a partial plan.
+- The improvement cannot be attributed to a single change: the recording differs, and the run used the user-supplied ceiling height.
+- The ceiling is filmed in the new video, but no ceiling plane was reconstructed (white surface, few points), so the scale step is still working from incomplete vertical extent.
+- COLMAP registered only the first half of the landscape keyframes (126 of 400, keyframes 0 to about 200), which probably explains the missing wall length. The keyframe cascade did not run because COLMAP "succeeded" on the `strict` configuration.
+- Full write-up: `../technical_report.md`, sections 4 and 5.2.
