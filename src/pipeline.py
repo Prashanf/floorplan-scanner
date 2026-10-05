@@ -118,11 +118,13 @@ def run_pipeline(
     drift_correction: bool = True,
     render: bool = True,
     damage_detector: str = "heuristic",
+    damage_options: dict | None = None,
 ) -> PropertyReport:
     """Run preprocess -> tier front-end -> geometry -> stitch -> damage -> scope ->
     calibrate -> write JSON -> render, and return the PropertyReport.
     drift_correction=False is the ablation switch (--no-drift-correction).
-    damage_detector='heuristic' (default) or 'mobilesam' / 'model'.
+    damage_detector='heuristic' (default) or 'mobilesam' / 'model'; damage_options are passed to the model
+    detector (confidence_threshold, owl_model_name, device, mobile_sam_weights).
     """
     t_start = time.perf_counter()
     timings: dict[str, float] = {}
@@ -231,6 +233,7 @@ def run_pipeline(
             images,
             persistent_frames=cfg.PERSISTENT_FRAME_LIMIT if tier == "video" else 0,
             detector=damage_detector,
+            **(damage_options or {}),
         )
         projected = project_damage_to_surfaces(detections, damage_rooms)
     else:

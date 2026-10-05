@@ -1,4 +1,8 @@
-"""Classical-CV damage detection (cracks, water stains, mold, peeling paint, holes)."""
+"""Damage detection (cracks, water stains, mold, peeling paint, holes).
+
+The OpenCV rules live here and are the default. The OWL-ViT + MobileSAM alternative is in
+`model_detection.py`; `detect_damage(detector=...)` picks between them.
+"""
 
 from __future__ import annotations
 
@@ -224,230 +228,8 @@ def drop_persistent(per_image: list[list[DamageDetection]], limit: int, iou: flo
     return [[d for k, d in enumerate(detections) if (i, k) not in drop] for i, detections in enumerate(per_image)]
 
 
-def detect_damage_mobilesam_owl(
-    images: list[str],
-    persistent_frames: int = 0,
-    confidence_threshold: float = 0.25,
-    device: str = "auto",
-    mobile_sam_weights: str | None = None,
-    owl_model_name: str = "google/owlvit-base-patch32",
-    custom_prompts: dict[str, list[str]] | None = None,
-) -> list[DamageDetection]:
-    """Detect damage using NanoOWL / OWL-ViT open-vocabulary object detection
-    combined with MobileSAM prompt-guided segmentation.
-
-    1. Uses NanoOWL / OWL-ViT to propose bounding boxes for damage class text queries.
-    2. Feeds proposed boxes into MobileSAM to compute high-accuracy segmentation masks.
-    3. Converts output masks into DamageDetection instances with exact pixel areas.
-    """
-    from pathlib import Path
-    try:
-        import torch
-        from PIL import Image
-    except ImportError as exc:
-        raise ImportError(
-            "MobileSAM/NanoOWL damage detection requires PyTorch and Pillow. "
-            "Install with: pip install torch torchvision Pillow transformers"
-        ) from exc
-
-    # Determine compute device
-    dev = device
-    if dev == "auto":
-        dev = "cuda" if torch.cuda.is_available() else "cpu"
-    log.info("Running MobileSAM + NanoOWL damage detection on %d image(s) (device=%s)", len(images), dev)
-
-    # 1. Load or retrieve OWL-ViT / NanoOWL detector from cache
-    global _MODEL_CACHE
-    if "_MODEL_CACHE" not in globals():
-        _MODEL_CACHE = {}
-
-    owl_detector = _MODEL_CACHE.get("owl")
-    owl_processor = _MODEL_CACHE.get("owl_processor")
-    if owl_detector is None:
-        try:
-            from transformers import OwlViTForObjectDetection, OwlViTProcessor
-            owl_processor = OwlViTProcessor.from_pretrained(owl_model_name)
-            owl_detector = OwlViTForObjectDetection.from_pretrained(owl_model_name).to(dev)
-            owl_detector.eval()
-            _MODEL_CACHE["owl"] = owl_detector
-            _MODEL_CACHE["owl_processor"] = owl_processor
-            log.info("Loaded OWL-ViT model: %s", owl_model_name)
-        except Exception as exc:
-            log.warning("Could not load Hugging Face OWL-ViT (%s); checking nanoowl...", exc)
-            try:
-                from nanoowl.tree_predictor import TreePredictor
-                owl_detector = TreePredictor(device=dev)
-                _MODEL_CACHE["owl"] = owl_detector
-                log.info("Loaded NanoOWL TreePredictor")
-            except Exception as e2:
-                raise RuntimeError(
-                    f"Neither transformers OWL-ViT nor nanoowl could be loaded: {exc} | {e2}\n"
-                    "Install with: pip install transformers"
-                ) from e2
-
-    # 2. Load or retrieve MobileSAM predictor
-    sam_predictor = _MODEL_CACHE.get("sam")
-    if sam_predictor is None:
-        try:
-            from mobile_sam import SamPredictor, sam_model_registry
-            weights = mobile_sam_weights
-            if not weights:
-                candidate_paths = [
-                    Path("mobile_sam.pt"),
-                    Path("weights/mobile_sam.pt"),
-                    Path(__file__).resolve().parents[2] / "weights" / "mobile_sam.pt",
-                    Path("/tmp/mobile_sam.pt"),
-                ]
-                for cp in candidate_paths:
-                    if cp.is_file():
-                        weights = str(cp)
-                        break
-            if weights and Path(weights).is_file():
-                mobile_sam = sam_model_registry["vit_t"](checkpoint=weights)
-                mobile_sam.to(device=dev)
-                mobile_sam.eval()
-                sam_predictor = SamPredictor(mobile_sam)
-                _MODEL_CACHE["sam"] = sam_predictor
-                log.info("Loaded MobileSAM from %s", weights)
-            else:
-                log.info("MobileSAM weights not found at %s; will use bounding-box geometry for area", weights)
-        except Exception as exc:
-            log.info("MobileSAM not available (%s); will use bounding-box geometry for area", exc)
-
-    default_prompts = {
-        "crack": ["crack on wall", "structural wall crack", "plaster crack line"],
-        "water_stain": ["water stain on wall", "moisture damage mark", "water leak mark"],
-        "mold": ["black mold patch", "mildew spot on wall"],
-        "peeling_paint": ["peeling paint on wall", "flaking chipped paint"],
-        "hole": ["hole in wall", "drywall puncture cavity"],
-    }
-    prompts_dict = custom_prompts or default_prompts
-
-    flat_texts = []
-    class_map = []
-    for cls_name, queries in prompts_dict.items():
-        for q in queries:
-            flat_texts.append(q)
-            class_map.append(cls_name)
-
-    per_image: list[list[DamageDetection]] = []
-
-    for img_path in images:
-        if not Path(img_path).is_file():
-            continue
-        try:
-            pil_img = Image.open(img_path).convert("RGB")
-        except Exception as exc:
-            log.warning("Could not read image %s: %s", img_path, exc)
-            continue
-
-        width, height = pil_img.size
-        img_np = np.array(pil_img)
-
-        query_to_class = {}
-        for cname, qlist in prompts_dict.items():
-            for q in qlist:
-                query_to_class[q] = cname
-
-        candidate_boxes = []  # tuple: (bbox_xyxy, confidence_score, damage_class)
-        if owl_processor is not None:
-            inputs = owl_processor(text=[flat_texts], images=pil_img, return_tensors="pt")
-            inputs = {k: v.to(dev) for k, v in inputs.items()}
-            with torch.no_grad():
-                outputs = owl_detector(**inputs)
-            target_sizes = torch.tensor([[height, width]], device=dev)
-            if hasattr(owl_processor, "post_process_grounded_object_detection"):
-                results = owl_processor.post_process_grounded_object_detection(
-                    outputs=outputs, target_sizes=target_sizes, threshold=confidence_threshold,
-                    text_labels=[flat_texts]
-                )[0]
-            elif hasattr(owl_processor, "post_process_object_detection"):
-                results = owl_processor.post_process_object_detection(
-                    outputs=outputs, target_sizes=target_sizes, threshold=confidence_threshold
-                )[0]
-            elif hasattr(getattr(owl_processor, "image_processor", None), "post_process_object_detection"):
-                results = owl_processor.image_processor.post_process_object_detection(
-                    outputs=outputs, target_sizes=target_sizes, threshold=confidence_threshold
-                )[0]
-            else:
-                raise AttributeError("OwlViTProcessor has no supported post_process method.")
-
-            boxes = results.get("boxes", [])
-            scores = results.get("scores", [])
-            text_labels = results.get("text_labels")
-            labels = results.get("labels")
-
-            for i in range(len(boxes)):
-                box = boxes[i]
-                score = float(scores[i].item())
-                cls_name = "damage"
-                if text_labels is not None and i < len(text_labels):
-                    cls_name = query_to_class.get(text_labels[i], class_map[0] if class_map else "damage")
-                elif labels is not None and i < len(labels):
-                    idx = int(labels[i].item())
-                    if idx < len(class_map):
-                        cls_name = class_map[idx]
-
-                b = [int(v.item()) for v in box]
-                x1 = max(0, min(width - 1, b[0]))
-                y1 = max(0, min(height - 1, b[1]))
-                x2 = max(x1 + 1, min(width, b[2]))
-                y2 = max(y1 + 1, min(height, b[3]))
-                candidate_boxes.append(((x1, y1, x2, y2), score, cls_name))
-
-        img_detections: list[DamageDetection] = []
-        if sam_predictor is not None and candidate_boxes:
-            sam_predictor.set_image(img_np)
-
-        for bbox, score, damage_class in candidate_boxes:
-            x1, y1, x2, y2 = bbox
-            box_w = x2 - x1
-            box_h = y2 - y1
-            if box_w * box_h > MAX_AREA_FRACTION * width * height:
-                continue
-
-            pixel_area = box_w * box_h
-            angle_deg = None
-            thickness_px = None
-
-            if sam_predictor is not None:
-                box_arr = np.array([x1, y1, x2, y2])
-                try:
-                    masks, mask_scores, _ = sam_predictor.predict(
-                        box=box_arr,
-                        multimask_output=False,
-                    )
-                    if masks is not None and len(masks) > 0:
-                        mask = masks[0]
-                        pixel_area = int(mask.sum())
-                        if damage_class == "crack":
-                            contours, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                            if contours:
-                                main_c = max(contours, key=cv2.contourArea)
-                                (_, _), (rw, rh), m_angle = cv2.minAreaRect(main_c)
-                                angle_deg = float(m_angle if rw >= rh else m_angle + 90.0) % 180.0
-                                thickness_px = float(min(rw, rh))
-                except Exception as exc:
-                    log.debug("SAM mask prediction failed for box %s: %s", bbox, exc)
-
-            img_detections.append(DamageDetection(
-                image_path=img_path,
-                bbox=bbox,
-                damage_class=damage_class,
-                confidence=_clip01(score),
-                pixel_area=pixel_area,
-                image_size=(width, height),
-                angle_deg=angle_deg,
-                thickness_px=thickness_px,
-            ))
-
-        merged = sorted(_merge_overlaps(img_detections), key=lambda d: (-d.confidence, d.bbox))
-        per_image.append(merged[:MAX_PER_IMAGE])
-
-    if persistent_frames > 0:
-        per_image = drop_persistent(per_image, persistent_frames, cfg.PERSISTENT_IOU)
-
-    return [d for detections in per_image for d in detections]
+DETECTORS = ("heuristic", "mobilesam")
+DETECTOR_ALIASES = {"model": "mobilesam", "nanoowl": "mobilesam"}
 
 
 def detect_damage(
@@ -456,14 +238,26 @@ def detect_damage(
     detector: str = "heuristic",
     **model_kwargs,
 ) -> list[DamageDetection]:
-    """Detect visible damage in each image.
+    """Detect visible damage in each image with the chosen detector.
 
-    detector="heuristic": fast classical OpenCV algorithms (Canny, HSV, Laplacian).
-    detector="mobilesam" or "model": MobileSAM + NanoOWL open-vocabulary detection and segmentation.
-    Output order is deterministic: image order, then descending confidence.
+    detector="heuristic" (default): OpenCV rules. Canny + contrast for cracks, HSV ranges for water stains
+    and mold, Laplacian energy for peeling paint, dark circular regions for holes; overlapping same-class
+    boxes are merged by non-maximum suppression. At most MAX_PER_IMAGE detections (the strongest) are kept
+    per image, and none that cover more than MAX_AREA_FRACTION of it.
+    detector="mobilesam" ("model", "nanoowl" are aliases): OWL-ViT text prompts + MobileSAM masks, see
+    `model_detection.py`; `model_kwargs` are passed to it.
+    persistent_frames > 0 (video keyframes, in time order) also drops detections that stay at the same position
+    in more than that many consecutive frames. Output order is deterministic: image order, then descending
+    confidence. An unknown detector name raises ValueError.
     """
-    if detector.lower() in ("mobilesam", "nanoowl", "model"):
-        return detect_damage_mobilesam_owl(images, persistent_frames=persistent_frames, **model_kwargs)
+    name = DETECTOR_ALIASES.get(detector.lower(), detector.lower())
+    if name not in DETECTORS:
+        raise ValueError(f"unknown damage detector {detector!r}; choose from {', '.join(DETECTORS)}")
+    if name == "mobilesam":
+        from src.damage.model_detection import detect_damage_model
+        return detect_damage_model(images, persistent_frames=persistent_frames, **model_kwargs)
+    if model_kwargs:
+        raise TypeError(f"the heuristic detector takes no options: {', '.join(model_kwargs)}")
 
     per_image = [sorted(_detect_one(path), key=lambda d: (-d.confidence, d.bbox)) for path in images]
     if persistent_frames > 0:
@@ -473,4 +267,3 @@ def detect_damage(
         if removed:
             log.info("dropped %d detection(s) that stay in place over more than %d frames", removed, persistent_frames)
     return [d for detections in per_image for d in detections]
-
