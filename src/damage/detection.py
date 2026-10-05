@@ -344,6 +344,11 @@ def detect_damage_mobilesam_owl(
         width, height = pil_img.size
         img_np = np.array(pil_img)
 
+        query_to_class = {}
+        for cname, qlist in prompts_dict.items():
+            for q in qlist:
+                query_to_class[q] = cname
+
         candidate_boxes = []  # tuple: (bbox_xyxy, confidence_score, damage_class)
         if owl_processor is not None:
             inputs = owl_processor(text=[flat_texts], images=pil_img, return_tensors="pt")
@@ -351,19 +356,44 @@ def detect_damage_mobilesam_owl(
             with torch.no_grad():
                 outputs = owl_detector(**inputs)
             target_sizes = torch.tensor([[height, width]], device=dev)
-            results = owl_processor.post_process_object_detection(
-                outputs=outputs, target_sizes=target_sizes, threshold=confidence_threshold
-            )[0]
-            for box, score, label_idx in zip(results["boxes"], results["scores"], results["labels"]):
-                idx = int(label_idx.item())
-                if idx < len(class_map):
-                    cls_name = class_map[idx]
-                    b = [int(v.item()) for v in box]
-                    x1 = max(0, min(width - 1, b[0]))
-                    y1 = max(0, min(height - 1, b[1]))
-                    x2 = max(x1 + 1, min(width, b[2]))
-                    y2 = max(y1 + 1, min(height, b[3]))
-                    candidate_boxes.append(((x1, y1, x2, y2), float(score.item()), cls_name))
+            if hasattr(owl_processor, "post_process_grounded_object_detection"):
+                results = owl_processor.post_process_grounded_object_detection(
+                    outputs=outputs, target_sizes=target_sizes, threshold=confidence_threshold,
+                    text_labels=[flat_texts]
+                )[0]
+            elif hasattr(owl_processor, "post_process_object_detection"):
+                results = owl_processor.post_process_object_detection(
+                    outputs=outputs, target_sizes=target_sizes, threshold=confidence_threshold
+                )[0]
+            elif hasattr(getattr(owl_processor, "image_processor", None), "post_process_object_detection"):
+                results = owl_processor.image_processor.post_process_object_detection(
+                    outputs=outputs, target_sizes=target_sizes, threshold=confidence_threshold
+                )[0]
+            else:
+                raise AttributeError("OwlViTProcessor has no supported post_process method.")
+
+            boxes = results.get("boxes", [])
+            scores = results.get("scores", [])
+            text_labels = results.get("text_labels")
+            labels = results.get("labels")
+
+            for i in range(len(boxes)):
+                box = boxes[i]
+                score = float(scores[i].item())
+                cls_name = "damage"
+                if text_labels is not None and i < len(text_labels):
+                    cls_name = query_to_class.get(text_labels[i], class_map[0] if class_map else "damage")
+                elif labels is not None and i < len(labels):
+                    idx = int(labels[i].item())
+                    if idx < len(class_map):
+                        cls_name = class_map[idx]
+
+                b = [int(v.item()) for v in box]
+                x1 = max(0, min(width - 1, b[0]))
+                y1 = max(0, min(height - 1, b[1]))
+                x2 = max(x1 + 1, min(width, b[2]))
+                y2 = max(y1 + 1, min(height, b[3]))
+                candidate_boxes.append(((x1, y1, x2, y2), score, cls_name))
 
         img_detections: list[DamageDetection] = []
         if sam_predictor is not None and candidate_boxes:
