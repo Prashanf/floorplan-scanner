@@ -20,13 +20,14 @@ import logging
 import os
 import shutil
 import subprocess
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
 import numpy as np
 
 from src.geometry.ceiling import find_floor_and_ceiling
+from src.geometry.scale_recovery import recover_scale_from_tiles
 from src.room_ir import CameraPose, PointCloud
 from src import config as cfg
 
@@ -624,76 +625,190 @@ def _longest_wall(cloud: PointCloud) -> float:
         return 0.0
 
 
+@dataclass
+class ScaleResult:
+    """One scale-recovery method's answer: metres per aligned-cloud unit, and how far to trust it."""
+
+    method: str
+    factor: float
+    confidence: float  # 0 to 1; a method is accepted above cfg.MIN_SCALE_CONFIDENCE
+    detail: str = ""
+    label: str = ""  # for the log line: "Scale recovered from <label> (<summary>, confidence 0.85)"
+    summary: str = ""  # log text in place of `detail`
+    area: Optional[float] = None  # room area (m2) at this scale, when it was checked
+    correction: float = 1.0  # door only: factor relative to the prior scale
+
+
+@dataclass
+class _ScaleContext:
+    """What the scale methods share: the Z-up cloud (arbitrary units), the poses in that frame, the prior."""
+
+    aligned: np.ndarray
+    poses: list[CameraPose]
+    factor0: float
+    method0: str
+    door_widths_units: list[float] = field(default_factory=list)  # plausible doors seen at the prior scale
+    base_total: float = 0.0  # the scale the longest-wall step starts from
+
+
+def _plausible(ctx: _ScaleContext, factor: float, good: float, bad: float) -> tuple[float, float]:
+    """(confidence, area): `good` when the room area at this scale is realistic, `bad` when it is under
+    MIN_PLAUSIBLE_AREA (the next method gets a chance)."""
+    area = _outline_area(PointCloud(points=ctx.aligned * factor))
+    return (good if area >= cfg.MIN_PLAUSIBLE_AREA else bad), area
+
+
+def _scale_from_tiles(ctx: _ScaleContext) -> Optional[ScaleResult]:
+    """Floor tile grid. The tile size is a measurement, so a small room is not second-guessed."""
+    tiles = recover_scale_from_tiles(ctx.poses, PointCloud(points=ctx.aligned), prior_scale=ctx.factor0)
+    if tiles is None:
+        return None
+    return ScaleResult("floor-tiles", tiles.scale_factor, tiles.confidence,
+                       f"{tiles.tile_size_m:.2f} m tiles, {tiles.n_images} image(s), {tiles.method}",
+                       label="floor tiles", correction=tiles.scale_factor / ctx.factor0,
+                       summary=f"{tiles.tile_size_m:.2f}m × {tiles.tile_size_m:.2f}m grid detected")
+
+
+def _scale_from_door(ctx: _ScaleContext) -> Optional[ScaleResult]:
+    """The widest floor-level gap of 0.6 to 1.2 m is a 0.86 m door."""
+    from src.geometry.openings import detect_openings
+    from src.geometry.wall_fitting import fit_walls
+
+    cloud = PointCloud(points=ctx.aligned * ctx.factor0)
+    try:
+        walls, _ = fit_walls(cloud, inlier_threshold=SFM_WALL_THRESHOLD)
+        openings = detect_openings(cloud, walls, min_gap_height=DOOR_MIN_GAP_HEIGHT)
+    except ValueError as exc:  # too sparse to fit walls here; the caller will hit the same wall later
+        logger.warning("scale refinement skipped: %s", exc)
+        return None
+    ctx.door_widths_units = [o.width / ctx.factor0 for o in openings
+                             if o.type == "door" and DOOR_WIDTH_RANGE[0] <= o.width <= DOOR_WIDTH_RANGE[1]]
+    estimate = recover_scale(cloud, openings, walls)
+    if estimate.method != "door" or not DOOR_CORRECTION_RANGE[0] <= estimate.factor <= DOOR_CORRECTION_RANGE[1]:
+        logger.info("no usable door for scale (%s); keeping the %s prior", estimate.method, ctx.method0)
+        return None
+    total = ctx.factor0 * estimate.factor
+    confidence, area = _plausible(ctx, total, 0.8, 0.3)
+    return ScaleResult("door", total, confidence, estimate.detail, label="door width", area=area,
+                       correction=float(estimate.factor))
+
+
+def _pick_ceiling(ctx: _ScaleContext, extent: float) -> tuple[float, bool]:
+    """Ceiling height (m) for the vertical extent, chosen from cfg.CEILING_CANDIDATES, and whether a door
+    corroborates it. 2.5 m is kept unless a door seen in the cloud is clearly closer to 0.86 m at another height."""
+    default = TYPICAL_CEILING
+    if not ctx.door_widths_units:
+        return default, False
+    width = max(ctx.door_widths_units)
+    error = {c: abs(width * c / extent - DOOR_WIDTH) for c in set(cfg.CEILING_CANDIDATES) | {default}}
+    best = min(error, key=error.get)
+    height = best if error[best] < error[default] - 0.03 else default
+    return height, error[height] <= 0.08
+
+
+def _scale_from_ceiling(ctx: _ScaleContext) -> Optional[ScaleResult]:
+    """Vertical extent of the cloud scaled to a ceiling height from the candidates."""
+    low, high = np.percentile(ctx.aligned[:, 2], [1, 99])
+    extent = float(high - low)
+    if extent <= 1e-6:
+        return None
+    height, corroborated = _pick_ceiling(ctx, extent)
+    total = height / extent
+    ctx.base_total = total
+    confidence, area = _plausible(ctx, total, 0.7 if corroborated else 0.6, 0.3)
+    logger.info("scale: ceiling-height prior, vertical extent -> %.1f m (area %.1f m2)", height, area)
+    return ScaleResult("ceiling-height-prior", total, confidence,
+                       f"vertical extent {extent:.3f} units -> {height} m", label="ceiling height prior", area=area)
+
+
+def _scale_from_longest_wall(ctx: _ScaleContext) -> Optional[ScaleResult]:
+    """Last resort: the longest wall is taken to be TYPICAL_LONGEST_WALL long. Confidence stays low."""
+    base = ctx.base_total or ctx.factor0
+    longest = _longest_wall(PointCloud(points=ctx.aligned * base))
+    if longest <= 0:
+        return None
+    total = base * float(np.clip(TYPICAL_LONGEST_WALL / longest, 0.25, 4.0))
+    area = _outline_area(PointCloud(points=ctx.aligned * total))
+    logger.info("scale: longest-wall prior (area now %.1f m2)", area)
+    return ScaleResult("longest-wall-prior", total, 0.2, f"longest wall {longest:.2f} m -> {TYPICAL_LONGEST_WALL} m",
+                       label="longest wall assumption", area=area)
+
+
+# Tried in order; the first result above cfg.MIN_SCALE_CONFIDENCE is used.
+SCALE_METHODS = (
+    ("floor-tiles", _scale_from_tiles),
+    ("door", _scale_from_door),
+    ("ceiling-height-prior", _scale_from_ceiling),
+    ("longest-wall-prior", _scale_from_longest_wall),
+)
+
+
 def make_metric_point_cloud(
     points: np.ndarray, poses: list[CameraPose]
 ) -> tuple[PointCloud, list[CameraPose], dict]:
     """COLMAP output -> Z-up, wall-aligned point cloud in meters.
 
-    Scale recovery is a chain; each later step runs only if the area it produced is still implausible:
-    1. door: the widest floor-level gap of 0.6 to 1.2 m is taken as a 0.86 m door;
-    2. ceiling-height prior (when there is no door, or the area is under MIN_PLAUSIBLE_AREA m2): the
-       vertical extent of the cloud is scaled to TYPICAL_CEILING (2.5 m), the most reliable prior because
-       the vertical extent survives even when the horizontal scale is ambiguous;
-    3. longest-wall prior (when the area is still under MIN_PLAUSIBLE_AREA m2): the longest wall is
-       scaled to TYPICAL_LONGEST_WALL (3.5 m).
+    Scale recovery tries SCALE_METHODS in order and uses the first whose confidence is above
+    cfg.MIN_SCALE_CONFIDENCE (0.5):
+    1. floor tiles: a square tile grid on the floor (0.30, 0.45, 0.60 or 0.80 m) measured in the images;
+    2. door: the widest floor-level gap of 0.6 to 1.2 m is a 0.86 m door (confidence drops when the room
+       would come out under MIN_PLAUSIBLE_AREA m2);
+    3. ceiling-height prior: the vertical extent of the cloud is a ceiling height picked from
+       cfg.CEILING_CANDIDATES (2.5 m unless a visible door says another candidate fits better);
+    4. longest-wall prior: the longest wall is TYPICAL_LONGEST_WALL (3.5 m), very low confidence.
+    If no method is confident, the longest-wall result is used when there is one, else the most confident.
     A final area outside [MIN_ROOM_AREA_WARN, MAX_ROOM_AREA_WARN] m2 is logged and flagged in the metadata
     ("scale recovery may be unreliable"). The cloud is then rotated about Z so the longest wall is parallel
     to the X axis (COLMAP's own frame has an arbitrary heading), and the poses are rotated with it.
 
-    Returns (cloud, poses in the same frame, metadata with scale method, factor and alignment angle).
+    Returns (cloud, poses in the same frame, metadata with scale method, confidence, factor and alignment angle).
     """
-    from src.geometry.openings import detect_openings
-    from src.geometry.wall_fitting import dominant_wall_angle, fit_walls
+    from src.geometry.wall_fitting import dominant_wall_angle
 
     points = _drop_far_outliers(points)
     rotation = align_to_gravity(points, poses)
     aligned = _trim_vertical_outliers(points @ rotation.T)
     factor0, method0 = approximate_scale(aligned)
-    cloud = PointCloud(points=aligned * factor0)
 
+    # The same cameras in the aligned frame (cloud units): rotating the world leaves t unchanged.
+    aligned_poses = [CameraPose(image_path=p.image_path, rotation=p.rotation @ rotation.T,
+                                translation=p.translation, intrinsics=p.intrinsics) for p in poses]
+    ctx = _ScaleContext(aligned=aligned, poses=aligned_poses, factor0=factor0, method0=method0, base_total=factor0)
     meta = {"scale_prior": method0, "scale_prior_factor": float(factor0), "scale_method": method0,
             "scale_correction": 1.0}
 
-    # 1. door
-    total, method = factor0, method0
-    try:
-        walls, _ = fit_walls(cloud, inlier_threshold=SFM_WALL_THRESHOLD)
-        openings = detect_openings(cloud, walls, min_gap_height=DOOR_MIN_GAP_HEIGHT)
-        estimate = recover_scale(cloud, openings, walls)
-        if estimate.method == "door" and DOOR_CORRECTION_RANGE[0] <= estimate.factor <= DOOR_CORRECTION_RANGE[1]:
-            total, method = factor0 * estimate.factor, "door"
-            meta["scale_correction"], meta["scale_detail"] = float(estimate.factor), estimate.detail
-        else:
-            logger.info("no usable door for scale (%s); keeping the %s prior", estimate.method, method0)
-    except ValueError as exc:  # too sparse to fit walls here; the caller will hit the same wall later
-        logger.warning("scale refinement skipped: %s", exc)
-    area = _outline_area(PointCloud(points=aligned * total))
+    tried: list[ScaleResult] = []
+    chosen: Optional[ScaleResult] = None
+    for _, method in SCALE_METHODS:
+        result = method(ctx)
+        if result is None:
+            continue
+        tried.append(result)
+        if result.confidence > cfg.MIN_SCALE_CONFIDENCE:
+            chosen = result
+            break
+    if chosen is None and tried:
+        last = tried[-1]
+        chosen = last if last.method == "longest-wall-prior" else max(
+            enumerate(tried), key=lambda item: (item[1].confidence, item[0]))[1]
+    if chosen is None:  # nothing could be measured: keep the prior from the vertical extent
+        chosen = ScaleResult(method0, factor0, 0.1, "no scale method succeeded", label=f"{method0} prior")
 
-    # 2. ceiling-height prior
-    if method != "door" or area < cfg.MIN_PLAUSIBLE_AREA:
-        low, high = np.percentile(aligned[:, 2], [1, 99])
-        if high - low > 1e-6:
-            total, method = TYPICAL_CEILING / float(high - low), "ceiling-height-prior"
-            meta["scale_detail"] = f"vertical extent {high - low:.3f} units -> {TYPICAL_CEILING} m"
-            area = _outline_area(PointCloud(points=aligned * total))
-            logger.info("scale: ceiling-height prior, vertical extent -> %.1f m (area %.1f m2)", TYPICAL_CEILING, area)
-
-    # 3. longest-wall prior
-    if area < cfg.MIN_PLAUSIBLE_AREA:
-        longest = _longest_wall(PointCloud(points=aligned * total))
-        if longest > 0:
-            total *= float(np.clip(TYPICAL_LONGEST_WALL / longest, 0.25, 4.0))
-            method = "longest-wall-prior"
-            meta["scale_detail"] = f"longest wall {longest:.2f} m -> {TYPICAL_LONGEST_WALL} m"
-            area = _outline_area(PointCloud(points=aligned * total))
-            logger.info("scale: longest-wall prior (area now %.1f m2)", area)
-
-    meta["scale_method"], meta["scale_factor"], meta["scale_area_m2"] = method, float(total), float(area)
+    total, method = chosen.factor, chosen.method
+    area = chosen.area if chosen.area is not None else _outline_area(PointCloud(points=aligned * total))
+    meta.update(scale_method=method, scale_factor=float(total), scale_area_m2=float(area),
+                scale_confidence=float(chosen.confidence), scale_correction=float(chosen.correction),
+                scale_tried=[[r.method, round(float(r.confidence), 3)] for r in tried])
+    if chosen.detail:
+        meta["scale_detail"] = chosen.detail
     meta["scale_unreliable"] = bool(area < cfg.MIN_ROOM_AREA_WARN or area > cfg.MAX_ROOM_AREA_WARN)
     if meta["scale_unreliable"]:
         logger.warning("scale recovery may be unreliable: reconstruction area %.1f m2 after the %s step", area, method)
-    logger.info("scale: %s, factor %.3f", method, total)
-
+    logger.info("Scale recovered from %s (%s, confidence %.2f)", chosen.label or method,
+                chosen.summary or chosen.detail, chosen.confidence)
+    if chosen.confidence <= cfg.MIN_SCALE_CONFIDENCE:
+        logger.warning("scale confidence %.2f is low: no method was confident (tried %s)", chosen.confidence,
+                       ", ".join(f"{r.method} {r.confidence:.2f}" for r in tried) or "none")
     scaled = aligned * total
     # Wall alignment: longest wall parallel to X. p_b = Rz(-angle) p_a, so the poses get R' = R * rotation^T * Rz(angle).
     angle = dominant_wall_angle(PointCloud(points=scaled), SFM_WALL_THRESHOLD)

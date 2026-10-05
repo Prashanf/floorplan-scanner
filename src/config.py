@@ -44,6 +44,18 @@ TYPICAL_CEILING = 2.5
 DOOR_WIDTH_RANGE = (0.6, 1.2)  # detected "doors" outside this are ignored
 DOOR_CORRECTION_RANGE = (0.8, 1.25)  # a bigger door-based correction is a false door
 SFM_WALL_INLIER_THRESHOLD = 0.06  # SfM points scatter more around a wall than LiDAR
+MIN_SCALE_CONFIDENCE = 0.5  # the scale chain stops at the first method above this
+CEILING_CANDIDATES = (2.4, 2.5, 2.7, 3.0)  # ceiling heights tried by the ceiling prior; a visible door picks one
+
+# --- Floor tile scale recovery (src/geometry/scale_recovery.py) --------------------------------
+TILE_SIZES = (0.30, 0.45, 0.60, 0.80)  # standard square tiles (m): 12, 18, 24, 32 inch
+TILE_BANDS = {0.30: (0.25, 0.35), 0.45: (0.40, 0.50), 0.60: (0.50, 0.65), 0.80: (0.70, 0.90)}  # computed size -> tile
+TILE_MAX_IMAGES = 6  # images tried per room (evenly spaced over the registered ones)
+TILE_IMAGE_LONG_EDGE = 1600  # px; larger images are downscaled before rectification
+TILE_ORTHO_MAX = 1400  # px; longest side of the rectified floor image
+TILE_MIN_DEPRESSION_DEG = 12.0  # floor pixels closer than this to the horizon are too oblique to use
+TILE_MIN_LINES = 3  # distinct grout lines needed in each direction
+TILE_SQUARE_TOLERANCE = 0.10  # the two line spacings must agree within this share (tiles are square)
 
 # --- Room segmentation (src/tiers/room_segmentation.py) ---------------------------------------
 DBSCAN_EPS = 0.5  # distance between separate scan parts

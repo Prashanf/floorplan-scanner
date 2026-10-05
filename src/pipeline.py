@@ -117,15 +117,17 @@ def run_pipeline(
     output_dir: str,
     drift_correction: bool = True,
     render: bool = True,
+    damage_detector: str = "heuristic",
 ) -> PropertyReport:
     """Run preprocess -> tier front-end -> geometry -> stitch -> damage -> scope ->
     calibrate -> write JSON -> render, and return the PropertyReport.
     drift_correction=False is the ablation switch (--no-drift-correction).
+    damage_detector='heuristic' (default) or 'mobilesam' / 'model'.
     """
     t_start = time.perf_counter()
     timings: dict[str, float] = {}
-    _say(f"Pipeline {__version__} | tier={tier} | drift_correction={drift_correction}")
-    log.info("drift_correction=%s", drift_correction)
+    _say(f"Pipeline {__version__} | tier={tier} | drift_correction={drift_correction} | damage_detector={damage_detector}")
+    log.info("drift_correction=%s damage_detector=%s", drift_correction, damage_detector)
 
     def timed(name: str, start: float) -> None:
         timings[name] = time.perf_counter() - start
@@ -197,6 +199,10 @@ def run_pipeline(
                 log.warning("%s: scale recovery may be unreliable (room area %.1f m2)", room.room_id, area)
                 warnings.append(f"{room.room_id}: scale recovery may be unreliable (room area {area:.1f} m2, "
                                 f"scale from the {room.metadata.get('scale_method', 'unknown')} step).")
+            confidence = room.metadata.get("scale_confidence")
+            if confidence is not None and confidence <= cfg.MIN_SCALE_CONFIDENCE:
+                warnings.append(f"{room.room_id}: scale recovered from the {room.metadata.get('scale_method')} step "
+                                f"with low confidence ({confidence:.2f}); dimensions may be off by 20% or more.")
     property_ir.rooms = solved
     timed("geometry", t)
 
@@ -221,7 +227,11 @@ def run_pipeline(
     if images:
         if tier == "video":  # keyframes in time order, so "consecutive frames" means consecutive in time
             images = sorted(images)
-        detections = detect_damage(images, persistent_frames=cfg.PERSISTENT_FRAME_LIMIT if tier == "video" else 0)
+        detections = detect_damage(
+            images,
+            persistent_frames=cfg.PERSISTENT_FRAME_LIMIT if tier == "video" else 0,
+            detector=damage_detector,
+        )
         projected = project_damage_to_surfaces(detections, damage_rooms)
     else:
         detections, projected = [], []
