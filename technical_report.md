@@ -2,7 +2,9 @@
 
 Branch `dev`, pipeline version 0.1.0. Every number below comes from a saved run in this repository (`output/`, `benchmark/results_saved/`, `fix_loop/`). Where a number is a design target rather than a measurement, the text says so.
 
-**Summary.** The LiDAR tier produces recognisable multi-room plans from real iPhone depth logs. The video tier reconstructs with COLMAP but the plans are wrong in scale and room count. The photo tier produced no rooms on the one real photo set we ran. No gate has been measured against tape or laser ground truth on a full benchmark set. The only gate numbers that pass are on synthetic data. The head-to-head comparison uses a mock competitor file.
+**Test devices.** No iPhone and no LiDAR device was available for our own captures. Our rooms were filmed and photographed with an ordinary Android camera phone (video 1080p at 30 fps, no depth sensor). The LiDAR tier was tested only on the three sample captures provided with the task (`data_raw/`, raw iPhone LiDAR logs), not on our own rooms.
+
+**Summary.** The LiDAR tier produces recognisable multi-room plans from the provided real iPhone depth logs. The video tier reconstructs with COLMAP but the plans are wrong in scale and room count. The photo tier produced no rooms on the one real photo set we ran. No gate has been measured against tape or laser ground truth on a full benchmark set. The only gate numbers that pass are on synthetic data. The head-to-head comparison uses a mock competitor file.
 
 ## 1. Architecture
 
@@ -114,3 +116,18 @@ The two runs use different recordings, and the second also uses the user-supplie
 ## 7. What is still missing
 
 A benchmark set with tape or laser ground truth (the case study requires a multi-room capture, a damaged furnished room, all three tiers on the same rooms, and one repeated room); a real competitor export; a calibration fit on measured data; a corrected repeatability gate; an updated device matrix; a way to get ceiling points on white ceilings (or to read the ceiling from the images), and a protocol revision for the video route. Until these exist, the accuracy claims in section 2 remain unverified.
+
+## 8. Conclusion
+
+**What was tested, and on what.** The pipeline implements all three tiers behind one command and one output contract. Our own benchmark captures, a bedroom measured by tape at 4.06 m × 3.16 m with a 3.15 m ceiling, are video and photo captures from a standard camera phone. We had no LiDAR-capable iPhone, so the LiDAR tier has never run on a room we measured. Its only evidence is the three provided sample captures in `data_raw/`.
+
+**LiDAR (provided sample data only).** Ingestion works end to end on all three samples. The raw depth logs are back-projected into point clouds, rooms are segmented, and walls, floor area and openings are fitted. The runs give 10 rooms and 56.3 m², 9 rooms and 32.5 m², and 3 rooms and 8.6 m², in 4.5 to 14.6 s each. The output validates against the schema and the plans look like apartments. This shows that the tier handles real LiDAR logs and runs fast. It does not show accuracy: the samples came with no tape or laser ground truth, adjacency often rests on shared boundaries because few doors were detected, hallways are over-split, and most rooms lack a scanned ceiling. We do not claim the LiDAR wall, ceiling or opening gates, and we ran no LiDAR repeatability or head-to-head test.
+
+**Video and photo (our own captures).** These tiers are weaker. The video tier reconstructs a partial plan from a real walkthrough (landscape: 2 rooms, 11.5 m², against 12.8 m² measured for the room), with scale, missing geometry and ceiling problems described in sections 4 to 6. The photo tier produced no rooms on our four-room set. Neither passes its gate. Both phones differ from the iPhone 15 or newer the case study specifies, so how these tiers behave on the target hardware is untested.
+
+**Consequences for the benchmark.**
+- Measured on our own rooms: video (poor), photo (failed).
+- Not measured: LiDAR accuracy, LiDAR repeatability, the head-to-head against a scanning app (that needs a LiDAR export of the same room), and any tier on an iPhone.
+- Gate numbers that pass (`benchmark/results/gates_report.md`) come from the synthetic apartment, not from real measurements.
+
+**Where this leaves the system.** The LiDAR tier is the only one with real evidence of working, and that evidence is about ingestion and plausibility, not accuracy. The video and photo tiers run without crashing and report their failures honestly, but they do not yet produce usable plans on real rooms. The next steps that would change these claims are: run the LiDAR tier on a Pro iPhone capture of a tape-measured room; capture a repeat of one room at one tier; get a competitor export of the same room; and give the video tier a way to recover the ceiling and register the whole walkthrough.
