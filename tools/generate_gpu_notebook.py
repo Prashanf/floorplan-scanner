@@ -107,7 +107,7 @@ cells.append(md(r"""## Step 3: Install dependencies and configure COLMAP for the
 
 cells.append(code(r"""!grep -vi "^pycolmap" requirements.txt > /tmp/requirements_base.txt
 !pip install -q -r /tmp/requirements_base.txt tqdm ipywidgets
-!pip install -q accelerate qwen-vl-utils networkx "transformers>=4.45.0"
+!pip install -q accelerate qwen-vl-utils networkx "bitsandbytes>=0.46.1" "transformers>=4.45.0"
 !pip uninstall -y -q pycolmap
 !pip install -q pycolmap-cuda12
 # only needed with DAMAGE_MODEL = "mobilesam":
@@ -534,6 +534,14 @@ for rid, picks in protocol_picks.items():
     print(f"  [{rid}]: {', '.join(role for _, role in picks)}")
 
 # Run Step 1 Vision Reasoning
+if VLM_4BIT and torch.cuda.is_available():
+    try:
+        import bitsandbytes
+    except ImportError:
+        import subprocess
+        print("bitsandbytes not found; installing bitsandbytes>=0.46.1 for 4-bit CUDA quantization...")
+        subprocess.run(["pip", "install", "-q", "-U", "bitsandbytes>=0.46.1"], check=True)
+
 print(f"\n--- Running Step 1 Vision Reasoning: {VLM_MODEL} (4bit={VLM_4BIT}) ---")
 vlm_adjacency_result = infer_room_adjacency_vlm(
     room_images=room_images_dict,

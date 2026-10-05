@@ -260,6 +260,7 @@ def load_qwen2_vl_model(
     if target_device == "cuda":
         if load_in_4bit:
             try:
+                import bitsandbytes as bnb
                 from transformers import BitsAndBytesConfig
                 kwargs["quantization_config"] = BitsAndBytesConfig(
                     load_in_4bit=True,
@@ -267,8 +268,12 @@ def load_qwen2_vl_model(
                     bnb_4bit_use_double_quant=True,
                     bnb_4bit_quant_type="nf4",
                 )
+                log.info("4-bit quantization enabled via bitsandbytes")
             except ImportError:
-                log.warning("bitsandbytes not installed, continuing with standard bfloat16 on CUDA")
+                log.warning(
+                    "bitsandbytes is not installed; falling back to standard bfloat16 on CUDA. "
+                    "To enable 4-bit, run: pip install -U 'bitsandbytes>=0.46.1'"
+                )
         kwargs["device_map"] = "auto"
     elif target_device == "mps":
         # MPS device mapping
