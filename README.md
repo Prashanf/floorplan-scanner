@@ -118,5 +118,5 @@ python tools/validate_sample_output.py              # schema and field check of 
 - **LiDAR tier** reads the raw depth log directly (`src/tiers/depth_stream.py`): every depth pixel is back-projected with the logged intrinsics and pose, so no PLY export is needed.
 - **Photo tier** has no photos in the provided data, so `tools/make_photo_sets.py` cuts stills from `rgb.mp4`: rooms come from the LiDAR run, and each room gets up to 8 sharp frames from one continuous stay, rotated upright. The photo tier itself sees only the JPEGs (no depth, no poses).
 - **Video tier** runs on `rgb.mp4` with the intrinsics from `camera_matrix.csv` as the COLMAP starting point.
-- Results and known problems on this data are in `technical_report.md` (`report.md` is an older write-up and is out of date). The data has no tape-measure ground truth, so no accuracy number is claimed from it.
+- Results and known problems on this data are in `technical_report.md` (`report.md` is a stub pointing there). The data has no tape-measure ground truth, so no accuracy number is claimed from it.
 - Plans are drawn in a wall-aligned frame (the cloud is rotated about Z so walls are axis-aligned), not north-up.

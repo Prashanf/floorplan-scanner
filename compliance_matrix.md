@@ -7,7 +7,7 @@ Requirement (from `Applied_AI_Case_Study.pdf`) → file path → artifact → st
 | Requirement | File path | Artifact | Status |
 |---|---|---|---|
 | Capture route (stock-capture protocol, one page for a non-engineer) | `capture_protocol.md` | One-page protocol per tier, with the 360° turn, ceiling tilt and doorway pause | Done. Never followed by a third party. |
-| Device matrix: tier, hardware, honest accuracy | `device_matrix.md` | Table of claimed accuracy | Partial. Claims, not measurements; scale note is out of date. |
+| Device matrix: tier, hardware, honest accuracy | `device_matrix.md` | Table of claimed accuracy | Partial. Claims, not measurements; measured results noted at the bottom of the file. |
 | Tier 1: photos, 2 to 8 per room, per-room folders, stitched plan | `src/tiers/photo.py`, `src/stitching/photo_stitch.py` | `benchmark/results_saved/photos_real_capture/` | Partial. Runs; produced 0 rooms on our real photos. |
 | Tier 2: video walkthrough | `src/tiers/video.py` | `benchmark/results_saved/video_test3/` | Partial. Partial plan only (11.5 m² against 12.8 m² measured). |
 | Tier 3: LiDAR depth, poses, intrinsics | `src/tiers/lidar.py`, `depth_stream.py` | `benchmark/results_saved/lidar_segmentation_v2/` | Done on the provided samples only; not run on our own rooms (no LiDAR device). |
