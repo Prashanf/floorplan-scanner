@@ -77,9 +77,9 @@ In `--output-dir`:
 Every measurement is `{value, confidence_low, confidence_high, unit}`. Empty lists (no damage found) are present, never missing.
 
 ## Layout
-- `src/tiers/` capture front-ends (LiDAR depth logs and PLY/OBJ, video, photo), COLMAP wrapper with its configuration cascade, image preparation (HEIC and other formats to JPEG), room segmentation, single-image fallback
+- `src/tiers/` capture front-ends (LiDAR depth logs and PLY/OBJ, video, photo), COLMAP wrapper with its configuration cascade, image preparation (HEIC and other formats to JPEG), room segmentation (free-space watershed), single-image fallback
 - `src/geometry/` walls, room outline, ceiling, openings, floor area, scale recovery (floor tiles, door, ceiling prior, longest wall), rectangle fit
-- `src/stitching/` multi-room stitching, drift correction, photo stitching, room merging
+- `src/stitching/` multi-room stitching, drift correction, photo stitching, room merging (video and LiDAR: fragment merge; LiDAR also merges rooms under 2 m²)
 - `src/damage/` damage detection (OpenCV and MobileSAM + OWL), concealed-damage rules, scope, detector comparison
 - `src/calibration/` confidence intervals
 - `src/output/` JSON writer and renderer
@@ -94,11 +94,11 @@ All three tiers run end to end and write `report.json` and `floor_plan.png`. Sti
 
 | Tier | Data | Result |
 |------|------|--------|
-| LiDAR | three provided iPhone LiDAR logs | 10 rooms (56.3 m²), 9 rooms (32.5 m²), 3 rooms (8.6 m²), 5 to 15 s each; plans are recognisable. No ground truth, so accuracy is not claimed. |
+| LiDAR | three provided iPhone LiDAR logs | 6 room segments (56.9 m²), 7 (32.4 m²) and 3 (8.6 m²), 7 to 18 s each; plans are recognisable. Over-split fragments are merged (before: 10, 9 and 3 segments). No ground truth, so accuracy and the true room counts are not verified. |
 | Video | our own 5-minute walkthroughs, camera phone | partial plans: landscape 2 rooms, 11.5 m² against 12.8 m² measured (first room 2.63 m × 2.85 m against 4.06 m × 3.16 m); portrait 7 rooms, 25.4 m². 8 to 17 minutes with a GPU. |
 | Photo | our own four-room photo set | 0 rooms (COLMAP cannot match white, low-texture walls); a valid empty report is written. |
 
-Known limits: photo and video scale is a prior or a floor-tile measurement, not a measurement of the room; the ceiling is often not reconstructed (ceiling height is then a lower bound); rooms are over-split; damage detection has no labelled evaluation. Benchmark gates pass only on the synthetic apartment (`benchmark/results/gates_report.md`); there is no real LiDAR repeatability or head-to-head result, and `benchmark/competitor/` holds a mock file. Details in [`technical_report.md`](technical_report.md).
+Known limits: photo and video scale is a prior or a floor-tile measurement, not a measurement of the room; the ceiling is often not reconstructed (ceiling height is then a lower bound); room segmentation can still over-split (LiDAR fragments under 2 m² and fragments sharing a wall without a door are now merged, which also removes some adjacencies and openings; true room counts are unverified); damage detection has no labelled evaluation. Benchmark gates pass only on the synthetic apartment (`benchmark/results/gates_report.md`); there is no real LiDAR repeatability or head-to-head result, and `benchmark/competitor/` holds a mock file. Details in [`technical_report.md`](technical_report.md).
 
 ## Sample data (the three provided captures)
 
