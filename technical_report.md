@@ -2,7 +2,7 @@
 
 Branch `dev`, pipeline version 0.1.0. Every number below comes from a saved run in this repository (`output/`, `benchmark/results_saved/`, `fix_loop/`). Where a number is a design target rather than a measurement, the text says so.
 
-**Test devices.** No iPhone and no LiDAR device was available for our own captures. Our rooms were filmed and photographed with an ordinary Android camera phone (video 1080p at 30 fps, no depth sensor). The LiDAR tier was tested only on the three sample captures provided with the task (`data_raw/`, raw iPhone LiDAR logs), not on our own rooms.
+**Test devices.** No iPhone and no LiDAR device was available for our own captures. Our rooms were filmed and photographed with an ordinary Android camera phone (video 1080p at 30 fps, no depth sensor). The LiDAR tier was tested only on the three sample captures provided with the task (`data_raw/`, raw iPhone LiDAR logs), not on our own rooms. Our test data (the videos and photos we recorded) is at https://drive.google.com/drive/folders/1Cb9Y-XzCeFcEkPu4zT8gaxw45lG32aVz?usp=drive_link.
 
 **Summary.** The LiDAR tier produces recognisable multi-room plans from the provided real iPhone depth logs. The video tier reconstructs with COLMAP but the plans are wrong in scale and room count. The photo tier produced no rooms on the one real photo set we ran. No gate has been measured against tape or laser ground truth on a full benchmark set. The only gate numbers that pass are on synthetic data. The head-to-head comparison uses a mock competitor file.
 

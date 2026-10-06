@@ -8,7 +8,7 @@ Turns a handheld phone capture into a dimensioned, stitched whole-property floor
 | `video` | one walkthrough clip, iPhone 15+ | `video/*.mov` (also `.mp4`, `.mkv`, `.avi`) |
 | `photo` | 2 to 8 stills per room, iPhone 15+ | `photos/room-1/`, `photos/room-2/`, ... |
 
-How to capture: [`capture_protocol.md`](capture_protocol.md). Hardware and accuracy claims: [`device_matrix.md`](device_matrix.md). Results, failure modes and the fix loop: [`technical_report.md`](technical_report.md) and [`fix_loop/declaration.md`](fix_loop/declaration.md). Requirement coverage: [`compliance_matrix.md`](compliance_matrix.md). Where the raw benchmark data lives: [`benchmark/DATA.md`](benchmark/DATA.md).
+How to capture: [`capture_protocol.md`](capture_protocol.md). Hardware and accuracy claims: [`device_matrix.md`](device_matrix.md). Results, failure modes and the fix loop: [`technical_report.md`](technical_report.md) and [`fix_loop/declaration.md`](fix_loop/declaration.md). Requirement coverage: [`compliance_matrix.md`](compliance_matrix.md). Where the raw benchmark data lives: [`benchmark/DATA.md`](benchmark/DATA.md). Our test data (the videos and photos we recorded): [Google Drive folder](https://drive.google.com/drive/folders/1Cb9Y-XzCeFcEkPu4zT8gaxw45lG32aVz?usp=drive_link).
 
 Video and photos from any phone are accepted as input. Our own test captures came from a non-LiDAR camera phone, so the LiDAR tier was tested only on the three provided sample captures (see "Sample data" and "Status").
 

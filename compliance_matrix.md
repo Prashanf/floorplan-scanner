@@ -39,7 +39,7 @@ Requirement (from `Applied_AI_Case_Study.pdf`) → file path → artifact → st
 | Same rooms at all three tiers | video and photo of our room; LiDAR only on provided samples | Not done (no LiDAR device) |
 | At least one room captured twice at the same tier | none | Not done |
 | Laser or tape ground truth on everything | `benchmark/ground_truth/room-1.yaml` (one bedroom) | Partial |
-| Raw sensor data and measurements submitted | see `benchmark/DATA.md` | Partial. Raw files are kept outside git. |
+| Raw data and test data, with measurements, submitted | `benchmark/DATA.md`; our test data (videos and photos we recorded): https://drive.google.com/drive/folders/1Cb9Y-XzCeFcEkPu4zT8gaxw45lG32aVz?usp=drive_link | Partial. Test data (our videos and photos) is on Drive; the raw data is the provided LiDAR samples only. |
 
 ## Part 3 to 5
 
@@ -57,11 +57,11 @@ Requirement (from `Applied_AI_Case_Study.pdf`) → file path → artifact → st
 | 1 | Compliance matrix | this file | Done |
 | 2 | Capture route and device matrix | `capture_protocol.md`, `device_matrix.md` | Done |
 | 3 | Repo, README to running in under 15 min, one command per capture | `README.md` | Partial. Not timed on a clean machine. |
-| 4 | Reproduction bundle (regenerate every number from raw inputs) | `benchmark/DATA.md`, `tools/` | Partial. Raw inputs are not in the repo. |
+| 4 | Reproduction bundle (regenerate every number from raw inputs) | `benchmark/DATA.md`, `tools/` | Partial. Test data (our videos and photos) is on the shared Drive folder linked in `benchmark/DATA.md`; the raw data is the provided samples. Not rerun from a clean download. |
 | 5 | Benchmark report: gates at three tiers, repeatability table, head-to-head table, timing | `benchmark/results/gates_report.md`, `technical_report.md` | Partial. Repeatability and head-to-head tables are empty; gates are synthetic. |
 | 6 | Fix loop bundle | `fix_loop/` | Done |
 | 7 | Technical report, max 6 pages | `technical_report.md` (5 pages) | Done |
-| 8 | Raw benchmark data (sensor logs, ground truth, app exports) | `benchmark/DATA.md` | Partial. Videos and photos kept outside git; app export is a mock. |
+| 8 | Raw benchmark data (sensor logs, ground truth, app exports): raw data plus our test data | `benchmark/DATA.md` | Partial. Test data (our videos and photos) is on the shared Drive folder (linked in `benchmark/DATA.md`); the app export is a mock. |
 
 ## Constraints
 - Handheld consumer capture only: yes. Our own captures came from a non-iPhone camera phone; stated in the report.
