@@ -204,3 +204,38 @@ def merge_oversegmented_rooms(ir: PropertyIR) -> list[str]:
             notes.append(note)
         else:
             rejected.add(frozenset((ra.room_id, rb.room_id)))
+
+
+def merge_small_rooms(ir: PropertyIR, min_area: float) -> list[str]:
+    """Merge every room under min_area m2 into the neighbour it shares the longest boundary with (at least
+    MIN_CONTACT_LENGTH). A room that touches nothing stays. Returns notes for the report."""
+    notes: list[str] = []
+    rejected: set[frozenset] = set()
+    while True:
+        tfs = ir.room_transforms or {}
+        usable = [r for r in ir.rooms if r.floor_polygon and r.wall_segments and not r.metadata.get("rough_estimate")]
+        polys = {r.room_id: _global_polygon(r, tfs.get(r.room_id, (0.0, 0.0, 0.0))) for r in usable}
+        best = None  # (area of the small room, small room, neighbour, contact length)
+        for small in sorted(usable, key=lambda r: polys[r.room_id].area):
+            area = polys[small.room_id].area
+            if area >= min_area:
+                break
+            contacts = [(_contact_length(polys[small.room_id], polys[o.room_id]), o) for o in usable
+                        if o is not small and frozenset((small.room_id, o.room_id)) not in rejected]
+            contacts = [c for c in contacts if c[0] >= MIN_CONTACT_LENGTH]
+            if contacts:
+                length, other = max(contacts, key=lambda c: c[0])
+                best = (small, other, length, area)
+                break
+        if best is None:
+            return notes
+        small, other, length, area = best
+        ra, rb = sorted((small, other), key=lambda r: ir.rooms.index(r))
+        if merge_pair(ir, ra, rb):
+            note = (f"{small.room_id} ({area:.1f} m2) merged into {other.room_id}: it was under {min_area:.1f} m2 and "
+                    f"shared {length:.1f} m of boundary, so it was probably a fragment of the room segmentation.")
+            log.info(note)
+            notes.append(note)
+        else:
+            rejected.add(frozenset((small.room_id, other.room_id)))
+

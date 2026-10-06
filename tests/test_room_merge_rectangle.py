@@ -74,11 +74,26 @@ def test_a_short_shared_boundary_does_not_merge():
     assert len(ir.rooms) == 2
 
 
-def test_lidar_and_photo_tiers_are_not_merged():
-    for tier in ("lidar", "photo"):
-        rooms = [box_room("room-1", 0, 0, 2, 3, tier=tier), box_room("room-2", 0, 3, 2, 6, tier=tier)]
-        ir = stitched(rooms, tier=tier)
-        assert len(ir.rooms) == 2 and not ir.warnings
+def test_photo_tier_is_not_merged():
+    rooms = [box_room("room-1", 0, 0, 2, 3, tier="photo"), box_room("room-2", 0, 3, 2, 6, tier="photo")]
+    ir = stitched(rooms, tier="photo")
+    assert len(ir.rooms) == 2 and not ir.warnings
+
+
+def test_lidar_tier_merges_fragments_that_share_a_wall_without_an_opening():
+    rooms = [box_room("room-1", 0, 0, 2, 3, tier="lidar"), box_room("room-2", 0, 3, 2, 6, tier="lidar")]
+    ir = stitched(rooms, tier="lidar")
+    assert len(ir.rooms) == 1 and ir.warnings
+
+
+def test_lidar_tier_merges_a_room_under_the_minimum_area_into_its_neighbour():
+    # 1.0 m x 1.5 m closet (1.5 m2) with a doorway to a 3 m x 3 m room: the doorway keeps the fragment rule
+    # away, so only the small-room rule can merge them
+    rooms = [box_room("room-1", 0, 0, 3, 3, openings=[op(1, 0.3)], tier="lidar"),
+             box_room("room-2", 3, 0, 4, 1.5, openings=[op(3, 0.3)], tier="lidar")]
+    ir = stitched(rooms, tier="lidar")
+    assert len(ir.rooms) == 1
+    assert any("under 2.0 m2" in w for w in ir.warnings)
 
 
 def test_merged_room_keeps_poses_consistent_with_the_cloud():
@@ -120,16 +135,15 @@ def test_rectangle_handles_a_rotated_room():
     assert sorted(round(w.length, 1) for w in walls) == [3.0, 3.0, 4.0, 4.0]
 
 
-# ---------------------------------------------------------------- the LiDAR tier is untouched
+# ---------------------------------------------------------------- the LiDAR tier: no rectangle fallback
 
-def test_lidar_pipeline_never_calls_the_rectangle_fallback_or_the_merge(tmp_path, monkeypatch):
+def test_lidar_pipeline_never_calls_the_rectangle_fallback(tmp_path, monkeypatch):
     from src import pipeline
 
     def boom(*a, **k):
-        raise AssertionError("must not run for the LiDAR tier")
+        raise AssertionError("the rectangle fallback must not run for the LiDAR tier")
 
     monkeypatch.setattr(pipeline, "fit_rectangle", boom)
-    monkeypatch.setattr(room_merge, "merge_oversegmented_rooms", boom)
     points = make_apartment(seed=1, density=300.0)
     write_ply(str(tmp_path / "apartment.ply"), points)
     report = pipeline.run_pipeline(str(tmp_path), "lidar", str(tmp_path / "out"), render=False)

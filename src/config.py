@@ -64,6 +64,10 @@ SEGMENTATION_CELL = 0.05
 ROOM_PERSISTENCE = 0.1  # how much a room's free-space peak must rise above the doorway to its neighbour
 MIN_ROOM_RADIUS = 0.3
 MIN_ROOM_POINTS = 500
+# LiDAR tier only: stricter room splitting and cleanup of fragments (the video tier keeps the values above)
+LIDAR_ROOM_PERSISTENCE = 0.1  # same as the video tier: 0.1 to 0.2 gave identical rooms on the sample captures
+LIDAR_MIN_ROOM_RADIUS = 0.3  # same as the video tier: 0.4 or more collapsed rooms and distorted the area on the sample captures
+LIDAR_MIN_ROOM_AREA = 2.0  # m2; a smaller room is merged into the neighbour it shares the longest boundary with
 
 # --- Point cloud processing (src/tiers/lidar.py, depth_stream.py) -----------------------------
 VOXEL_SIZE = 0.02

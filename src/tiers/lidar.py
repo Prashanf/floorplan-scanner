@@ -152,7 +152,7 @@ def process_lidar(capture_dir: str) -> PropertyIR:
         angle = 0.0
 
     rooms: list[RoomIR] = []
-    for index, room_cloud in enumerate(segment_rooms(cloud), start=1):
+    for index, room_cloud in enumerate(segment_rooms(cloud, cfg.LIDAR_ROOM_PERSISTENCE, cfg.LIDAR_MIN_ROOM_RADIUS), start=1):
         extent = room_cloud.points.max(axis=0) - room_cloud.points.min(axis=0)
         volume = float(np.prod(np.maximum(extent, 1e-6)))
         rooms.append(RoomIR(

@@ -8,6 +8,7 @@ import math
 import numpy as np
 from shapely.geometry import Polygon as ShapelyPolygon
 
+from src import config as cfg
 from src.room_ir import PropertyIR, RoomIR
 from src.stitching.drift_correction import correct_drift
 from src.stitching.opening_ids import opening_id
@@ -134,8 +135,10 @@ def stitch_rooms(property_ir: PropertyIR, drift_correction: bool = True) -> Prop
 
     property_ir.room_transforms = transforms
     property_ir.adjacencies = adjacencies
-    if property_ir.tier == "video":  # segmentation can cut one room (a hallway) into fragments; LiDAR is left alone
-        from src.stitching.room_merge import merge_oversegmented_rooms
+    if property_ir.tier in ("video", "lidar"):  # segmentation can cut one room (a hallway) into fragments
+        from src.stitching.room_merge import merge_oversegmented_rooms, merge_small_rooms
         property_ir.warnings.extend(merge_oversegmented_rooms(property_ir))
+        if property_ir.tier == "lidar":
+            property_ir.warnings.extend(merge_small_rooms(property_ir, cfg.LIDAR_MIN_ROOM_AREA))
     _validate_no_overlap(property_ir.rooms, property_ir.room_transforms)
     return property_ir

@@ -66,7 +66,8 @@ def _hull_free_space(xy: np.ndarray, origin: np.ndarray, shape: tuple[int, int])
     return MplPath(hull).contains_points(centers).reshape(shape)
 
 
-def _watershed(distance: np.ndarray, free: np.ndarray) -> np.ndarray:
+def _watershed(distance: np.ndarray, free: np.ndarray, persistence: float = PERSISTENCE,
+               min_room_radius: float = MIN_ROOM_RADIUS) -> np.ndarray:
     """Label free cells by room: flood the distance map from its peaks downward.
 
     A new label starts at every cell with no labeled neighbor. Where fronts of two labels
@@ -97,7 +98,7 @@ def _watershed(distance: np.ndarray, free: np.ndarray) -> np.ndarray:
             continue
         main, *others = sorted(roots, key=lambda r: (-peak[r], r))
         for other in others:
-            if peak[other] - d < PERSISTENCE:
+            if peak[other] - d < persistence:
                 parent[other] = main
         # Join the label of the highest neighbor (steepest ascent), so low cells along a wall
         # stay with the room they border instead of the room with the biggest peak.
@@ -109,14 +110,15 @@ def _watershed(distance: np.ndarray, free: np.ndarray) -> np.ndarray:
     out = np.zeros_like(labels)
     keep = {}
     for r in {find(int(v)) for v in np.unique(labels[labels > 0])}:
-        if peak[r] >= MIN_ROOM_RADIUS:
+        if peak[r] >= min_room_radius:
             keep[r] = len(keep) + 1
     for v in np.unique(labels[labels > 0]):
         out[labels == v] = keep.get(find(int(v)), 0)
     return out
 
 
-def _split_by_free_space(xy: np.ndarray) -> tuple[np.ndarray, np.ndarray, int]:
+def _split_by_free_space(xy: np.ndarray, persistence: float = PERSISTENCE,
+                         min_room_radius: float = MIN_ROOM_RADIUS) -> tuple[np.ndarray, np.ndarray, int]:
     """Room label per grid cell. Returns (labels, grid origin, n_rooms); label 0 is no room."""
     origin = xy.min(axis=0) - 2 * CELL
     shape = tuple(int(n) for n in np.ceil((xy.max(axis=0) - origin) / CELL) + 3)
@@ -129,7 +131,7 @@ def _split_by_free_space(xy: np.ndarray) -> tuple[np.ndarray, np.ndarray, int]:
         free = _hull_free_space(xy, origin, shape) & ~ndimage.binary_dilation(wall_cells)
 
     distance = ndimage.distance_transform_edt(free) * CELL
-    labels = _watershed(distance, free)
+    labels = _watershed(distance, free, persistence, min_room_radius)
     return labels, origin, int(labels.max())
 
 
@@ -191,7 +193,8 @@ def _cluster_band(xy: np.ndarray) -> np.ndarray:
     return labels[inverse.reshape(-1)]
 
 
-def segment_rooms(cloud: PointCloud) -> list[PointCloud]:
+def segment_rooms(cloud: PointCloud, persistence: float = PERSISTENCE,
+                  min_room_radius: float = MIN_ROOM_RADIUS) -> list[PointCloud]:
     """Return one full-height PointCloud per room, ordered left to right (then bottom to top).
 
     A cloud with no usable wall structure is returned as a single room.
@@ -215,7 +218,7 @@ def segment_rooms(cloud: PointCloud) -> list[PointCloud]:
         in_cluster = np.all((pts[:, :2] >= lo) & (pts[:, :2] <= hi), axis=1)
         member = np.flatnonzero(in_cluster)
 
-        labels, origin, n_rooms = _split_by_free_space(xy_wall)
+        labels, origin, n_rooms = _split_by_free_space(xy_wall, persistence, min_room_radius)
         if n_rooms <= 1:
             rooms.append(_subset(cloud, in_cluster))
             continue
