@@ -1,0 +1,24 @@
+{
+  "capture_id": "single_scan_floor_only-20261006T024221Z",
+  "capture_tier": "video",
+  "capture_timestamp": "2026-10-06T02:42:21.054300Z",
+  "device": "unknown",
+  "rooms": [],
+  "adjacencies": [],
+  "damage_regions": [],
+  "concealed_damage_flags": [],
+  "scope_line_items": [],
+  "total_floor_area": {
+    "value": 0.0,
+    "confidence_low": 0.0,
+    "confidence_high": 0.0,
+    "unit": "m2"
+  },
+  "room_count": 0,
+  "processing_time_seconds": 359.021,
+  "pipeline_version": "0.1.0",
+  "warnings": [
+    "COLMAP reconstruction failed: insufficient feature matches between images. Capture may have too little visual overlap. (no room geometry could be fitted)",
+    "room-1: no room geometry could be fitted (neither wall lines nor a room outline found); the room is not in the plan."
+  ]
+}
